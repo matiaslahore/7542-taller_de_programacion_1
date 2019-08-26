@@ -6,15 +6,15 @@
 #define SUCCESS 0
 #define ERROR 1
 
-int main(int argc, char* argv[]) {
-    FILE* input;
+int main(int argc, char *argv[]) {
+    FILE *input;
     if (argc > 1) {
         input = fopen(argv[1], "r");
     } else {
         input = stdin;
     }
 
-    if (! input) {
+    if (!input) {
         return ERROR;
     } else {
         wordscounter_t counter;
