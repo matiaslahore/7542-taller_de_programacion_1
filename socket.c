@@ -13,12 +13,14 @@
 #include "socket.h"
 
 int socket_create(socket_t *self) {
-    self = malloc(sizeof(self));
+    self->skt = -1;
     return 0;
 }
 
 int socket_destroy(socket_t *self) {
-    //free self
+    if (self->skt != -1){
+        close(self->skt);
+    }
     return 0;
 }
 
@@ -32,7 +34,7 @@ int socket_bind_and_listen(socket_t *self, const char *host_name) {
     hints.ai_socktype = SOCK_STREAM; // TCP
     hints.ai_flags = AI_PASSIVE;     // AI_PASSIVE for server, 0 for client
 
-    s = getaddrinfo(host_name, "http", &hints, &ptr);
+    s = getaddrinfo(host_name, "909", &hints, &ptr);
 
     if (s != 0) {
         printf("Error in getaddrinfo: %s\n", gai_strerror(s));
@@ -90,7 +92,7 @@ int socket_connect(socket_t *self, const char *host_name, unsigned short port) {
     hints.ai_socktype = SOCK_STREAM; // TCP
     hints.ai_flags = 0;     // AI_PASSIVE for server, 0 for client
 
-    s = getaddrinfo(host_name, "http", &hints, &result);
+    s = getaddrinfo(host_name, "909", &hints, &result);
 
     if (s != 0) {
         printf("Error in getaddrinfo: %s\n", gai_strerror(s));
@@ -136,7 +138,10 @@ int socket_accept(socket_t *self, socket_t *accepted_socket) {
     if (s == -1) {
         printf("Error: %s\n", strerror(errno));
         close(self->skt);
+    } else {
+        accepted_socket->skt = s;
     }
+
     return s;
 }
 
@@ -145,20 +150,15 @@ int socket_receive(socket_t *self, char *buffer, size_t length) {
     int s = 0;
     bool is_the_socket_valid = true;
 
-    printf("Recive...\n");
-
     while (received < length && is_the_socket_valid) {
         s = recv(self->skt, &buffer[received], length - received, 0);
 
         if (s == 0) { // socket close
             is_the_socket_valid = false;
-            printf("ASDSD \n");
         } else if (s == -1) { // error
             is_the_socket_valid = false;
-            printf("ACA \n");
         } else {
             received += s;
-            printf("Recive: %i\n", received);
         }
     }
 

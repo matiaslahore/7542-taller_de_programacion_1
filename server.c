@@ -70,20 +70,25 @@ void process(char *password) {
 
 int main(int argc, char *argv[]) {
 
-    unsigned short len = 0;
-    bool continue_running = true;
+    //unsigned short len = 0;
+    //bool continue_running = true;
     bool is_the_accept_socket_valid = true;
 
     char small_buf[MAX_SMALL_BUF_LEN];
-    char *tmp;
-    int peerskt = 0;
+    //char *tmp;
+    //int peerskt = 0;
 
     socket_t skt;
+    socket_t accepted_skt;
     socket_create(&skt);
     socket_bind_and_listen(&skt, NULL);
 
-    peerskt = socket_accept(&skt, NULL);   // aceptamos un cliente
+    socket_accept(&skt, &accepted_skt);
+    socket_receive(&accepted_skt, small_buf, MAX_SMALL_BUF_LEN - 1);
+    printf("Bytes  %zu \n", sizeof(small_buf));
+    printf("recive: %s\n", small_buf);
 
+/*
     while (continue_running) {
         if (peerskt == -1) {
             printf("Error: %s\n", strerror(errno));
@@ -112,6 +117,7 @@ int main(int argc, char *argv[]) {
             close(peerskt);
         }
     }
+    */
 
     shutdown(skt.skt, SHUT_RDWR);
     close(skt.skt);
