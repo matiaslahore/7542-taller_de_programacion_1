@@ -2,7 +2,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include "server.h"
-#include "game.h"
+#include "sudoku.h"
 
 int run_server(char *port) {
 
@@ -16,12 +16,8 @@ int server_init(int port) {
 }
 
 int server_init_game() {
-    game_load();
-    return ();
-}
-
-int start_socket(int port) {
-    return 0;
+    sudoku_t sudoku;
+    return sudoku_game_load(&sudoku);
 }
 
 int run_game() {
