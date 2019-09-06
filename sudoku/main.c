@@ -34,7 +34,7 @@ int main(int argc, char *argv[]) {
             printf(PARAMETER_SERVER_ERROR);
             return 1;
         }
-        run_server(argv[2]);
+        server_run(argv[2]);
     } else if (!strncmp(argv[1], "client", 5)) {
         if ((argc < 4) || !port_valid(argv[3])) {
             printf(PARAMETER_CLIENT_ERROR);

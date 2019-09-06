@@ -1,12 +1,12 @@
 #ifndef SERVER_H
 #define SERVER_H
 
-int run_server(char *port);
+int server_run(char *port);
 
-int server_init(int port);
+int server_init(socket_t *skt, socket_t *skt_accepted, char *port);
 
-int server_init_game();
+int server_init_game(sudoku_t *sudoku);
 
-int run_game();
+void server_loop(sudoku_t *sudoku, socket_t *skt, socket_t *skt_accepted);
 
 #endif
