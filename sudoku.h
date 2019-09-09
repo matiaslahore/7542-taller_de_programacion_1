@@ -3,6 +3,8 @@
 
 #include "board.h"
 
+struct position_t;
+
 typedef struct {
     board_t board;
 } sudoku_t;

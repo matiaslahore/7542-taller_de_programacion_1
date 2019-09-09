@@ -2,11 +2,11 @@
 #include <stdlib.h>
 #include <string.h>
 #include <stdbool.h>
-#include "client.h"
 #include "socket.h"
 #include "protocol.h"
+#include "client.h"
 
-#define MAX_BUFFER_COMMUNICATION_LEN 180
+#define MAX_BUFFER_COMMUNICATION_LEN 723
 
 int client_run(char *hostname, char *port) {
     socket_t skt;
@@ -31,12 +31,16 @@ void client_loop(socket_t *skt) {
     while (continue_running) {
         if (fgets(input, sizeof(input), stdin)) {
             char query[4] = "";
-            if (protocol_client_command_to_message(input, query, skt)) {
+            char error[50] = "";
+            int response = protocol_client_command_to_message(input, query, skt, error);
+            if (response == 0) {
                 socket_send(skt, query, strlen(query));
                 socket_receive(skt, answer, MAX_BUFFER_COMMUNICATION_LEN);
                 printf("%s", answer);
                 if (strlen(answer) == 0) continue_running = false;
-            } else {
+            } else if (response == 1) {
+                fprintf(stderr, "%s", error);
+            } else if (response == -1) {
                 continue_running = false;
             }
         }

@@ -1,7 +1,7 @@
 #ifndef CLIENT_H
 #define CLIENT_H
 
-#include "socket.h"
+struct socket_t;
 
 int client_run(char *hostname, char *port);
 

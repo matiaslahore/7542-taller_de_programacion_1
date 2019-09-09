@@ -7,6 +7,9 @@
 #define BOARD_PATH_FILE "board.txt"
 #define BOARD_TEXT_DELIMITER " "
 #define MAX_STR_BOARD_FILE 19
+#define HEADER "U===========U===========U===========U\n"
+#define INTER_LINE "U---+---+---U---+---+---U---+---+---U\n"
+#define NUMBER_DIVISOR "|"
 
 int board_load(board_t *board) {
     int i = 0, j = 0, value = 0;
@@ -44,15 +47,29 @@ void board_insert_value(board_t *board, int value, position_t position) {
 
 void board_print(board_t *board, char *board_buff) {
     unsigned short int cell_value = 0;
-    char value_c[2];
+    char value_c[4];
+
+    strncat(board_buff, HEADER, strlen(HEADER));
+
 
     for (int i = 0; i < 9; i++) {
         for (int j = 0; j < 9; j++) {
             cell_value = board->cell[i][j].value;
-            sprintf(value_c, "%d", cell_value);
-            strncat(board_buff, value_c, 2);
+            if (cell_value != 0)
+                sprintf(value_c, " %d ", cell_value);
+            else
+                strncpy(value_c, "   ", 4);
+            if ((j % 3) == 0)
+                strncat(board_buff, "U", sizeof(char));
+            else
+                strncat(board_buff, "|", sizeof(char));
+            strncat(board_buff, value_c, 4);
         }
-        strncat(board_buff, "\n", 1);
+        strncat(board_buff, "U\n", 2);
+        if (((i + 1) % 3) == 0)
+            strncat(board_buff, HEADER, strlen(HEADER));
+        else
+            strncat(board_buff, INTER_LINE, strlen(HEADER));
     }
 }
 

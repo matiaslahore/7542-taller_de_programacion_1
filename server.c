@@ -2,11 +2,11 @@
 #include <stdlib.h>
 #include <string.h>
 #include "sudoku.h"
-#include "server.h"
 #include "socket.h"
 #include "protocol.h"
+#include "server.h"
 
-#define MAX_BUFFER_COMMUNICATION_LEN 180
+#define MAX_BUFFER_COMMUNICATION_LEN 723
 
 void server_run(char *port) {
     sudoku_t sudoku;
