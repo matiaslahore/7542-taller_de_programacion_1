@@ -34,16 +34,13 @@ void server_loop(sudoku_t *sudoku, socket_t *skt, socket_t *skt_accepted) {
     int len = 0;
 
     while (continue_running) {
-        char command[1] = "";
         char answer[MAX_BUFFER_COMMUNICATION_LEN] = "";
-
+        char command[1] = "";
         socket_receive(skt_accepted, command, 1);
-        printf("command:%s.\n", command);
 
         len = strlen(command);
         if (len == 0) continue_running = false;
-
-        protocol_get_instruction(sudoku, command, answer);
+        protocol_get_instruction(sudoku, command, answer, skt_accepted);
         socket_send(skt_accepted, answer, MAX_BUFFER_COMMUNICATION_LEN);
     }
 }
