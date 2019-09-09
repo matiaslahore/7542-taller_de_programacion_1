@@ -10,6 +10,7 @@
 #define ERROR_MESSAGE "ERROR\n"
 #define VALUE_ERROR "Error en el valor ingresado. Rango soportado: [1,9]\n"
 #define INDEXES_ERROR "Error en los indices. Rango soportado: [1,9]\n"
+#define NON_MODIFIABLE_CELL "La celda no es modificable\n"
 
 void protocol_get_instruction(sudoku_t *sudoku, char *command, char *answer, socket_t *skt_accepted) {
     char verify[1] = "V";
@@ -38,8 +39,11 @@ void protocol_get_instruction(sudoku_t *sudoku, char *command, char *answer, soc
         unsigned short int pos_j = (atoi(j_c) - 1);
         position_t position = {.i =  pos_i, .j = pos_j};
 
-        sudoku_put_value(sudoku, value, position);
-        sudoku_get_board(sudoku, answer);
+        if (sudoku_put_value(sudoku, value, position) != 0) {
+            strncpy(answer, NON_MODIFIABLE_CELL, strlen(NON_MODIFIABLE_CELL));
+        } else {
+            sudoku_get_board(sudoku, answer);
+        }
     }
 
 }
