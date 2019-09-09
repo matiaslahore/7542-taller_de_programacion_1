@@ -14,7 +14,6 @@ void protocol_get_instruction(sudoku_t *sudoku, char *command, char *answer, soc
     char verify[1] = "V";
     char reset[1] = "R";
     char get[1] = "G";
-    char exit[1] = "E";
     char put[1] = "P";
 
     if (strncmp(command, verify, 1) == 0) {
@@ -25,8 +24,6 @@ void protocol_get_instruction(sudoku_t *sudoku, char *command, char *answer, soc
         sudoku_get_board(sudoku, answer);
     } else if (strncmp(command, get, 1) == 0) {
         sudoku_get_board(sudoku, answer);
-    } else if (strncmp(command, exit, 1) == 0) {
-        sudoku_destroy(sudoku);
     } else if (strncmp(command, put, 1) == 0) {
         char data[3] = "", val_c[2] = "", i_c[2] = "", j_c[2] = "";
         socket_receive(skt_accepted, data, 3);

@@ -10,7 +10,6 @@
 
 void server_run(char *port) {
     sudoku_t sudoku;
-    sudoku_create(&sudoku);
 
     socket_t skt;
     socket_t skt_accepted;
@@ -18,7 +17,6 @@ void server_run(char *port) {
     sudoku_game_load(&sudoku);
     server_init(&skt, &skt_accepted, port);
     server_loop(&sudoku, &skt, &skt_accepted);
-    server_stop(&sudoku);
 }
 
 int server_init(socket_t *skt, socket_t *skt_accepted, char *port) {
@@ -43,8 +41,4 @@ void server_loop(sudoku_t *sudoku, socket_t *skt, socket_t *skt_accepted) {
         protocol_get_instruction(sudoku, command, answer, skt_accepted);
         socket_send(skt_accepted, answer, MAX_BUFFER_COMMUNICATION_LEN);
     }
-}
-
-void server_stop(sudoku_t *sudoku) {
-    sudoku_destroy(sudoku);
 }
