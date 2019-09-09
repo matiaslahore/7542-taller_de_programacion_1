@@ -9,7 +9,8 @@ int socket_create(socket_t *self);
 
 int socket_destroy(socket_t *self);
 
-int socket_bind_and_listen(socket_t *self, const char *host_name, const char *port);
+int socket_bind_and_listen(socket_t *self, const char *host_name,
+                           const char *port);
 
 int socket_connect(socket_t *self, const char *host_name, const char *port);
 

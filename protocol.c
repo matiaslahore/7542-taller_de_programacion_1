@@ -12,7 +12,8 @@
 #define VALUE_ERROR "Error en el valor ingresado. Rango soportado: [1,9]\n"
 #define INDEXES_ERROR "Error en los indices. Rango soportado: [1,9]\n"
 
-void protocol_get_instruction(sudoku_t *sudoku, char *command, char *answer, socket_t *skt_accepted) {
+void protocol_get_instruction(sudoku_t *sudoku, char *command, char *answer,
+                              socket_t *skt_accepted) {
     char verify[1] = "V";
     char reset[1] = "R";
     char get[1] = "G";
@@ -45,10 +46,10 @@ void protocol_get_instruction(sudoku_t *sudoku, char *command, char *answer, soc
             sudoku_get_board(sudoku, answer);
         }
     }
-
 }
 
-int protocol_client_command_to_message(char *input, char *query, socket_t *skt, char *error) {
+int protocol_cli_cmd_to_msg(char *input, char *query, socket_t *skt,
+                            char *error) {
     char verify[6] = "verify";
     char reset[5] = "reset";
     char get[3] = "get";
@@ -67,7 +68,7 @@ int protocol_client_command_to_message(char *input, char *query, socket_t *skt, 
     } else if (strncmp(input, exit, sizeof(exit)) == 0) {
         socket_shutdown(skt);
     } else if (strncmp(input, put, sizeof(put)) == 0) {
-        int verify = client_verify_put_range(&input[4]);
+        int verify = protocol_client_verify_put_range(&input[4]);
 
         if (verify == -1) {
             strncpy(error, VALUE_ERROR, strlen(VALUE_ERROR));
@@ -87,7 +88,7 @@ int protocol_client_command_to_message(char *input, char *query, socket_t *skt, 
     return -1;
 }
 
-int client_verify_put_range(char *data) {
+int protocol_client_verify_put_range(char *data) {
     char val_c[4] = "", i_c[4] = "", j_c[4] = "";
 
     memcpy(val_c, data, 1);
@@ -100,5 +101,6 @@ int client_verify_put_range(char *data) {
 
     if (value < 1 || value > 9) return -1;
     else if (pos_i < 1 || pos_i > 9 || pos_j < 1 || pos_j > 9) return -2;
-    else return 0;
+
+    return 0;
 }

@@ -29,10 +29,10 @@ int client_loop(socket_t *skt) {
         if (fgets(input, sizeof(input), stdin)) {
             char query[4] = "";
             char error[54] = "";
-            int response = protocol_client_command_to_message(input, query, skt, error);
+            int response = protocol_cli_cmd_to_msg(input, query, skt, error);
             if (response == 0) {
                 socket_send(skt, query, strlen(query));
-                socket_receive(skt, answer_len, 4); //response lengthg
+                socket_receive(skt, answer_len, sizeof(answer_len));//recv len
                 socket_receive(skt, answer, MAX_BUFFER_COMMUNICATION_LEN);
                 printf("%s", answer);
                 if (strlen(answer) == 0) continue_running = false;

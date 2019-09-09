@@ -24,7 +24,8 @@ int socket_destroy(socket_t *self) {
     return 0;
 }
 
-int socket_bind_and_listen(socket_t *self, const char *host_name, const char *port) {
+int socket_bind_and_listen(socket_t *self, const char *host_name,
+                           const char *port) {
     int s, val = 0;
     struct addrinfo hints;
     struct addrinfo *ptr;
@@ -84,7 +85,7 @@ int socket_bind_and_listen(socket_t *self, const char *host_name, const char *po
 
 int socket_connect(socket_t *self, const char *host_name, const char *port) {
     int s = 0;
-    bool are_we_connected = false;
+    bool conn = false;
     struct addrinfo hints;
     struct addrinfo *result, *ptr;
 
@@ -100,7 +101,7 @@ int socket_connect(socket_t *self, const char *host_name, const char *port) {
         return 1;
     }
 
-    for (ptr = result; ptr != NULL && are_we_connected == false; ptr = ptr->ai_next) {
+    for (ptr = result; ptr != NULL && conn == false; ptr = ptr->ai_next) {
         self->skt = socket(ptr->ai_family, ptr->ai_socktype, ptr->ai_protocol);
         if (self->skt == -1) {
             printf("Error: %s\n", strerror(errno));
@@ -110,12 +111,12 @@ int socket_connect(socket_t *self, const char *host_name, const char *port) {
                 printf("Error: %s\n", strerror(errno));
                 close(self->skt);
             }
-            are_we_connected = (s != -1);
+            conn = (s != -1);
         }
     }
     freeaddrinfo(result);
 
-    if (are_we_connected == false) {
+    if (conn == false) {
         return 1;
     }
 

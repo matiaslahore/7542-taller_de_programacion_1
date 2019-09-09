@@ -11,7 +11,7 @@
 
 #define MIN_PORT "0"
 #define MAX_PORT "9999"
-#define PARAMETER_ERROR "Modo no soportado, el primer parametro debe ser server o client \n"
+#define PE "Modo no soportado, el primer parametro debe ser server o client\n"
 #define PARAMETER_SERVER_ERROR "Uso: ./tp server <puerto> \n"
 #define PARAMETER_CLIENT_ERROR "Uso: ./tp client <host> <puerto> \n"
 
@@ -24,25 +24,24 @@ int port_valid(char *port) {
 
 int main(int argc, char *argv[]) {
     if ((argc < 2) || (argc > 4)) {
-        printf(PARAMETER_ERROR);
+        printf("%s", PE);
         return 1;
     }
 
     if (!strncmp(argv[1], "server", 6)) {
         if ((argc < 3) || !port_valid(argv[2])) {
-            printf(PARAMETER_SERVER_ERROR);
+            printf("%s", PARAMETER_SERVER_ERROR);
             return 1;
         }
         return server_run(argv[2]);
     } else if (!strncmp(argv[1], "client", 5)) {
         if ((argc < 4) || !port_valid(argv[3])) {
-            printf(PARAMETER_CLIENT_ERROR);
+            printf("%s", PARAMETER_CLIENT_ERROR);
             return 1;
         }
         return client_run(argv[2], argv[3]);
     } else {
-        printf(PARAMETER_ERROR);
+        printf("%s", PE);
         return 1;
     }
-
 }

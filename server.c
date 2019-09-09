@@ -41,7 +41,7 @@ int server_loop(sudoku_t *sudoku, socket_t *skt, socket_t *skt_accepted) {
         len = strlen(command);
         if (len == 0) continue_running = false;
         protocol_get_instruction(sudoku, command, answer, skt_accepted);
-        sprintf(answer_len, "%zu", strlen(answer));
+        snprintf(answer_len, sizeof(answer_len), "%zu", strlen(answer));
         socket_send(skt_accepted, answer_len, 4);
         socket_send(skt_accepted, answer, MAX_BUFFER_COMMUNICATION_LEN);
     }

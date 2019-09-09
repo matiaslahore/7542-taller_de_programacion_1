@@ -12,8 +12,8 @@
 #define NUMBER_DIVISOR "|"
 
 int board_load(board_t *board) {
-    int i = 0, j = 0, value = 0;
-    char *pch;
+    int i = 0;
+    int row[9] = {0};
     char line[MAX_STR_BOARD_FILE];
     FILE *fb;
     fb = fopen(BOARD_PATH_FILE, "r");
@@ -21,15 +21,14 @@ int board_load(board_t *board) {
     if (fb == NULL) return -1;
 
     while (fgets(line, MAX_STR_BOARD_FILE, fb) != NULL) {
-        pch = strtok(line, " ");
-        while (pch != NULL) {
-            value = atoi(pch);
-            cell_t cell = {.value = value, .is_busy = (true ? (value != 0) : false)};
+        sscanf(line, "%d %d %d %d %d %d %d %d %d", &row[0], &row[1],
+               &row[2], &row[3], &row[4], &row[5], &row[6], &row[7], &row[8]);
+        for (int j = 0; j < 9; j++) {
+            bool busy = (true ? (row[j] != 0) : false);
+            cell_t cell = {.value = row[j], .is_busy = busy};
             board->cell[i][j] = cell;
-            j++;
-            pch = strtok(NULL, " ");
         }
-        j = 0, i++;
+        i++;
     }
 
     fclose(fb);
@@ -51,12 +50,11 @@ void board_print(board_t *board, char *board_buff) {
 
     strncat(board_buff, HEADER, strlen(HEADER));
 
-
     for (int i = 0; i < 9; i++) {
         for (int j = 0; j < 9; j++) {
             cell_value = board->cell[i][j].value;
             if (cell_value != 0)
-                sprintf(value_c, " %d ", cell_value);
+                snprintf(value_c, sizeof(value_c), " %d ", cell_value);
             else
                 strncpy(value_c, "   ", 4);
             if ((j % 3) == 0)
