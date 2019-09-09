@@ -1,14 +1,13 @@
 #include <string.h>
 #include <stdio.h>
 #include <errno.h>
-
 #include <stdbool.h>
-
 #include <sys/types.h>
 #include <sys/socket.h>
 #include <netdb.h>
 #include <unistd.h>
 #include "server.h"
+#include "client.h"
 
 #define MIN_PORT "0"
 #define MAX_PORT "9999"
@@ -40,7 +39,7 @@ int main(int argc, char *argv[]) {
             printf(PARAMETER_CLIENT_ERROR);
             return 1;
         }
-        //run_client(&argv);
+        client_run(argv[2], argv[3]);
     }
 
     return 0;

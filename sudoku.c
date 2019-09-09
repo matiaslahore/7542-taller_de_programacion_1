@@ -4,13 +4,12 @@
 #include "board.h"
 #include "sudoku.h"
 
-#define BOARD_CHAR_LEN 180
+void sudoku_create(sudoku_t *sudoku) {
+    sudoku->board = malloc(sizeof(board_t));
+}
 
-int sudoku_game_load(sudoku_t *sudoku) {
-    board_t board;
-    sudoku->board = &board;
-
-    return board_load(&board);
+void sudoku_game_load(sudoku_t *sudoku) {
+    board_load(sudoku->board);
 }
 
 void sudoku_get_board(sudoku_t *sudoku, char *board_buff) {
@@ -28,7 +27,15 @@ void sudoku_reset_game(sudoku_t *sudoku) {
 }
 
 int sudoku_verify_game(sudoku_t *sudoku) {
-    return board_has_rows_with_repeated_numbers(sudoku->board) ||
-           board_has_columns_with_repeated_numbers(sudoku->board) ||
-           board_has_boxes_with_repeated_numbers(sudoku->board);
+    if (board_has_rows_with_repeated_numbers(sudoku->board) ||
+        board_has_columns_with_repeated_numbers(sudoku->board) ||
+        board_has_boxes_with_repeated_numbers(sudoku->board)) {
+        return -1;
+    }
+
+    return 1;
+}
+
+void sudoku_destroy(sudoku_t *sudoku){
+    free(sudoku->board);
 }

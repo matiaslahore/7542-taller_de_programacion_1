@@ -1,38 +1,45 @@
-#include <string.h>
 #include <stdio.h>
-#include <errno.h>
-
+#include <stdlib.h>
+#include <string.h>
 #include <stdbool.h>
-
-#include <sys/types.h>
-#include <sys/socket.h>
-#include <netdb.h>
-#include <unistd.h>
+#include "client.h"
 #include "socket.h"
+#include "protocol.h"
 
-#define REQUEST_MAX_LEN 128
-#define RESPONSE_MAX_LEN 1024
-#define PORT 80
+#define MAX_BUFFER_COMMUNICATION_LEN 180
 
-int main(int argc, char *argv[]) {
-    const char *hostname = "localhost";
-
-    const char *request = "Hola Mundo";
-    int request_len;
-
-    request_len = strlen(request);
-
+int client_run(char *hostname, char *port) {
     socket_t skt;
-    socket_create(&skt);
-    socket_connect(&skt, hostname, PORT);
-
-    socket_send(&skt, request, request_len);
-
-    printf("\n");
-    shutdown(skt.skt, SHUT_RDWR);
-    close(skt.skt);
-
+    client_init(&skt, hostname, port);
+    client_loop(&skt);
 
     return 0;
 }
 
+int client_init(socket_t *skt, char *hostname, char *port) {
+    socket_create(skt);
+    socket_connect(skt, hostname, port);
+
+    return 0;
+}
+
+void client_loop(socket_t *skt) {
+    bool continue_running = true;
+    char input[15];
+    char query[10] = "";
+    char answer[MAX_BUFFER_COMMUNICATION_LEN] = "";
+
+    while (continue_running) {
+        if (fgets(input, sizeof(input), stdin)) {
+            if (protocol_client_command_to_message(input, query)) {
+                socket_send(skt, query, strlen(query));
+                socket_receive(skt, answer, MAX_BUFFER_COMMUNICATION_LEN);
+                printf("%s", answer);
+                if (strlen(answer) == 0) continue_running = false;
+            }
+
+        }
+    }
+
+    socket_shutdown(skt);
+}

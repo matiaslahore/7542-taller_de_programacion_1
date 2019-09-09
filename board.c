@@ -17,7 +17,6 @@ int board_load(board_t *board) {
 
     if (fb == NULL) return -1;
 
-
     while (fgets(line, MAX_STR_BOARD_FILE, fb) != NULL) {
         pch = strtok(line, " ");
         while (pch != NULL) {
@@ -31,6 +30,7 @@ int board_load(board_t *board) {
     }
 
     fclose(fb);
+
     return 0;
 }
 
@@ -52,11 +52,8 @@ void board_print(board_t *board, char *board_buff) {
             sprintf(value_c, "%d", cell_value);
             strncat(board_buff, value_c, 2);
         }
+        strncat(board_buff, "\n", 1);
     }
-
-
-    strncat(board_buff, "\n", 2);
-    printf(" %s", board_buff);
 }
 
 bool board_has_rows_with_repeated_numbers(board_t *board) {
@@ -88,6 +85,7 @@ bool board_has_columns_with_repeated_numbers(board_t *board) {
         }
     }
 
+
     return false;
 }
 
@@ -108,7 +106,7 @@ bool box_has_repeated_numbers(board_t *board, int start_i, int start_j) {
     int end_i = start_i + 3;
     int end_j = start_j + 3;
     unsigned short int sum[BOARD_LENGTH] = {0};
-    
+
     for (int i = start_i; i < end_i; i++) {
         for (int j = start_j; j < end_j; j++) {
             value = board->cell[j][i].value;
