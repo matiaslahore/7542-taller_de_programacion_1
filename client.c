@@ -23,14 +23,16 @@ int client_loop(socket_t *skt) {
     bool continue_running = true;
     char input[15];
     char answer[MAX_BUFFER_COMMUNICATION_LEN] = "";
+    char answer_len[4] = "";
 
     while (continue_running) {
         if (fgets(input, sizeof(input), stdin)) {
             char query[4] = "";
-            char error[50] = "";
+            char error[54] = "";
             int response = protocol_client_command_to_message(input, query, skt, error);
             if (response == 0) {
                 socket_send(skt, query, strlen(query));
+                socket_receive(skt, answer_len, 4); //response lengthg
                 socket_receive(skt, answer, MAX_BUFFER_COMMUNICATION_LEN);
                 printf("%s", answer);
                 if (strlen(answer) == 0) continue_running = false;

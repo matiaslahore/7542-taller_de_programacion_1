@@ -8,9 +8,9 @@
 
 #define OK_MESSAGE "OK\n"
 #define ERROR_MESSAGE "ERROR\n"
+#define NON_MODIFIABLE_CELL "La celda no es modificable\n"
 #define VALUE_ERROR "Error en el valor ingresado. Rango soportado: [1,9]\n"
 #define INDEXES_ERROR "Error en los indices. Rango soportado: [1,9]\n"
-#define NON_MODIFIABLE_CELL "La celda no es modificable\n"
 
 void protocol_get_instruction(sudoku_t *sudoku, char *command, char *answer, socket_t *skt_accepted) {
     char verify[1] = "V";
