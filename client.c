@@ -10,20 +10,16 @@
 
 int client_run(char *hostname, char *port) {
     socket_t skt;
-    client_init(&skt, hostname, port);
-    client_loop(&skt);
-
-    return 0;
+    if (client_init(&skt, hostname, port)) return 1;
+    return client_loop(&skt);
 }
 
 int client_init(socket_t *skt, char *hostname, char *port) {
     socket_create(skt);
-    socket_connect(skt, hostname, port);
-
-    return 0;
+    return socket_connect(skt, hostname, port);
 }
 
-void client_loop(socket_t *skt) {
+int client_loop(socket_t *skt) {
     bool continue_running = true;
     char input[15];
     char answer[MAX_BUFFER_COMMUNICATION_LEN] = "";
@@ -45,4 +41,6 @@ void client_loop(socket_t *skt) {
             }
         }
     }
+
+    return 0;
 }

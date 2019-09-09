@@ -7,8 +7,9 @@
 #include "server.h"
 
 #define MAX_BUFFER_COMMUNICATION_LEN 723
+#define HOSTNAME "localhost"
 
-void server_run(char *port) {
+int server_run(char *port) {
     sudoku_t sudoku;
 
     socket_t skt;
@@ -16,18 +17,18 @@ void server_run(char *port) {
 
     sudoku_game_load(&sudoku);
     server_init(&skt, &skt_accepted, port);
-    server_loop(&sudoku, &skt, &skt_accepted);
+    return server_loop(&sudoku, &skt, &skt_accepted);
 }
 
 int server_init(socket_t *skt, socket_t *skt_accepted, char *port) {
     socket_create(skt);
-    socket_bind_and_listen(skt, "localhost", port);
+    socket_bind_and_listen(skt, HOSTNAME, port);
     socket_accept(skt, skt_accepted);
 
     return 0;
 }
 
-void server_loop(sudoku_t *sudoku, socket_t *skt, socket_t *skt_accepted) {
+int server_loop(sudoku_t *sudoku, socket_t *skt, socket_t *skt_accepted) {
     bool continue_running = true;
     int len = 0;
 
@@ -41,4 +42,6 @@ void server_loop(sudoku_t *sudoku, socket_t *skt, socket_t *skt_accepted) {
         protocol_get_instruction(sudoku, command, answer, skt_accepted);
         socket_send(skt_accepted, answer, MAX_BUFFER_COMMUNICATION_LEN);
     }
+
+    return 0;
 }

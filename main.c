@@ -23,24 +23,26 @@ int port_valid(char *port) {
 }
 
 int main(int argc, char *argv[]) {
-    if ((argc < 3) || (argc > 4)) {
+    if ((argc < 2) || (argc > 4)) {
         printf(PARAMETER_ERROR);
         return 1;
     }
 
-    if (!strncmp(argv[1], "server", 5)) {
-        if (!port_valid(argv[2])) {
+    if (!strncmp(argv[1], "server", 6)) {
+        if ((argc < 3) || !port_valid(argv[2])) {
             printf(PARAMETER_SERVER_ERROR);
             return 1;
         }
-        server_run(argv[2]);
+        return server_run(argv[2]);
     } else if (!strncmp(argv[1], "client", 5)) {
         if ((argc < 4) || !port_valid(argv[3])) {
             printf(PARAMETER_CLIENT_ERROR);
             return 1;
         }
-        client_run(argv[2], argv[3]);
+        return client_run(argv[2], argv[3]);
+    } else {
+        printf(PARAMETER_ERROR);
+        return 1;
     }
 
-    return 0;
 }
