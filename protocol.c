@@ -10,7 +10,7 @@
 #define ERROR_MESSAGE "ERROR\n"
 #define NON_MODIFIABLE_CELL "La celda no es modificable\n"
 #define VALUE_ERROR "Error en el valor ingresado. Rango soportado: [1,9]\n"
-#define INDEXES_ERROR "Error en los indices. Rango soportado: [1,9]\n"
+#define INDEXES_ERROR "Error en los índices. Rango soportado: [1,9]\n"
 
 void protocol_get_instruction(sudoku_t *sudoku, char *command, char *answer,
                               socket_t *skt_accepted) {
@@ -81,7 +81,7 @@ int protocol_cli_cmd_to_msg(char *input, char *query, socket_t *skt,
         strncpy(query, "P", 1);
         strncat(query, &input[4], 1);
         strncat(query, &input[9], 1);
-        strncat(query, &input[11], 1);;
+        strncat(query, &input[11], 1);
         return 0;
     }
 
@@ -91,7 +91,7 @@ int protocol_cli_cmd_to_msg(char *input, char *query, socket_t *skt,
 int protocol_client_verify_put_range(char *data) {
     char val_c[4] = "", i_c[4] = "", j_c[4] = "";
 
-    memcpy(val_c, data, 1);
+    memcpy(val_c, data, 2);
     memcpy(i_c, &data[5], 1);
     memcpy(j_c, &data[7], 1);
 
@@ -99,8 +99,10 @@ int protocol_client_verify_put_range(char *data) {
     int pos_i = atoi(i_c);
     int pos_j = atoi(j_c);
 
-    if (value < 1 || value > 9) return -1;
-    else if (pos_i < 1 || pos_i > 9 || pos_j < 1 || pos_j > 9) return -2;
+    if (value < 1 || value > 9)
+        return -1;
+    else if (pos_i < 1 || pos_i > 9 || pos_j < 1 || pos_j > 9)
+        return -2;
 
     return 0;
 }
