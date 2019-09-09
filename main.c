@@ -10,16 +10,16 @@
 #include "client.h"
 
 #define MIN_PORT "0"
-#define MAX_PORT "9999"
+#define MAX_PORT "99999"
 #define PE "Modo no soportado, el primer parametro debe ser server o client\n"
 #define PARAMETER_SERVER_ERROR "Uso: ./tp server <puerto> \n"
 #define PARAMETER_CLIENT_ERROR "Uso: ./tp client <host> <puerto> \n"
 
 int port_valid(char *port) {
     int cmp_min = strncmp(port, MIN_PORT, 1);
-    int cmp_max = strncmp(port, MAX_PORT, 4);
+    int cmp_max = strncmp(port, MAX_PORT, 5);
     int len = strlen(port);
-    return ((cmp_min >= 0) && (cmp_max <= 0) && (len < 5));
+    return ((cmp_min >= 0) && (cmp_max <= 0) && (len < 6));
 }
 
 int main(int argc, char *argv[]) {
