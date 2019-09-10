@@ -22,8 +22,8 @@ int client_init(socket_t *skt, char *hostname, char *port) {
 int client_loop(socket_t *skt) {
     bool continue_running = true;
     char input[15];
-    char answer[MAX_BUFFER_COMMUNICATION_LEN] = "";
     char answer_len[4] = "";
+    char answer[MAX_BUFFER_COMMUNICATION_LEN] = "";
 
     while (continue_running) {
         if (fgets(input, sizeof(input), stdin)) {
@@ -33,8 +33,8 @@ int client_loop(socket_t *skt) {
             if (response == 0) {
                 socket_send(skt, query, strlen(query));
                 socket_receive(skt, answer_len, sizeof(answer_len));//recv len
-                socket_receive(skt, answer, MAX_BUFFER_COMMUNICATION_LEN);
-                printf("%s", answer);
+                socket_receive(skt, answer, atoi(answer_len));
+                printf("%.*s", atoi(answer_len), answer);//print only what recv
                 if (strlen(answer) == 0) continue_running = false;
             } else if (response == 1) {
                 fprintf(stderr, "%s", error);

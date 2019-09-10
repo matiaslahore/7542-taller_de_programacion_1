@@ -9,8 +9,6 @@ typedef struct {
     board_t board;
 } sudoku_t;
 
-void sudoku_create(sudoku_t *sudoku);
-
 void sudoku_game_load(sudoku_t *sudoku);
 
 void sudoku_get_board(sudoku_t *sudoku, char *board_buff);
