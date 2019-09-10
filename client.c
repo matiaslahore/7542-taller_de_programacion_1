@@ -41,6 +41,8 @@ int client_loop(socket_t *skt) {
             } else if (response == -1) {
                 continue_running = false;
             }
+        } else {
+            continue_running = false;
         }
     }
 
