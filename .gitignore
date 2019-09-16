@@ -1,6 +1,10 @@
 .idea/
 *.o
-tp
-cpplint.py
-filter_options
-tp.zip
+/cmake-build-debug
+input.txt
+CMakeLists.txt
+alot
+largenum
+oneblk
+out
+zeroblk
