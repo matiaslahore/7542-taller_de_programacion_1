@@ -9,21 +9,18 @@
 
 using namespace std;
 
-Compressor::Compressor(unsigned int n, unsigned int q, FileManager *fileManager, BlockingQueue *bq) {
+Compressor::Compressor(unsigned int n, FileManager *fileManager, BlockingQueue *bq) {
     this->n = n;
-    this->q = q;
     this->fileManager = fileManager;
     this->bq = bq;
 };
 
 
-int Compressor::startCompressor() {
+void Compressor::startCompressor() {
     vector<unsigned int> block = this->fileManager->getBlock();
 
     if (block.size() < this->n)
         complete_block(&block, this->n);
-
-
 
     //calcula el minimo, maximo, bits necesarios y resta diferencia
     unsigned int min = get_min_element(&block);
@@ -31,28 +28,23 @@ int Compressor::startCompressor() {
     unsigned int max = get_max_element(&block);
     unsigned int number_of_digits = get_number_of_digits(max);
 
+    //escribe el minimo y la cant de bits utilizados
+    string s;
+    s = std::bitset<sizeof(unsigned int) * 8>(min).to_string();
+    s += std::bitset<sizeof(unsigned int) * 2>(number_of_digits).to_string();
 
+    //comprime cada numero en bits.
     for (int i = 0; i < block.size(); i++) {
-        printf("elem:%x.\n", block[i]);
+        char buffer[MAX_DIGITS] = "";
+        string s2 = std::bitset<MAX_DIGITS>(block.at(i)).to_string();
+        s2.copy(buffer, number_of_digits, MAX_DIGITS - number_of_digits);
+        s += buffer;
     }
 
-    //escribe el minimo y la cant de bits utilizados
-    int min_big = htonl(min);
-    string s2 = std::bitset<MAX_DIGITS * 8>(min_big).to_string();
-    //this->bq->
-
-    /*
-    fout.write((char *) &min_big, sizeof(min_big));
-    bitset<MIN_BITS_TO_SAVE> numb_dig_bits(number_of_digits);
-    fout.write((char *) &numb_dig_bits, 1);
-
-    char buffer[MAX_DIGITS] = "";
-    string s2 = std::bitset<MAX_DIGITS>(block[q]).to_string();
-    s2.copy(buffer, number_of_digits, MAX_DIGITS - number_of_digits);
-    s += buffer;
-*/
-
-    return 0;
+    //encola el bloque comprimido
+    int resp = this->bq->pushData(s);
+    while (resp == -1)
+        resp = this->bq->pushData(s);
 }
 
 void Compressor::complete_block(vector<unsigned int> *block, unsigned int to) {

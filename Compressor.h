@@ -12,25 +12,25 @@
 
 class Compressor {
 private:
-    unsigned int n, q;
+    unsigned int n;
     FileManager *fileManager;
     BlockingQueue *bq;
 
     static void complete_block(vector<unsigned int> *block, unsigned int to);
 
-    void substract_min_to_block(vector<unsigned int> *block, unsigned int min);
+    static void substract_min_to_block(vector<unsigned int> *block, unsigned int min);
 
-    unsigned int get_number_of_digits(unsigned int max);
+    static unsigned int get_number_of_digits(unsigned int max);
 
-    unsigned int get_max_element(vector<unsigned int> *block);
+    static unsigned int get_max_element(vector<unsigned int> *block);
 
-    unsigned int get_min_element(vector<unsigned int> *block);
+    static unsigned int get_min_element(vector<unsigned int> *block);
 
 public:
 
-    Compressor(unsigned int n, unsigned int q, FileManager *fileManager, BlockingQueue *bq);
+    Compressor(unsigned int n, FileManager *fileManager, BlockingQueue *bq);
 
-    int startCompressor();
+    void startCompressor();
 
     ~Compressor();
 };

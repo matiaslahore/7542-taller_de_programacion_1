@@ -12,11 +12,14 @@ using namespace std;
 
 #define MAX_DIGITS 12
 #define MAX_BLOCKS 8
+#define MIN_BITS_TO_SAVE 8
+
 
 
 class FileManager {
 private:
     unsigned int n, seeks;
+    string buffer_s;
     std::fstream fin, fout;
 public:
     FileManager(unsigned int n, unsigned int seeks);
@@ -24,6 +27,8 @@ public:
     int startFileManager(const char *infile, const char *outfile);
 
     vector<unsigned int> getBlock();
+
+    void saveStream(string s);
 
     ~FileManager();
 };

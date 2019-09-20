@@ -6,6 +6,7 @@
 #include <cstdlib>
 #include <arpa/inet.h>
 #include <vector>
+#include <bitset>
 #include "FileManager.h"
 
 using namespace std;
@@ -38,6 +39,16 @@ vector<unsigned int> FileManager::getBlock() {
     if (i == 1) block.empty();
 
     return block;
+}
+
+void FileManager::saveStream(string s) {
+    this->buffer_s += s;
+
+    while (this->buffer_s.length() >= MIN_BITS_TO_SAVE) {
+        std::bitset<MIN_BITS_TO_SAVE> outNum(this->buffer_s);
+        fout.write((char *) &outNum, 1);
+        this->buffer_s.erase(0, MIN_BITS_TO_SAVE);
+    }
 }
 
 FileManager::~FileManager() {

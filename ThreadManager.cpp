@@ -20,9 +20,9 @@ int ThreadManager::run_thread_manager(unsigned int n, unsigned int q,
     QueueToFile qtf = QueueToFile(&fileM);
 
     for (unsigned int i = 0; i < t; i++) {
-        BlockingQueue bq = BlockingQueue();
+        BlockingQueue bq = BlockingQueue(q);
         qtf.addQueue(&bq);
-        Compressor comp = Compressor(n, q, &fileM, &bq);
+        Compressor comp = Compressor(n, &fileM, &bq);
         this->compressors.push_back(&comp);
     }
 
@@ -30,6 +30,7 @@ int ThreadManager::run_thread_manager(unsigned int n, unsigned int q,
     for (unsigned int i = 0; i < t; i++) {
         this->compressors.front()->startCompressor();
     }
+    qtf.startQueueToFile();
 
 
     //Run compressor (threads)
