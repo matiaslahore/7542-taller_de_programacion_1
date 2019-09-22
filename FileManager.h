@@ -20,7 +20,7 @@ class FileManager {
 private:
     unsigned int n, seeks;
     string buffer_s;
-    std::fstream fin, fout;
+    fstream fin, fout;
 public:
     FileManager(unsigned int n, unsigned int seeks);
 

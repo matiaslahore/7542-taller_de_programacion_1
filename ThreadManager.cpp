@@ -9,29 +9,35 @@
 #include "QueueToFile.h"
 
 
-ThreadManager::ThreadManager() {};
+ThreadManager::ThreadManager() {}
 
 int ThreadManager::run_thread_manager(unsigned int n, unsigned int q,
                                       unsigned int t, const char *infile,
                                       const char *outfile) {
-    FileManager fileM(n, t);
-    if (fileM.startFileManager(infile, outfile) == -1) return -1;
+    FileManager *fileM = new FileManager(n, t);
+    if (fileM->startFileManager(infile, outfile) == -1) return -1;
 
-    QueueToFile qtf = QueueToFile(&fileM);
+    QueueToFile *qtf = new QueueToFile(fileM);
 
     for (unsigned int i = 0; i < t; i++) {
-        BlockingQueue bq = BlockingQueue(q);
-        qtf.addQueue(&bq);
-        Compressor comp = Compressor(n, &fileM, &bq);
-        this->compressors.push_back(&comp);
+        BlockingQueue *bq = new BlockingQueue(q);
+        qtf->addQueue(bq);
+        Compressor *comp = new Compressor(n, fileM, bq);
+        this->compressors.push_back(comp);
     }
 
     //start only ONE compressor
     for (unsigned int i = 0; i < t; i++) {
         this->compressors.front()->startCompressor();
     }
-    qtf.startQueueToFile();
+    qtf->startQueueToFile();
 
+
+    for (unsigned int i = 0; i < t; i++) {
+        delete this->compressors.at(i);
+    }
+    delete fileM;
+    delete qtf;
 
     //Run compressor (threads)
     // joins threads

@@ -13,8 +13,7 @@ Compressor::Compressor(unsigned int n, FileManager *fileManager, BlockingQueue *
     this->n = n;
     this->fileManager = fileManager;
     this->bq = bq;
-};
-
+}
 
 void Compressor::startCompressor() {
     vector<unsigned int> block = this->fileManager->getBlock();
@@ -34,27 +33,29 @@ void Compressor::startCompressor() {
     s += std::bitset<sizeof(unsigned int) * 2>(number_of_digits).to_string();
 
     //comprime cada numero en bits.
-    for (int i = 0; i < block.size(); i++) {
+    for (int i = 0; i < (int) block.size(); i++) {
         char buffer[MAX_DIGITS] = "";
         string s2 = std::bitset<MAX_DIGITS>(block.at(i)).to_string();
         s2.copy(buffer, number_of_digits, MAX_DIGITS - number_of_digits);
         s += buffer;
-    }
+}
 
     //encola el bloque comprimido
     int resp = this->bq->pushData(s);
     while (resp == -1)
         resp = this->bq->pushData(s);
+
+    block = this->fileManager->getBlock();
 }
 
 void Compressor::complete_block(vector<unsigned int> *block, unsigned int to) {
-    for (unsigned int i = block->size(); i < to; i++)
+    for (unsigned int i = (int) block->size(); i < to; i++)
         block->push_back(block->back());
 }
 
 unsigned int Compressor::get_min_element(vector<unsigned int> *block) {
     unsigned int min = block->front();
-    for (int i = 1; i < block->size(); i++)
+    for (int i = 1; i < (int) block->size(); i++)
         if (min > block->at(i))
             min = block->at(i);
 
@@ -63,7 +64,7 @@ unsigned int Compressor::get_min_element(vector<unsigned int> *block) {
 
 unsigned int Compressor::get_max_element(vector<unsigned int> *block) {
     unsigned int max = block->front();
-    for (int i = 1; i < block->size(); i++)
+    for (int i = 1; i < (int) block->size(); i++)
         if (max < block->at(i))
             max = block->at(i);
 
@@ -83,7 +84,7 @@ unsigned int Compressor::get_number_of_digits(unsigned int max) {
 }
 
 void Compressor::substract_min_to_block(vector<unsigned int> *block, unsigned int min) {
-    for (int i = 0; i < block->size(); i++)
+    for (int i = 0; i < (int) block->size(); i++)
         block->at(i) -= min;
 }
 

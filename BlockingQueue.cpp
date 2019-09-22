@@ -9,11 +9,11 @@ using namespace std;
 
 BlockingQueue::BlockingQueue(unsigned int q) {
     this->q = q;
-};
+}
 
 int BlockingQueue::pushData(const string &s) {
-    if (this->s_queue.size() >= this->q)
-        return -1;
+    //if (this->s_queue.size() >= this->q)
+    //    return -1;
 
     this->s_queue.push(s);
     
