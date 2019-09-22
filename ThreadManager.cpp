@@ -32,7 +32,7 @@ int ThreadManager::run_thread_manager(unsigned int n, unsigned int q,
     }
     qtf->startQueueToFile();
 
-
+    //deletes
     for (unsigned int i = 0; i < t; i++) {
         delete this->compressors.at(i);
     }

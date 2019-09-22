@@ -20,7 +20,6 @@ int FileManager::startFileManager(const char *infile, const char *outfile) {
     this->fin.open(infile, std::ifstream::in | std::ifstream::binary);
     this->fout.open(outfile, std::ifstream::out | std::ifstream::binary);
     if ((!fin.is_open()) || (!fout.is_open())) return EXIT_FAILURE;
-    fin.seekg (0, fin.beg);
 
     return 0;
 }
