@@ -4,7 +4,6 @@
 
 #include "Compressor.h"
 #include "FileManager.h"
-#include <arpa/inet.h>
 #include <bitset>
 
 using namespace std;
@@ -38,10 +37,10 @@ void Compressor::startCompressor() {
         string s2 = std::bitset<MAX_DIGITS>(block.at(i)).to_string();
         s2.copy(buffer, number_of_digits, MAX_DIGITS - number_of_digits);
         s += buffer;
-}
+    }
 
     //encola el bloque comprimido
-    int resp = this->bq->pushData(s);
+    int resp = -1;
     while (resp == -1)
         resp = this->bq->pushData(s);
 

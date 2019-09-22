@@ -30,8 +30,8 @@ vector<unsigned int> FileManager::getBlock() {
     char *bufferx = new char[4];
 
     //obtiene los numeros del archivo y los carga en block
-    for (; (i < this->n) && fin; i++) {
-        fin.read(bufferx, 4);
+    for (; (i < this->n) && this->fin; i++) {
+        this->fin.read(bufferx, 4);
         block.push_back(ntohl(*(unsigned int *) (bufferx)));
     }
 
@@ -46,7 +46,7 @@ void FileManager::saveStream(string s) {
 
     while (this->buffer_s.length() >= MIN_BITS_TO_SAVE) {
         std::bitset<MIN_BITS_TO_SAVE> outNum(this->buffer_s);
-        fout.write((char *) &outNum, 1);
+        this->fout.write((char *) &outNum, 1);
         this->buffer_s.erase(0, MIN_BITS_TO_SAVE);
     }
 }
