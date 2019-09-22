@@ -15,7 +15,7 @@ int ThreadManager::run_thread_manager(unsigned int n, unsigned int q,
                                       unsigned int t, const char *infile,
                                       const char *outfile) {
     FileManager *fileM = new FileManager(n, t);
-    if (fileM->startFileManager(infile, outfile) == -1) return -1;
+    if (fileM->startFileManager(infile, outfile) == 1) return -1;
 
     QueueToFile *qtf = new QueueToFile(fileM);
 
