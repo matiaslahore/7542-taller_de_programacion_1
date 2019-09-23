@@ -13,13 +13,24 @@
 
 ThreadManager::ThreadManager() {}
 
+int msleep(unsigned long milisec) {
+    struct timespec req = {0};
+    time_t sec = (int) (milisec / 1000);
+    milisec = milisec - (sec * 1000);
+    req.tv_sec = sec;
+    req.tv_nsec = milisec * 1000000L;
+    while (nanosleep(&req, &req) == -1)
+        continue;
+    return 1;
+}
+
 int ThreadManager::run_thread_manager(unsigned int n, unsigned int q,
                                       unsigned int t, const char *infile,
                                       const char *outfile) {
-
-    vector<Thread*> threads;
+    vector<Thread *> threads;
     mutex m;
-    FileManager *fileM = new FileManager(n, t, m);
+
+    FileManager *fileM = new FileManager(n, t, n, m);
     if (fileM->startFileManager(infile, outfile) == 1) return -1;
 
     QueueToFile *qtf = new QueueToFile(fileM);
@@ -27,28 +38,26 @@ int ThreadManager::run_thread_manager(unsigned int n, unsigned int q,
     for (unsigned int i = 0; i < t; i++) {
         BlockingQueue *bq = new BlockingQueue(q);
         qtf->addQueue(bq);
-        Compressor *comp = new Compressor(n, fileM, bq);
-        this->compressors.push_back(comp);
+        Compressor *comp = new Compressor(n, fileM, bq, i);
         threads.push_back(comp);
     }
 
-    //start only ONE compressor
-    for (unsigned int i = 0; i < t; i++) {
-        threads[i]->start();
-        //this->compressors.front()->run();
-    }
-    qtf->startQueueToFile();
+    threads.push_back(qtf);
 
-    //deletes
-    for (unsigned int i = 0; i < t; i++) {
+//    for (unsigned int i = 0; i <= t; i++) {
+    threads[0]->start();
+    //threads[1]->start();
+    msleep(1000);
+    threads[1]->start();
+    //  }
+
+    //join and deletes
+    for (unsigned int i = 0; i <= t; i++) {
         threads[i]->join();
-        delete this->compressors.at(i);
+        delete threads[i];
     }
     delete fileM;
-    delete qtf;
 
-    //Run compressor (threads)
-    // joins threads
     return 0;
 }
 

@@ -12,23 +12,23 @@
 using namespace std;
 
 #define MAX_DIGITS 12
-#define MAX_BLOCKS 8
 #define MIN_BITS_TO_SAVE 8
-
-
+#define NUMBER_LENGHT 4
 
 class FileManager {
 private:
-    unsigned int n, seeks;
+    unsigned int n, seek;
     string buffer_s;
     fstream fin, fout;
     mutex &m;
+    vector<int> pos_threads;
 public:
-    FileManager(unsigned int n, unsigned int seeks, mutex &m);
+    FileManager(unsigned int n, unsigned int quantity_threads,
+                unsigned int num_per_block, mutex &m);
 
     int startFileManager(const char *infile, const char *outfile);
 
-    vector<unsigned int> getBlock();
+    vector<unsigned int> getBlock(unsigned int thread_id);
 
     void saveStream(string s);
 

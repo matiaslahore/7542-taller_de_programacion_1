@@ -13,7 +13,7 @@
 
 class Compressor: public Thread {
 private:
-    unsigned int n;
+    unsigned int n, thread_id;
     FileManager *fileManager;
     BlockingQueue *bq;
 
@@ -29,7 +29,7 @@ private:
 
 public:
 
-    Compressor(unsigned int n, FileManager *fileManager, BlockingQueue *bq);
+    Compressor(unsigned int n, FileManager *fileManager, BlockingQueue *bq, unsigned int thread_id);
 
     virtual void run();
 

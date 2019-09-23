@@ -13,7 +13,7 @@ QueueToFile::QueueToFile(FileManager *fileManager) {
     this->fileManager = fileManager;
 }
 
-int QueueToFile::startQueueToFile() {
+void QueueToFile::run() {
 
     string buff = " ";
     //Round Robin
@@ -25,7 +25,8 @@ int QueueToFile::startQueueToFile() {
         }
     }
 
-    return 0;
+    printf("llegue 2\n");
+
 }
 
 void QueueToFile::addQueue(BlockingQueue *bq) {

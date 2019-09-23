@@ -8,14 +8,15 @@
 
 using namespace std;
 
-Compressor::Compressor(unsigned int n, FileManager *fileManager, BlockingQueue *bq) {
+Compressor::Compressor(unsigned int n, FileManager *fileManager, BlockingQueue *bq, unsigned int thread_id) {
     this->n = n;
     this->fileManager = fileManager;
     this->bq = bq;
+    this->thread_id = thread_id;
 }
 
 void Compressor::run() {
-    vector<unsigned int> block = this->fileManager->getBlock();
+    vector<unsigned int> block = this->fileManager->getBlock(this->thread_id);
 
     while (block.size() > 0) {
 
@@ -49,8 +50,10 @@ void Compressor::run() {
         while (resp == -1)
             resp = this->bq->pushData(s);
 
-        block = this->fileManager->getBlock();
+        block = this->fileManager->getBlock(this->thread_id);
     }
+
+    printf("llegue: %i\n", this->thread_id);
 }
 
 void Compressor::complete_block(vector<unsigned int> *block, unsigned int to) {

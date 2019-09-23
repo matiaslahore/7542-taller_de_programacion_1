@@ -5,18 +5,19 @@
 #ifndef CMAKE_DEMO_QUEUETOFILE_H
 #define CMAKE_DEMO_QUEUETOFILE_H
 
+#include "Thread.h"
 #include "FileManager.h"
 #include "BlockingQueue.h"
 #include <vector>
 
-class QueueToFile {
+class QueueToFile: public Thread {
 private:
     FileManager *fileManager;
     std::vector<BlockingQueue *> queues;
 public:
     QueueToFile(FileManager *fileManager);
 
-    int startQueueToFile();
+    virtual void run();
 
     void addQueue(BlockingQueue *bq);
 

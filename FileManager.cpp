@@ -12,32 +12,42 @@
 
 using namespace std;
 
-FileManager::FileManager(unsigned int n, unsigned int seeks, mutex &m) : m(m) {
+FileManager::FileManager(unsigned int n, unsigned int quantity_threads,
+                         unsigned int num_per_block, mutex &m) : m(m) {
     this->n = n;
-    this->seeks = seeks;
+    unsigned int q = 0;
+    this->seek = (NUMBER_LENGHT * num_per_block * quantity_threads);
+
+    for (unsigned int i = 0; i < quantity_threads; ++i) {
+        this->pos_threads.push_back(q);
+        q += (NUMBER_LENGHT * num_per_block);
+    }
 }
 
 int FileManager::startFileManager(const char *infile, const char *outfile) {
-    this->fin.open(infile, std::ifstream::in | std::ifstream::binary);
-    this->fout.open(outfile, std::ifstream::out | std::ifstream::binary);
+    this->fin.open(infile, ifstream::in | ifstream::binary);
+    this->fout.open(outfile, ifstream::out | ifstream::binary);
     if ((!fin.is_open()) || (!fout.is_open())) return EXIT_FAILURE;
 
     return 0;
 }
 
-vector<unsigned int> FileManager::getBlock() {
+vector<unsigned int> FileManager::getBlock(unsigned int thread_id) {
     vector<unsigned int> block;
     unsigned int i = 0;
     uint32_t a;
 
     this->m.lock();
+    this->fin.seekg(this->pos_threads[thread_id], ifstream::beg);
+    //printf("1- hilo:%i, en la pos:%i.\n", thread_id, (int) this->fin.tellg());
 
     //obtiene los numeros del archivo y los carga en block
     for (; (i < this->n) && this->fin; i++) {
-        this->fin.read(reinterpret_cast<char *>(&a), 4);
+        this->fin.read(reinterpret_cast<char *>(&a), NUMBER_LENGHT);
         block.push_back(ntohl((a)));
     }
 
+    this->pos_threads[thread_id] += this->seek;
     this->m.unlock();
 
     if (i == 1) block.clear();
