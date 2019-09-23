@@ -29,8 +29,7 @@ void Compressor::startCompressor() {
         unsigned int number_of_digits = get_number_of_digits(max);
 
         //escribe el minimo y la cant de bits utilizados
-        string s;
-        s = std::bitset<sizeof(unsigned int) * 8>(min).to_string();
+        string s = std::bitset<sizeof(unsigned int) * 8>(min).to_string();
         s += std::bitset<sizeof(unsigned int) * 2>(number_of_digits).to_string();
 
         //comprime cada numero en bits.

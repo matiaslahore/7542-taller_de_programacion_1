@@ -35,12 +35,12 @@ vector<unsigned int> FileManager::getBlock() {
         block.push_back(ntohl((a)));
     }
 
-    if (i == 1) block.empty();
-/*
+    if (i == 1) block.clear();
+
     printf("block:%i.\n", (int) block.size());
     for (int x = 0; x < (int) block.size(); x++)
-        printf("x: %i ; value:%i.\n", x, block.at(x));
-*/
+        printf("x: %i ; value:%X.\n", x, block.at(x));
+
     return block;
 }
 
