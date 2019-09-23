@@ -27,16 +27,19 @@ int FileManager::startFileManager(const char *infile, const char *outfile) {
 vector<unsigned int> FileManager::getBlock() {
     vector<unsigned int> block;
     unsigned int i = 0;
-    char *bufferx = new char[4];
+    uint32_t a;
 
     //obtiene los numeros del archivo y los carga en block
     for (; (i < this->n) && this->fin; i++) {
-        this->fin.read(bufferx, 4);
-        block.push_back(ntohl(*(unsigned int *) (bufferx)));
+        this->fin.read(reinterpret_cast<char *>(&a), 4);
+        block.push_back(ntohl((a)));
     }
 
-    delete[] bufferx;
     if (i == 1) block.empty();
+
+    printf("block:%i.\n", block.size());
+    for (int x = 0; x < block.size(); x++)
+        printf("x: %i ; value:%i.\n", x, block.at(x));
 
     return block;
 }
