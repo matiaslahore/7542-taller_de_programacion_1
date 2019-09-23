@@ -25,7 +25,6 @@ int QueueToFile::startQueueToFile() {
         }
     }
 
-
     return 0;
 }
 

@@ -17,34 +17,41 @@ Compressor::Compressor(unsigned int n, FileManager *fileManager, BlockingQueue *
 void Compressor::startCompressor() {
     vector<unsigned int> block = this->fileManager->getBlock();
 
-    if (block.size() < this->n)
-        complete_block(&block, this->n);
+    while (block.size() > 0) {
 
-    //calcula el minimo, maximo, bits necesarios y resta diferencia
-    unsigned int min = get_min_element(&block);
-    substract_min_to_block(&block, min);
-    unsigned int max = get_max_element(&block);
-    unsigned int number_of_digits = get_number_of_digits(max);
+        if (block.size() < this->n)
+            complete_block(&block, this->n);
 
-    //escribe el minimo y la cant de bits utilizados
-    string s;
-    s = std::bitset<sizeof(unsigned int) * 8>(min).to_string();
-    s += std::bitset<sizeof(unsigned int) * 2>(number_of_digits).to_string();
+        //calcula el minimo, maximo, bits necesarios y resta diferencia
+        unsigned int min = get_min_element(&block);
+        substract_min_to_block(&block, min);
+        unsigned int max = get_max_element(&block);
+        unsigned int number_of_digits = get_number_of_digits(max);
 
-    //comprime cada numero en bits.
-    for (int i = 0; i < (int) block.size(); i++) {
-        char buffer[MAX_DIGITS] = "";
-        string s2 = std::bitset<MAX_DIGITS>(block.at(i)).to_string();
-        s2.copy(buffer, number_of_digits, MAX_DIGITS - number_of_digits);
-        s += buffer;
+        //escribe el minimo y la cant de bits utilizados
+        string s;
+        s = std::bitset<sizeof(unsigned int) * 8>(min).to_string();
+        s += std::bitset<sizeof(unsigned int) * 2>(number_of_digits).to_string();
+
+        //comprime cada numero en bits.
+        for (int i = 0; i < (int) block.size(); i++) {
+            char buffer[MAX_DIGITS] = "";
+            string s2 = std::bitset<MAX_DIGITS>(block.at(i)).to_string();
+            s2.copy(buffer, number_of_digits, MAX_DIGITS - number_of_digits);
+            s += buffer;
+        }
+
+        //completo a byte
+        while ((s.length() % 8) != 0)
+            s += "0";
+
+        //encola el bloque comprimido
+        int resp = -1;
+        while (resp == -1)
+            resp = this->bq->pushData(s);
+
+        block = this->fileManager->getBlock();
     }
-
-    //encola el bloque comprimido
-    int resp = -1;
-    while (resp == -1)
-        resp = this->bq->pushData(s);
-
-    block = this->fileManager->getBlock();
 }
 
 void Compressor::complete_block(vector<unsigned int> *block, unsigned int to) {
