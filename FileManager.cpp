@@ -37,8 +37,8 @@ vector<unsigned int> FileManager::getBlock() {
 
     if (i == 1) block.empty();
 
-    printf("block:%i.\n", block.size());
-    for (int x = 0; x < block.size(); x++)
+    printf("block:%i.\n", (int) block.size());
+    for (int x = 0; x < (int) block.size(); x++)
         printf("x: %i ; value:%i.\n", x, block.at(x));
 
     return block;
