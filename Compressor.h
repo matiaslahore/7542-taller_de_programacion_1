@@ -7,10 +7,11 @@
 
 #include "FileManager.h"
 #include "BlockingQueue.h"
+#include "Thread.h"
 
 #define MIN_BITS_TO_SAVE 8
 
-class Compressor {
+class Compressor: public Thread {
 private:
     unsigned int n;
     FileManager *fileManager;
@@ -30,7 +31,7 @@ public:
 
     Compressor(unsigned int n, FileManager *fileManager, BlockingQueue *bq);
 
-    void startCompressor();
+    virtual void run();
 
     ~Compressor();
 };

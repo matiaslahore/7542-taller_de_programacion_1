@@ -14,7 +14,7 @@ Compressor::Compressor(unsigned int n, FileManager *fileManager, BlockingQueue *
     this->bq = bq;
 }
 
-void Compressor::startCompressor() {
+void Compressor::run() {
     vector<unsigned int> block = this->fileManager->getBlock();
 
     while (block.size() > 0) {
