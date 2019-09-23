@@ -31,6 +31,7 @@ void Compressor::run() {
 
         //escribe el minimo y la cant de bits utilizados
         string s = std::bitset<sizeof(unsigned int) * 8>(min).to_string();
+
         s += std::bitset<sizeof(unsigned int) * 2>(number_of_digits).to_string();
 
         //comprime cada numero en bits.
@@ -54,6 +55,7 @@ void Compressor::run() {
     }
 
     printf("llegue: %i\n", this->thread_id);
+    while (this->bq->pushData("") == -1);
 }
 
 void Compressor::complete_block(vector<unsigned int> *block, unsigned int to) {

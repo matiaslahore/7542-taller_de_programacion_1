@@ -2,6 +2,7 @@
 // Created by mati on 19/9/19.
 //
 
+#include <iostream>
 #include "QueueToFile.h"
 #include "FileManager.h"
 #include "BlockingQueue.h"
@@ -14,19 +15,19 @@ QueueToFile::QueueToFile(FileManager *fileManager) {
 }
 
 void QueueToFile::run() {
-
     string buff = " ";
+
     //Round Robin
     while (buff.length() > 0) {
         for (int i = 0; i < (int) this->queues.size(); i++) {
             buff = this->queues.at(i)->pullData();
+            printf("buff:%s.\n", buff.c_str());
             if (buff.length() > 0)
                 this->fileManager->saveStream(buff);
         }
     }
 
     printf("llegue 2\n");
-
 }
 
 void QueueToFile::addQueue(BlockingQueue *bq) {

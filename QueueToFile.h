@@ -9,8 +9,9 @@
 #include "FileManager.h"
 #include "BlockingQueue.h"
 #include <vector>
+#include <condition_variable>
 
-class QueueToFile: public Thread {
+class QueueToFile : public Thread {
 private:
     FileManager *fileManager;
     std::vector<BlockingQueue *> queues;

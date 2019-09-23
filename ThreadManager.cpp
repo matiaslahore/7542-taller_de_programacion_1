@@ -13,17 +13,6 @@
 
 ThreadManager::ThreadManager() {}
 
-int msleep(unsigned long milisec) {
-    struct timespec req = {0};
-    time_t sec = (int) (milisec / 1000);
-    milisec = milisec - (sec * 1000);
-    req.tv_sec = sec;
-    req.tv_nsec = milisec * 1000000L;
-    while (nanosleep(&req, &req) == -1)
-        continue;
-    return 1;
-}
-
 int ThreadManager::run_thread_manager(unsigned int n, unsigned int q,
                                       unsigned int t, const char *infile,
                                       const char *outfile) {
@@ -44,12 +33,10 @@ int ThreadManager::run_thread_manager(unsigned int n, unsigned int q,
 
     threads.push_back(qtf);
 
-//    for (unsigned int i = 0; i <= t; i++) {
-    threads[0]->start();
-    //threads[1]->start();
-    msleep(1000);
-    threads[1]->start();
-    //  }
+    //Run threads
+    for (unsigned int i = 0; i <= t; i++) {
+        threads[i]->start();
+    }
 
     //join and deletes
     for (unsigned int i = 0; i <= t; i++) {
