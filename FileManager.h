@@ -21,8 +21,9 @@ private:
     unsigned int n, seeks;
     string buffer_s;
     fstream fin, fout;
+    mutex &m;
 public:
-    FileManager(unsigned int n, unsigned int seeks);
+    FileManager(unsigned int n, unsigned int seeks, mutex &m);
 
     int startFileManager(const char *infile, const char *outfile);
 

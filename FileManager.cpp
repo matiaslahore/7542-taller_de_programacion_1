@@ -7,11 +7,12 @@
 #include <arpa/inet.h>
 #include <vector>
 #include <bitset>
+#include <mutex>
 #include "FileManager.h"
 
 using namespace std;
 
-FileManager::FileManager(unsigned int n, unsigned int seeks) {
+FileManager::FileManager(unsigned int n, unsigned int seeks, mutex &m) : m(m) {
     this->n = n;
     this->seeks = seeks;
 }
@@ -29,18 +30,22 @@ vector<unsigned int> FileManager::getBlock() {
     unsigned int i = 0;
     uint32_t a;
 
+    this->m.lock();
+
     //obtiene los numeros del archivo y los carga en block
     for (; (i < this->n) && this->fin; i++) {
         this->fin.read(reinterpret_cast<char *>(&a), 4);
         block.push_back(ntohl((a)));
     }
 
-    if (i == 1) block.clear();
+    this->m.unlock();
 
+    if (i == 1) block.clear();
+/*
     printf("block:%i.\n", (int) block.size());
     for (int x = 0; x < (int) block.size(); x++)
         printf("x: %i ; value:%X.\n", x, block.at(x));
-
+*/
     return block;
 }
 

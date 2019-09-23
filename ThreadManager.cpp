@@ -2,6 +2,7 @@
 // Created by mati on 19/9/19.
 //
 
+#include <mutex>
 #include "ThreadManager.h"
 #include "FileManager.h"
 #include "Compressor.h"
@@ -14,7 +15,8 @@ ThreadManager::ThreadManager() {}
 int ThreadManager::run_thread_manager(unsigned int n, unsigned int q,
                                       unsigned int t, const char *infile,
                                       const char *outfile) {
-    FileManager *fileM = new FileManager(n, t);
+    std::mutex m;
+    FileManager *fileM = new FileManager(n, t, m);
     if (fileM->startFileManager(infile, outfile) == 1) return -1;
 
     QueueToFile *qtf = new QueueToFile(fileM);
