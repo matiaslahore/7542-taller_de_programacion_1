@@ -54,8 +54,7 @@ void Compressor::run() {
         block = this->fileManager->getBlock(this->thread_id);
     }
 
-    printf("llegue: %i\n", this->thread_id);
-    while (this->bq->pushData("") == -1);
+    while (this->bq->pushData("") == -1); //send end of data to queue
 }
 
 void Compressor::complete_block(vector<unsigned int> *block, unsigned int to) {
