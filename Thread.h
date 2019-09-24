@@ -10,8 +10,9 @@
 class Thread {
 private:
     std::thread thread;
+
 public:
-    Thread () {}
+    Thread() {}
 
     void start() {
         thread = std::thread(&Thread::run, this);
@@ -22,16 +23,18 @@ public:
     }
 
     virtual void run() = 0;
+
     virtual ~Thread() {}
 
-    Thread(const Thread&) = delete;
-    Thread& operator=(const Thread&) = delete;
+    Thread(const Thread &) = delete;
 
-    Thread(Thread&& other) {
+    Thread &operator=(const Thread &) = delete;
+
+    Thread(Thread &&other) {
         this->thread = std::move(other.thread);
     }
 
-    Thread& operator=(Thread&& other) {
+    Thread &operator=(Thread &&other) {
         this->thread = std::move(other.thread);
         return *this;
     }

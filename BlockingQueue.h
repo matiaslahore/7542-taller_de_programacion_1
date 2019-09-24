@@ -5,28 +5,24 @@
 #ifndef CMAKE_DEMO_BLOCKINGQUEUE_H
 #define CMAKE_DEMO_BLOCKINGQUEUE_H
 
-
 #include <string>
 #include <queue>
 #include <mutex>
 #include <condition_variable>
 
-using namespace std;
-
-
 class BlockingQueue {
 private:
-    queue<string> s_queue;
+    std::queue<std::string> s_queue;
     unsigned int q;
-    mutex m;
-    condition_variable cond_var;
+    std::mutex m;
+    std::condition_variable cond_var;
     bool notified;
 public:
-    BlockingQueue(unsigned int q);
+    explicit BlockingQueue(unsigned int q);
 
-    int pushData(const string &s);
+    int pushData(const std::string &s);
 
-    string pullData();
+    std::string pullData();
 
     ~BlockingQueue();
 };

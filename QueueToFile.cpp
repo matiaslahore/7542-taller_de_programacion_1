@@ -3,19 +3,17 @@
 //
 
 #include <iostream>
+#include <string>
 #include "QueueToFile.h"
 #include "FileManager.h"
 #include "BlockingQueue.h"
-
-
-using namespace std;
 
 QueueToFile::QueueToFile(FileManager *fileManager) {
     this->fileManager = fileManager;
 }
 
 void QueueToFile::run() {
-    string buff = " ";
+    std::string buff = " ";
 
     //Round Robin
     while (buff.length() > 0) {

@@ -2,13 +2,14 @@
 // Created by mati on 19/9/19.
 //
 
+#include <bitset>
+#include <string>
+#include <vector>
 #include "Compressor.h"
 #include "FileManager.h"
-#include <bitset>
 
-using namespace std;
-
-Compressor::Compressor(unsigned int n, FileManager *fileManager, BlockingQueue *bq, unsigned int thread_id) {
+Compressor::Compressor(unsigned int n, FileManager *fileManager,
+                       BlockingQueue *bq, unsigned int thread_id) {
     this->n = n;
     this->fileManager = fileManager;
     this->bq = bq;
@@ -16,10 +17,10 @@ Compressor::Compressor(unsigned int n, FileManager *fileManager, BlockingQueue *
 }
 
 void Compressor::run() {
-    vector<unsigned int> block = this->fileManager->getBlock(this->thread_id);
+    std::vector<unsigned int> block;
+    block = this->fileManager->getBlock(this->thread_id);
 
     while (block.size() > 0) {
-
         if (block.size() < this->n)
             complete_block(&block, this->n);
 
@@ -30,14 +31,15 @@ void Compressor::run() {
         unsigned int number_of_digits = get_number_of_digits(max);
 
         //escribe el minimo y la cant de bits utilizados
-        string s = std::bitset<sizeof(unsigned int) * 8>(min).to_string();
+        std::string s = std::bitset<sizeof(unsigned int) * 8>(min).to_string();
 
-        s += std::bitset<sizeof(unsigned int) * 2>(number_of_digits).to_string();
+        s += std::bitset<sizeof(unsigned int) * 2>
+                (number_of_digits).to_string();
 
         //comprime cada numero en bits.
         for (int i = 0; i < (int) block.size(); i++) {
             char buffer[MAX_DIGITS] = "";
-            string s2 = std::bitset<MAX_DIGITS>(block.at(i)).to_string();
+            std::string s2 = std::bitset<MAX_DIGITS>(block.at(i)).to_string();
             s2.copy(buffer, number_of_digits, MAX_DIGITS - number_of_digits);
             s += buffer;
         }
@@ -54,15 +56,16 @@ void Compressor::run() {
         block = this->fileManager->getBlock(this->thread_id);
     }
 
-    while (this->bq->pushData("") == -1); //send end of data to queue
+    while (this->bq->pushData("") == -1) {} //send end of data to queue
 }
 
-void Compressor::complete_block(vector<unsigned int> *block, unsigned int to) {
+void Compressor::complete_block(std::vector<unsigned int> *block,
+                                unsigned int to) {
     for (unsigned int i = (int) block->size(); i < to; i++)
         block->push_back(block->back());
 }
 
-unsigned int Compressor::get_min_element(vector<unsigned int> *block) {
+unsigned int Compressor::get_min_element(std::vector<unsigned int> *block) {
     unsigned int min = block->front();
     for (int i = 1; i < (int) block->size(); i++)
         if (min > block->at(i))
@@ -71,7 +74,7 @@ unsigned int Compressor::get_min_element(vector<unsigned int> *block) {
     return min;
 }
 
-unsigned int Compressor::get_max_element(vector<unsigned int> *block) {
+unsigned int Compressor::get_max_element(std::vector<unsigned int> *block) {
     unsigned int max = block->front();
     for (int i = 1; i < (int) block->size(); i++)
         if (max < block->at(i))
@@ -92,7 +95,8 @@ unsigned int Compressor::get_number_of_digits(unsigned int max) {
     return number_of_digits;
 }
 
-void Compressor::substract_min_to_block(vector<unsigned int> *block, unsigned int min) {
+void Compressor::substract_min_to_block(std::vector<unsigned int> *block,
+                                        unsigned int min) {
     for (int i = 0; i < (int) block->size(); i++)
         block->at(i) -= min;
 }

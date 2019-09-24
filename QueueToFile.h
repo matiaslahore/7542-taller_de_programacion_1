@@ -15,8 +15,9 @@ class QueueToFile : public Thread {
 private:
     FileManager *fileManager;
     std::vector<BlockingQueue *> queues;
+
 public:
-    QueueToFile(FileManager *fileManager);
+    explicit QueueToFile(FileManager *fileManager);
 
     virtual void run();
 

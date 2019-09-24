@@ -3,6 +3,7 @@
 //
 
 #include <mutex>
+#include <vector>
 #include "FileManager.h"
 #include "Compressor.h"
 #include "BlockingQueue.h"
@@ -16,8 +17,8 @@ ThreadManager::ThreadManager() {}
 int ThreadManager::run_thread_manager(unsigned int n, unsigned int q,
                                       unsigned int t, const char *infile,
                                       const char *outfile) {
-    vector<Thread *> threads;
-    mutex m;
+    std::vector<Thread *> threads;
+    std::mutex m;
 
     FileManager *fileM = new FileManager(n, t, n, m);
     if (fileM->startFileManager(infile, outfile) == 1) return -1;

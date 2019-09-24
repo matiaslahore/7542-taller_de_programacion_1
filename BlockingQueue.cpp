@@ -2,20 +2,18 @@
 // Created by mati on 19/9/19.
 //
 
-#include <queue>
+#include <string>
 #include "BlockingQueue.h"
-
-using namespace std;
 
 BlockingQueue::BlockingQueue(unsigned int q) {
     this->q = q;
 }
 
-int BlockingQueue::pushData(const string &s) {
+int BlockingQueue::pushData(const std::string &s) {
     if (this->s_queue.size() >= this->q)
         return -1;
 
-    unique_lock<std::mutex> lock(this->m);
+    std::unique_lock<std::mutex> lock(this->m);
     this->s_queue.push(s);
 
     this->notified = true;
@@ -24,9 +22,9 @@ int BlockingQueue::pushData(const string &s) {
     return 0;
 }
 
-string BlockingQueue::pullData() {
-    string to_return;
-    unique_lock<std::mutex> lock(this->m);
+std::string BlockingQueue::pullData() {
+    std::string to_return;
+    std::unique_lock<std::mutex> lock(this->m);
 
     while (!this->notified) {  // loop to avoid spurious wakeups
         this->cond_var.wait_for(lock, std::chrono::milliseconds(50), [this] {
