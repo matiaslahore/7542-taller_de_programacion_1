@@ -32,7 +32,4 @@ void QueueToFile::addQueue(BlockingQueue *bq) {
     queues.push_back(bq);
 }
 
-QueueToFile::~QueueToFile() {
-    for (int i = 0; i < (int) this->queues.size(); i++)
-        delete this->queues.at(i);
-}
+QueueToFile::~QueueToFile() {}

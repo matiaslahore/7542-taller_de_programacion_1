@@ -24,6 +24,8 @@ public:
 
     std::string pullData();
 
+    void free();
+
     ~BlockingQueue();
 };
 

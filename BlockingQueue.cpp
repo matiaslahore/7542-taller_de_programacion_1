@@ -28,10 +28,7 @@ std::string BlockingQueue::pullData() {
     std::unique_lock<std::mutex> lock(this->m);
 
     while (!this->notified) {  // loop to avoid spurious wakeups
-        this->cond_var.wait_for(lock, std::chrono::milliseconds(50), [this] {
-            return this->notified;
-        }); //timeOut for end QueueToFile thread
-        if (!this->s_queue.empty() && !this->notified) this->notified = true;
+        this->cond_var.wait(lock);
     }
 
     if (!this->s_queue.empty()) {
@@ -42,6 +39,10 @@ std::string BlockingQueue::pullData() {
     this->notified = false;
 
     return to_return;
+}
+
+void BlockingQueue::free() {
+    while (this->pushData("") == -1) {}
 }
 
 BlockingQueue::~BlockingQueue() {}

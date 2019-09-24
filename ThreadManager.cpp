@@ -17,6 +17,7 @@ int ThreadManager::run_thread_manager(unsigned int n, unsigned int q,
                                       unsigned int t, const char *infile,
                                       const char *outfile) {
     std::vector<Thread *> threads;
+    std::vector<BlockingQueue *> bqs;
     std::mutex m;
 
     FileManager *fileM = new FileManager(n, t, n, m);
@@ -27,6 +28,7 @@ int ThreadManager::run_thread_manager(unsigned int n, unsigned int q,
     for (unsigned int i = 0; i < t; i++) {
         BlockingQueue *bq = new BlockingQueue(q);
         qtf->addQueue(bq);
+        bqs.push_back(bq);
         Compressor *comp = new Compressor(n, fileM, bq, i);
         threads.push_back(comp);
     }
@@ -39,10 +41,14 @@ int ThreadManager::run_thread_manager(unsigned int n, unsigned int q,
     }
 
     //join and deletes
-    for (unsigned int i = 0; i <= t; i++) {
+    for (unsigned int i = 0; i < t; i++) {
         threads[i]->join();
         delete threads[i];
+        bqs[i]->free();
+        delete bqs[i];
     }
+    qtf->join();
+    delete qtf;
     delete fileM;
 
     return 0;
