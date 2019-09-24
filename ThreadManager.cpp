@@ -44,9 +44,8 @@ int ThreadManager::run_thread_manager(unsigned int n, unsigned int q,
     for (unsigned int i = 0; i < t; i++) {
         threads[i]->join();
         delete threads[i];
-        bqs[i]->free();
-        delete bqs[i];
     }
+
     qtf->join();
     delete qtf;
     delete fileM;

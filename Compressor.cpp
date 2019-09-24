@@ -57,6 +57,7 @@ void Compressor::run() {
     }
 
     while (this->bq->pushData("") == -1) {} //send end of data to queue
+    this->bq->freeQ();
 }
 
 void Compressor::complete_block(std::vector<unsigned int> *block,

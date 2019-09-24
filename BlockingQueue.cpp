@@ -41,8 +41,11 @@ std::string BlockingQueue::pullData() {
     return to_return;
 }
 
-void BlockingQueue::free() {
-    while (this->pushData("") == -1) {}
+void BlockingQueue::freeQ() {
+    while (this->s_queue.size() > 0) {
+        this->notified = true;
+        this->cond_var.notify_one();
+    }
 }
 
 BlockingQueue::~BlockingQueue() {}
