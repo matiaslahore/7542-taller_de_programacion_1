@@ -14,3 +14,7 @@ cpplint.py
 execute_valgrind_and_verify_result_code.sh
 filter_options
 suppressions.txt
+entregable.zip
+tp
+checklen.py
+tp.zip

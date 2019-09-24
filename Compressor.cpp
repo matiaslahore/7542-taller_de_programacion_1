@@ -56,7 +56,6 @@ void Compressor::run() {
         block = this->fileManager->getBlock(this->thread_id);
     }
 
-    while (this->bq->pushData("") == -1) {} //send end of data to queue
     this->bq->freeQ();
 }
 

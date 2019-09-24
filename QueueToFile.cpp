@@ -14,22 +14,23 @@ QueueToFile::QueueToFile(FileManager *fileManager) {
 }
 
 void QueueToFile::run() {
-    bool runing = true;
+    bool running = true;
     std::string buff = "";
     std::vector<bool> buffer_states((int) this->queues.size(), true);
 
     //Round Robin
-    while (runing) {
+    while (running) {
         for (int i = 0; (i < (int) this->queues.size()); i++) {
+            if (!buffer_states[i]) continue; //continue if queue already done
             buff = this->queues.at(i)->pullData();
             if (buff.length() > 0) {
                 this->fileManager->saveStream(buff);
             } else {
                 buffer_states[i] = false;
-                runing = false;
+                running = false;
                 for (int j = 0; j < (int) buffer_states.size(); j++) {
-                    if (buffer_states[j])
-                        runing = true;
+                    if (buffer_states.at(j))
+                        running = true;
                 }
             }
         }
