@@ -2,6 +2,7 @@
 // Created by mati on 19/9/19.
 //
 
+#include <iostream>
 #include <fstream>
 #include <cstdlib>
 #include <arpa/inet.h>
@@ -9,6 +10,7 @@
 #include <bitset>
 #include <string>
 #include <mutex>
+#include <cstring>
 #include "FileManager.h"
 
 FileManager::FileManager(unsigned int n, unsigned int quantity_threads,
@@ -26,6 +28,13 @@ FileManager::FileManager(unsigned int n, unsigned int quantity_threads,
 int FileManager::startFileManager(const char *infile, const char *outfile) {
     this->fin.open(infile, std::ifstream::in | std::ifstream::binary);
     this->fout.open(outfile, std::ifstream::out | std::ifstream::binary);
+
+    //change file to stdin or stdout
+    if (strncmp(outfile, "-", 1) == 0)
+        this->fout.basic_ios<char>::rdbuf(std::cout.rdbuf());
+    if (strncmp(infile, "-", 1) == 0)
+        this->fin.basic_ios<char>::rdbuf(std::cin.rdbuf());
+
     if ((!fin.is_open()) || (!fout.is_open())) return EXIT_FAILURE;
 
     return 0;
