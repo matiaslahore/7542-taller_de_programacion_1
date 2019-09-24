@@ -38,7 +38,6 @@ std::vector<unsigned int> FileManager::getBlock(unsigned int thread_id) {
 
     this->m.lock();
     this->fin.seekg(this->pos_threads[thread_id], std::ifstream::beg);
-    //printf("1- hilo:%i, en la pos:%i.\n", thread_id, (int) this->fin.tellg());
 
     //obtiene los numeros del archivo y los carga en block
     for (; (i < this->n) && this->fin; i++) {
@@ -50,11 +49,7 @@ std::vector<unsigned int> FileManager::getBlock(unsigned int thread_id) {
     this->m.unlock();
 
     if (i == 1) block.clear();
-/*
-    printf("block:%i.\n", (int) block.size());
-    for (int x = 0; x < (int) block.size(); x++)
-        printf("x: %i ; value:%X.\n", x, block.at(x));
-*/
+
     return block;
 }
 

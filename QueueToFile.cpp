@@ -13,14 +13,17 @@ QueueToFile::QueueToFile(FileManager *fileManager) {
 }
 
 void QueueToFile::run() {
-    std::string buff = " ";
+    bool runing = true;
+    std::string buff = "";
 
     //Round Robin
-    while (buff.length() > 0) {
-        for (int i = 0; i < (int) this->queues.size(); i++) {
+    while (runing) {
+        for (int i = 0; (i < (int) this->queues.size()) && runing; i++) {
             buff = this->queues.at(i)->pullData();
             if (buff.length() > 0)
                 this->fileManager->saveStream(buff);
+            else
+                runing = false;
         }
     }
 }

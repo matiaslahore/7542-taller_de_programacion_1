@@ -7,6 +7,7 @@
 
 BlockingQueue::BlockingQueue(unsigned int q) {
     this->q = q;
+    this->notified = false;
 }
 
 int BlockingQueue::pushData(const std::string &s) {
@@ -23,7 +24,7 @@ int BlockingQueue::pushData(const std::string &s) {
 }
 
 std::string BlockingQueue::pullData() {
-    std::string to_return;
+    std::string to_return = " ";
     std::unique_lock<std::mutex> lock(this->m);
 
     while (!this->notified) {  // loop to avoid spurious wakeups

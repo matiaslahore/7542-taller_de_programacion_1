@@ -5,12 +5,8 @@
 #ifndef CMAKE_DEMO_THREADMANAGER_H
 #define CMAKE_DEMO_THREADMANAGER_H
 
-#include "Compressor.h"
-#include <vector>
-
 class ThreadManager {
 private:
-    std::vector<Compressor *> compressors;
 public:
     ThreadManager();
 

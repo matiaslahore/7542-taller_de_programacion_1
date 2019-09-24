@@ -2,15 +2,14 @@
 // Created by mati on 19/9/19.
 //
 
+#include "Thread.h"
 #include <mutex>
 #include <vector>
 #include "FileManager.h"
 #include "Compressor.h"
 #include "BlockingQueue.h"
 #include "QueueToFile.h"
-#include "Thread.h"
 #include "ThreadManager.h"
-
 
 ThreadManager::ThreadManager() {}
 

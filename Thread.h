@@ -2,8 +2,8 @@
 // Created by mati on 23/9/19.
 //
 
-#ifndef CMAKE_DEMO_THREAD_H
-#define CMAKE_DEMO_THREAD_H
+#ifndef CMAKE_DEMO_THREAD_CPP
+#define CMAKE_DEMO_THREAD_CPP
 
 #include <thread>
 
@@ -25,19 +25,6 @@ public:
     virtual void run() = 0;
 
     virtual ~Thread() {}
-
-    Thread(const Thread &) = delete;
-
-    Thread &operator=(const Thread &) = delete;
-
-    Thread(Thread &&other) {
-        this->thread = std::move(other.thread);
-    }
-
-    Thread &operator=(Thread &&other) {
-        this->thread = std::move(other.thread);
-        return *this;
-    }
 };
 
-#endif //CMAKE_DEMO_THREAD_H
+#endif //CMAKE_DEMO_THREAD_CPP
