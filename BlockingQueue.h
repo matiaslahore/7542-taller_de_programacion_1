@@ -16,7 +16,6 @@ private:
     unsigned int q;
     std::mutex m;
     std::condition_variable cond_var;
-    bool notified;
 public:
     explicit BlockingQueue(unsigned int q);
 
