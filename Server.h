@@ -8,11 +8,13 @@
 
 #include "Ftp.h"
 #include "ServerMessages.h"
+#include "Login.h"
 
 class Server {
 private:
     Ftp ftp;
     ServerMessages msg;
+    Login *login;
 
 public:
     Server();
@@ -20,8 +22,6 @@ public:
     void run_server();
 
     std::string createFolder(char *folderName);
-
-    ~Server();
 
     std::string getPwd();
 
@@ -32,6 +32,12 @@ public:
     std::string removeDirectory(char *folderName);
 
     std::string quit();
+
+    std::string loginUser(char *userName);
+
+    std::string loginPsw(char *psw);
+
+    ~Server();
 };
 
 

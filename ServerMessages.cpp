@@ -15,6 +15,10 @@ ServerMessages::ServerMessages() {
     this->messages.insert({RMD_SUCCESS_MESSAGE, "Remove directory operation successful."});
     this->messages.insert({RMD_FAIL_MESSAGE, "Remove directory operation failed."});
     this->messages.insert({QUIT_SUCCESS_MESSAGE, "Goodbye."});
+    this->messages.insert({PSW_REQ_MESSAGE, "Please specify the password."});
+    this->messages.insert({LOGIN_SUCCESS_MESSAGE, "Login successful."});
+    this->messages.insert({LOGIN_FAIL_MESSAGE, "Login incorrect."});
+    this->messages.insert({LOGIN_REQ_MESSAGE, "Please login with USER and PASS."});
 }
 
 std::string ServerMessages::createMessage(const std::string &key, std::string pre, const std::string &post) {
@@ -68,6 +72,26 @@ std::string ServerMessages::getRemoveFail() {
 std::string ServerMessages::getQuit() {
     std::string pre = QUIT_SUCCESS_CODE;
     return this->createMessage(QUIT_SUCCESS_MESSAGE, pre, "");
+}
+
+std::string ServerMessages::getPswRequired() {
+    std::string pre = PSW_REQ_CODE;
+    return this->createMessage(PSW_REQ_MESSAGE, pre, "");
+}
+
+std::string ServerMessages::getLoginSuccess() {
+    std::string pre = LOGIN_SUCCESS_CODE;
+    return this->createMessage(LOGIN_SUCCESS_MESSAGE, pre, "");
+}
+
+std::string ServerMessages::getLoginFail() {
+    std::string pre = LOGIN_FAIL_CODE;
+    return this->createMessage(LOGIN_FAIL_MESSAGE, pre, "");
+}
+
+std::string ServerMessages::getLoginRequired() {
+    std::string pre = LOGIN_FAIL_CODE;
+    return this->createMessage(LOGIN_REQ_MESSAGE, pre, "");
 }
 
 ServerMessages::~ServerMessages() = default;

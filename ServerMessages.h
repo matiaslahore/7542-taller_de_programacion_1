@@ -11,9 +11,12 @@
 #define LIST_DIR_START_CODE "150 "
 #define QUIT_SUCCESS_CODE "221 "
 #define LIST_DIR_END_CODE "226 "
-#define SUCCESS_CODE "257 "
+#define LOGIN_SUCCESS_CODE "230 "
 #define SUCCESS_RMD_CODE "250 "
+#define SUCCESS_CODE "257 "
+#define PSW_REQ_CODE "331 "
 #define UNKNOWN_COMMAND_CODE "500 "
+#define LOGIN_FAIL_CODE "530 "
 #define FAIL_CODE "550 "
 
 #define LIST_DIR_START_MESSAGE "LIST_START"
@@ -25,6 +28,10 @@
 #define RMD_SUCCESS_MESSAGE "RMD_SUCCESS"
 #define RMD_FAIL_MESSAGE "RMD_FAIL"
 #define QUIT_SUCCESS_MESSAGE "QUIT_SUCCESS"
+#define PSW_REQ_MESSAGE "PSW_REQ"
+#define LOGIN_SUCCESS_MESSAGE "LOGIN_SUCCESS"
+#define LOGIN_FAIL_MESSAGE "LOGIN_FAIL"
+#define LOGIN_REQ_MESSAGE "LOGIN_REQ"
 
 class ServerMessages {
 private:
@@ -52,6 +59,14 @@ public:
     std::string getRemoveFail();
 
     std::string getQuit();
+
+    std::string getPswRequired();
+
+    std::string getLoginSuccess();
+
+    std::string getLoginFail();
+
+    std::string getLoginRequired();
 };
 
 
