@@ -6,8 +6,14 @@
 #define CMAKE_DEMO_CLIENT_H
 
 
-class client {
+class Client {
+private:
+public:
+    Client();
 
+    void run_client();
+
+    ~Client();
 };
 
 

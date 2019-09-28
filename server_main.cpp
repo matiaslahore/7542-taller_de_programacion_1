@@ -1,6 +1,7 @@
 #include <cstdlib>
 #include <cstring>
 #include <cstdio>
+#include "Server.h"
 
 int main(int argc, char *argv[]) {
 
@@ -8,6 +9,10 @@ int main(int argc, char *argv[]) {
         printf("faltan argumentos");
         return 0;
     }
+
+
+    Server server;
+    Server.run_server();
 
     return 0;
 }
