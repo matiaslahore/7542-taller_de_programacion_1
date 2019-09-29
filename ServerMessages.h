@@ -7,6 +7,8 @@
 
 #include <string>
 #include <unordered_map>
+#include <map>
+#include <fstream>
 
 #define LIST_DIR_START_CODE "150 "
 #define QUIT_SUCCESS_CODE "221 "
@@ -19,30 +21,37 @@
 #define LOGIN_FAIL_CODE "530 "
 #define FAIL_CODE "550 "
 
-#define LIST_DIR_START_MESSAGE "LIST_START"
-#define LIST_DIR_END_MESSAGE "LIST_END"
-#define MKD_SUCCESS_MESSAGE "MKDSUCCESS"
-#define MKD_FAIL_MESSAGE "MKDFAIL"
-#define PWD_SUCCESS_MESSAGE "PWDSUCCESS"
-#define UNKNOWN_COMMAND_MESSAGE "UNKNOWN_COMMAND"
-#define RMD_SUCCESS_MESSAGE "RMD_SUCCESS"
-#define RMD_FAIL_MESSAGE "RMD_FAIL"
-#define QUIT_SUCCESS_MESSAGE "QUIT_SUCCESS"
-#define PSW_REQ_MESSAGE "PSW_REQ"
-#define LOGIN_SUCCESS_MESSAGE "LOGIN_SUCCESS"
-#define LOGIN_FAIL_MESSAGE "LOGIN_FAIL"
-#define LOGIN_REQ_MESSAGE "LOGIN_REQ"
+#define LIST_DIR_START_MESSAGE "listBegin"
+#define LIST_DIR_END_MESSAGE "listEnd"
+#define MKD_SUCCESS_MESSAGE "mkdSuccess"
+#define MKD_FAIL_MESSAGE "mkdFailed"
+#define PWD_SUCCESS_MESSAGE "currentDirectoryMsg"
+#define UNKNOWN_COMMAND_MESSAGE "unknownCommand"
+#define RMD_SUCCESS_MESSAGE "rmdSuccess"
+#define RMD_FAIL_MESSAGE "rmdFailed"
+#define QUIT_SUCCESS_MESSAGE "quitSuccess"
+#define PSW_REQ_MESSAGE "passRequired"
+#define LOGIN_SUCCESS_MESSAGE "loginSuccess"
+#define LOGIN_FAIL_MESSAGE "loginFailed"
+#define LOGIN_REQ_MESSAGE "clientNotLogged"
+#define USERNAME "user"
+#define PASS "password"
+
 
 class ServerMessages {
 private:
     std::unordered_map<std::string, std::string> messages;
+    std::map<std::string, std::string> configValues;
 
-    std::string createMessage(const std::string& key, std::string pre, const std::string& post);
+    std::string createMessage(const std::string &key, std::string pre,
+                              const std::string &post);
+
+    std::string getConfigValue(const std::string &key);
 
 public:
-    ServerMessages();
+    ServerMessages(char *config);
 
-    std::string getMkdSuccess(const std::string& name);
+    std::string getMkdSuccess(const std::string &name);
 
     ~ServerMessages();
 
@@ -52,7 +61,7 @@ public:
 
     std::string getPwdSuccess();
 
-    std::string getListFolders(const std::string& folders);
+    std::string getListFolders(const std::string &folders);
 
     std::string getRemoveSuccess();
 
@@ -67,6 +76,12 @@ public:
     std::string getLoginFail();
 
     std::string getLoginRequired();
+
+    void readConfig(char *filePath);
+
+    std::string getUsername();
+
+    std::string getPassword();
 };
 
 

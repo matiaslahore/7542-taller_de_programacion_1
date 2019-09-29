@@ -4,21 +4,67 @@
 
 #include "ServerMessages.h"
 #include <utility>
+#include <sstream>
 
-ServerMessages::ServerMessages() {
-    this->messages.insert({MKD_SUCCESS_MESSAGE, "created"});
-    this->messages.insert({MKD_FAIL_MESSAGE, "Create Directory operation failed"});
-    this->messages.insert({UNKNOWN_COMMAND_MESSAGE, "Unknown command."});
-    this->messages.insert({PWD_SUCCESS_MESSAGE, "\"/home/admin/ftp\" is the current directory."});
-    this->messages.insert({LIST_DIR_START_MESSAGE, "Here comes the directory listing."});
-    this->messages.insert({LIST_DIR_END_MESSAGE, "Directory send OK."});
-    this->messages.insert({RMD_SUCCESS_MESSAGE, "Remove directory operation successful."});
-    this->messages.insert({RMD_FAIL_MESSAGE, "Remove directory operation failed."});
-    this->messages.insert({QUIT_SUCCESS_MESSAGE, "Goodbye."});
-    this->messages.insert({PSW_REQ_MESSAGE, "Please specify the password."});
-    this->messages.insert({LOGIN_SUCCESS_MESSAGE, "Login successful."});
-    this->messages.insert({LOGIN_FAIL_MESSAGE, "Login incorrect."});
-    this->messages.insert({LOGIN_REQ_MESSAGE, "Please login with USER and PASS."});
+ServerMessages::ServerMessages(char *config) {
+    this->readConfig(config);
+
+    std::string value = this->getConfigValue(MKD_SUCCESS_MESSAGE);
+    this->messages.insert({MKD_SUCCESS_MESSAGE, !value.empty() ? value : "created"});
+    value = this->getConfigValue(MKD_FAIL_MESSAGE);
+    this->messages.insert({MKD_FAIL_MESSAGE, !value.empty() ? value : "Create Directory operation failed"});
+    value = this->getConfigValue(UNKNOWN_COMMAND_MESSAGE);
+    this->messages.insert({UNKNOWN_COMMAND_MESSAGE, !value.empty() ? value : "Unknown command."});
+    value = this->getConfigValue(PWD_SUCCESS_MESSAGE);
+    this->messages.insert({PWD_SUCCESS_MESSAGE, !value.empty() ? value : "\"/home/admin/ftp\" is the current directory."});
+    value = this->getConfigValue(LIST_DIR_START_MESSAGE);
+    this->messages.insert({LIST_DIR_START_MESSAGE,!value.empty() ? value :  "Here comes the directory listing."});
+    value = this->getConfigValue(LIST_DIR_END_MESSAGE);
+    this->messages.insert({LIST_DIR_END_MESSAGE, !value.empty() ? value : "Directory send OK."});
+    value = this->getConfigValue(RMD_SUCCESS_MESSAGE);
+    this->messages.insert({RMD_SUCCESS_MESSAGE, !value.empty() ? value : "Remove directory operation successful."});
+    value = this->getConfigValue(RMD_FAIL_MESSAGE);
+    this->messages.insert({RMD_FAIL_MESSAGE, !value.empty() ? value : "Remove directory operation failed."});
+    value = this->getConfigValue(QUIT_SUCCESS_MESSAGE);
+    this->messages.insert({QUIT_SUCCESS_MESSAGE, !value.empty() ? value : "Goodbye."});
+    value = this->getConfigValue(PSW_REQ_MESSAGE);
+    this->messages.insert({PSW_REQ_MESSAGE, !value.empty() ? value : "Please specify the password."});
+    value = this->getConfigValue(LOGIN_SUCCESS_MESSAGE);
+    this->messages.insert({LOGIN_SUCCESS_MESSAGE,!value.empty() ? value :  "Login successful."});
+    value = this->getConfigValue(LOGIN_FAIL_MESSAGE);
+    this->messages.insert({LOGIN_FAIL_MESSAGE, !value.empty() ? value : "Login incorrect."});
+    value = this->getConfigValue(LOGIN_REQ_MESSAGE);
+    this->messages.insert({LOGIN_REQ_MESSAGE, !value.empty() ? value : "Please login with USER and PASS."});
+    value = this->getConfigValue(USERNAME);
+    this->messages.insert({USERNAME, !value.empty() ? value : "u"});
+    value = this->getConfigValue(PASS);
+    this->messages.insert({PASS, !value.empty() ? value : "p"});
+}
+
+std::string ServerMessages::getConfigValue(const std::string &key) {
+    std::map<std::string, std::string>::iterator it = this->configValues.find(key);
+    if (it != this->configValues.end())
+        return it->second;
+
+    return "";
+}
+
+void ServerMessages::readConfig(char *filePath) {
+    std::fstream fin;
+    fin.open(filePath, std::ifstream::in);
+    std::string line;
+
+    while (std::getline(fin, line)) {
+        std::istringstream is_line(line);
+        std::string key;
+        if (std::getline(is_line, key, '=')) {
+            std::string value;
+            if (std::getline(is_line, value)) {
+                this->configValues[key] = value;
+            }
+        }
+    }
+
 }
 
 std::string ServerMessages::createMessage(const std::string &key, std::string pre, const std::string &post) {
@@ -27,6 +73,14 @@ std::string ServerMessages::createMessage(const std::string &key, std::string pr
     msg += post;
 
     return msg;
+}
+
+std::string ServerMessages::getUsername() {
+    return this->messages.at(USERNAME);
+}
+
+std::string ServerMessages::getPassword() {
+    return this->messages.at(PASS);
 }
 
 std::string ServerMessages::getMkdSuccess(const std::string &foldName) {

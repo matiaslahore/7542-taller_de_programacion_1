@@ -5,7 +5,6 @@
 #ifndef CMAKE_DEMO_SERVER_H
 #define CMAKE_DEMO_SERVER_H
 
-
 #include "Ftp.h"
 #include "ServerMessages.h"
 #include "Login.h"
@@ -13,7 +12,7 @@
 class Server {
 private:
     Ftp ftp;
-    ServerMessages msg;
+    ServerMessages *msg;
     Login *login;
 
 public:
