@@ -2,22 +2,22 @@
 // Created by mati on 27/9/19.
 //
 
-#include "Proxy.h"
+#include "common_proxy.h"
 
 
-Proxy::Proxy() {
+common_proxy::common_proxy() {
 
 }
 
-std::string Proxy::send(char *instruction) {
+std::string common_proxy::send(char *instruction) {
     //Recive y se comunica en teoria por socket
     //pero ahora se comunica a un proxy server
 
     return this->proxy_c.send_command(instruction);
 }
 
-void Proxy::recv(char *instruction) {
+void common_proxy::recv(char *instruction) {
 
 }
 
-Proxy::~Proxy() {}
+common_proxy::~common_proxy() {}

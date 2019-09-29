@@ -2,21 +2,21 @@
 // Created by mati on 25/9/19.
 //
 
-#ifndef CMAKE_DEMO_SERVER_H
-#define CMAKE_DEMO_SERVER_H
+#ifndef CMAKE_DEMO_COMMON_SERVER_H
+#define CMAKE_DEMO_COMMON_SERVER_H
 
-#include "Ftp.h"
-#include "ServerMessages.h"
-#include "Login.h"
+#include "common_ftp.h"
+#include "common_server_messages.h"
+#include "common_login.h"
 
-class Server {
+class common_server {
 private:
-    Ftp ftp;
-    ServerMessages *msg;
-    Login *login;
+    common_ftp sftp;
+    common_server_messages *msg;
+    common_login *slogin;
 
 public:
-    Server();
+    common_server();
 
     void run_server();
 
@@ -36,8 +36,8 @@ public:
 
     std::string loginPsw(char *psw);
 
-    ~Server();
+    ~common_server();
 };
 
 
-#endif //CMAKE_DEMO_SERVER_H
+#endif //CMAKE_DEMO_COMMON_SERVER_H

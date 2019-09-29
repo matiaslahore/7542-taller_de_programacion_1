@@ -1,7 +1,7 @@
 #include <cstdlib>
 #include <cstring>
 #include <cstdio>
-#include "Server.h"
+#include "common_server.h"
 
 int main(int argc, char *argv[]) {
 
@@ -11,8 +11,8 @@ int main(int argc, char *argv[]) {
     }
 
 
-    Server server;
-    Server.run_server();
+    common_server server;
+    server.run_server();
 
     return 0;
 }

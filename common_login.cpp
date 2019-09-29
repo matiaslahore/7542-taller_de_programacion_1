@@ -2,22 +2,22 @@
 // Created by mati on 28/9/19.
 //
 
-#include "Login.h"
+#include "common_login.h"
 
 #include <utility>
 
-Login::Login(std::string validUser, std::string validPsw) {
+common_login::common_login(std::string validUser, std::string validPsw) {
     this->validUser = std::move(validUser);
     this->validPsw = std::move(validPsw);
     this->logged = false;
 }
 
-void Login::loginUser(std::string user) {
+void common_login::loginUser(std::string user) {
     const std::string &strUser(user);
     this->user = strUser;
 }
 
-bool Login::loginPsw(std::string psw) {
+bool common_login::loginPsw(std::string psw) {
     const std::string &strPsw(psw);
     if ((this->user == this->validUser) && (strPsw == this->validPsw))
         this->logged = true;
@@ -25,8 +25,8 @@ bool Login::loginPsw(std::string psw) {
     return this->logged;
 }
 
-bool Login::isLogged() {
+bool common_login::isLogged() {
     return this->logged;
 }
 
-Login::~Login() = default;
+common_login::~common_login() = default;

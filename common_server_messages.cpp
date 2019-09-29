@@ -2,11 +2,11 @@
 // Created by mati on 27/9/19.
 //
 
-#include "ServerMessages.h"
+#include "common_server_messages.h"
 #include <utility>
 #include <sstream>
 
-ServerMessages::ServerMessages(char *config) {
+common_server_messages::common_server_messages(char *config) {
     this->readConfig(config);
 
     std::string value = this->getConfigValue(MKD_SUCCESS_MESSAGE);
@@ -41,7 +41,7 @@ ServerMessages::ServerMessages(char *config) {
     this->messages.insert({PASS, !value.empty() ? value : "p"});
 }
 
-std::string ServerMessages::getConfigValue(const std::string &key) {
+std::string common_server_messages::getConfigValue(const std::string &key) {
     std::map<std::string, std::string>::iterator it = this->configValues.find(key);
     if (it != this->configValues.end())
         return it->second;
@@ -49,7 +49,7 @@ std::string ServerMessages::getConfigValue(const std::string &key) {
     return "";
 }
 
-void ServerMessages::readConfig(char *filePath) {
+void common_server_messages::readConfig(char *filePath) {
     std::fstream fin;
     fin.open(filePath, std::ifstream::in);
     std::string line;
@@ -67,7 +67,7 @@ void ServerMessages::readConfig(char *filePath) {
 
 }
 
-std::string ServerMessages::createMessage(const std::string &key, std::string pre, const std::string &post) {
+std::string common_server_messages::createMessage(const std::string &key, std::string pre, const std::string &post) {
     std::string msg = std::move(pre);
     msg += this->messages.at(key);
     msg += post;
@@ -75,36 +75,36 @@ std::string ServerMessages::createMessage(const std::string &key, std::string pr
     return msg;
 }
 
-std::string ServerMessages::getUsername() {
+std::string common_server_messages::getUsername() {
     return this->messages.at(USERNAME);
 }
 
-std::string ServerMessages::getPassword() {
+std::string common_server_messages::getPassword() {
     return this->messages.at(PASS);
 }
 
-std::string ServerMessages::getMkdSuccess(const std::string &foldName) {
+std::string common_server_messages::getMkdSuccess(const std::string &foldName) {
     std::string pre = SUCCESS_CODE;
     pre += "\"" + foldName + "\" ";
     return this->createMessage(MKD_SUCCESS_MESSAGE, pre, "");
 }
 
-std::string ServerMessages::getMkdFail() {
+std::string common_server_messages::getMkdFail() {
     std::string pre = FAIL_CODE;
     return this->createMessage(MKD_FAIL_MESSAGE, pre, "");
 }
 
-std::string ServerMessages::getUnknownCommand() {
+std::string common_server_messages::getUnknownCommand() {
     std::string pre = UNKNOWN_COMMAND_CODE;
     return this->createMessage(UNKNOWN_COMMAND_MESSAGE, pre, "");
 }
 
-std::string ServerMessages::getPwdSuccess() {
+std::string common_server_messages::getPwdSuccess() {
     std::string pre = SUCCESS_CODE;
     return this->createMessage(PWD_SUCCESS_MESSAGE, pre, "");
 }
 
-std::string ServerMessages::getListFolders(const std::string &folders) {
+std::string common_server_messages::getListFolders(const std::string &folders) {
     std::string pre = LIST_DIR_START_CODE;
     std::string response = this->createMessage(LIST_DIR_START_MESSAGE, pre, "") + "\n";
     response += folders;
@@ -113,39 +113,39 @@ std::string ServerMessages::getListFolders(const std::string &folders) {
     return response;
 }
 
-std::string ServerMessages::getRemoveSuccess() {
+std::string common_server_messages::getRemoveSuccess() {
     std::string pre = SUCCESS_RMD_CODE;
     return this->createMessage(RMD_SUCCESS_MESSAGE, pre, "");
 }
 
-std::string ServerMessages::getRemoveFail() {
+std::string common_server_messages::getRemoveFail() {
     std::string pre = FAIL_CODE;
     return this->createMessage(RMD_FAIL_MESSAGE, pre, "");
 }
 
-std::string ServerMessages::getQuit() {
+std::string common_server_messages::getQuit() {
     std::string pre = QUIT_SUCCESS_CODE;
     return this->createMessage(QUIT_SUCCESS_MESSAGE, pre, "");
 }
 
-std::string ServerMessages::getPswRequired() {
+std::string common_server_messages::getPswRequired() {
     std::string pre = PSW_REQ_CODE;
     return this->createMessage(PSW_REQ_MESSAGE, pre, "");
 }
 
-std::string ServerMessages::getLoginSuccess() {
+std::string common_server_messages::getLoginSuccess() {
     std::string pre = LOGIN_SUCCESS_CODE;
     return this->createMessage(LOGIN_SUCCESS_MESSAGE, pre, "");
 }
 
-std::string ServerMessages::getLoginFail() {
+std::string common_server_messages::getLoginFail() {
     std::string pre = LOGIN_FAIL_CODE;
     return this->createMessage(LOGIN_FAIL_MESSAGE, pre, "");
 }
 
-std::string ServerMessages::getLoginRequired() {
+std::string common_server_messages::getLoginRequired() {
     std::string pre = LOGIN_FAIL_CODE;
     return this->createMessage(LOGIN_REQ_MESSAGE, pre, "");
 }
 
-ServerMessages::~ServerMessages() = default;
+common_server_messages::~common_server_messages() = default;

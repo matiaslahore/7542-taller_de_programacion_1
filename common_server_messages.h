@@ -2,8 +2,8 @@
 // Created by mati on 27/9/19.
 //
 
-#ifndef CMAKE_DEMO_SERVERMESSAGES_H
-#define CMAKE_DEMO_SERVERMESSAGES_H
+#ifndef CMAKE_DEMO_COMMON_SERVER_MESSAGES_H
+#define CMAKE_DEMO_COMMON_SERVER_MESSAGES_H
 
 #include <string>
 #include <unordered_map>
@@ -38,7 +38,7 @@
 #define PASS "password"
 
 
-class ServerMessages {
+class common_server_messages {
 private:
     std::unordered_map<std::string, std::string> messages;
     std::map<std::string, std::string> configValues;
@@ -49,11 +49,11 @@ private:
     std::string getConfigValue(const std::string &key);
 
 public:
-    ServerMessages(char *config);
+    common_server_messages(char *config);
 
     std::string getMkdSuccess(const std::string &name);
 
-    ~ServerMessages();
+    ~common_server_messages();
 
     std::string getMkdFail();
 
@@ -85,4 +85,4 @@ public:
 };
 
 
-#endif //CMAKE_DEMO_SERVERMESSAGES_H
+#endif //CMAKE_DEMO_COMMON_SERVER_MESSAGES_H

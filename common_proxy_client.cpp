@@ -2,7 +2,7 @@
 // Created by mati on 25/9/19.
 //
 
-#include "Proxy_client.h"
+#include "common_proxy_client.h"
 #include <cstring>
 
 #define MKD_COMMAND "MKD"
@@ -13,28 +13,28 @@
 #define LOGIN_USER_COMMAND "USER"
 #define LOGIN_PSW_COMMAND "PASS"
 
-Proxy_client::Proxy_client() {}
+common_proxy_client::common_proxy_client() = default;
 
-std::string Proxy_client::send_command(char *instruction) {
+std::string common_proxy_client::send_command(char *instruction) {
 
     //recive un comando y llama a ejecutar algo al server
     if (strncmp(instruction, MKD_COMMAND, 3) == 0)
-        return this->server.createFolder(&instruction[4]);
+        return this->sserver.createFolder(&instruction[4]);
     else if (strncmp(instruction, PWD_COMMAND, 3) == 0)
-        return this->server.getPwd();
+        return this->sserver.getPwd();
     else if (strncmp(instruction, LIST_COMMAND, 4) == 0)
-        return this->server.getList();
+        return this->sserver.getList();
     else if (strncmp(instruction, RMD_COMMAND, 3) == 0)
-        return this->server.removeDirectory(&instruction[4]);
+        return this->sserver.removeDirectory(&instruction[4]);
     else if (strncmp(instruction, LOGIN_USER_COMMAND, 4) == 0)
-        return this->server.loginUser(&instruction[5]);
+        return this->sserver.loginUser(&instruction[5]);
     else if (strncmp(instruction, LOGIN_PSW_COMMAND, 4) == 0)
-        return this->server.loginPsw(&instruction[5]);
+        return this->sserver.loginPsw(&instruction[5]);
     else if (strncmp(instruction, QUIT_COMMAND, 4) == 0)
-        return this->server.quit();
+        return this->sserver.quit();
     else
-        return this->server.getUnknownCommand();
+        return this->sserver.getUnknownCommand();
 
 }
 
-Proxy_client::~Proxy_client() {}
+common_proxy_client::~common_proxy_client() = default;

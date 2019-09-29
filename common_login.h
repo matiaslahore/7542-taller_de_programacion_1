@@ -2,13 +2,13 @@
 // Created by mati on 28/9/19.
 //
 
-#ifndef CMAKE_DEMO_LOGIN_H
-#define CMAKE_DEMO_LOGIN_H
+#ifndef CMAKE_DEMO_COMMON_LOGIN_H
+#define CMAKE_DEMO_COMMON_LOGIN_H
 
 #include <string>
 
 
-class Login {
+class common_login {
 private:
 
     std::string validUser;
@@ -17,7 +17,7 @@ private:
     bool logged;
 
 public:
-    Login(std::string validUser, std::string validPsw);
+    common_login(std::string validUser, std::string validPsw);
 
     void loginUser(std::string user);
 
@@ -25,8 +25,8 @@ public:
 
     bool isLogged();
 
-    ~Login();
+    ~common_login();
 };
 
 
-#endif //CMAKE_DEMO_LOGIN_H
+#endif //CMAKE_DEMO_COMMON_LOGIN_H

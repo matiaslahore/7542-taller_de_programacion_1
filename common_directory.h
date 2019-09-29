@@ -2,23 +2,23 @@
 // Created by mati on 27/9/19.
 //
 
-#ifndef CMAKE_DEMO_DIRECTORY_H
-#define CMAKE_DEMO_DIRECTORY_H
+#ifndef CMAKE_DEMO_directory_H
+#define CMAKE_DEMO_directory_H
 
 #include <string>
 #include <unordered_set>
 
 #define FOLDERS_META_DATA "drwxrwxrwx 0 1000 4096 Sep 24 12:34 "
 
-class Directory {
+class common_directory {
 private:
     std::unordered_set<std::string> directories;
 public:
-    Directory();
+    common_directory();
 
     bool createFolder(char *folderName);
 
-    ~Directory();
+    ~common_directory();
 
     std::string listFolders();
 
@@ -26,4 +26,4 @@ public:
 };
 
 
-#endif //CMAKE_DEMO_DIRECTORY_H
+#endif //CMAKE_DEMO_directory_H

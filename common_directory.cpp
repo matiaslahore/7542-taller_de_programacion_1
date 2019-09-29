@@ -2,17 +2,17 @@
 // Created by mati on 27/9/19.
 //
 
-#include "Directory.h"
+#include "common_directory.h"
 
-Directory::Directory() {
-
-}
-
-Directory::~Directory() {
+common_directory::common_directory() {
 
 }
 
-bool Directory::createFolder(char *folderName) {
+common_directory::~common_directory() {
+
+}
+
+bool common_directory::createFolder(char *folderName) {
     std::string strToInsert(folderName);
 
     if (this->directories.find(strToInsert) != this->directories.end())
@@ -22,7 +22,7 @@ bool Directory::createFolder(char *folderName) {
     return true;
 }
 
-std::string Directory::listFolders() {
+std::string common_directory::listFolders() {
     std::string response;
     std::unordered_set<std::string>::iterator itr;
 
@@ -32,7 +32,7 @@ std::string Directory::listFolders() {
     return response;
 }
 
-bool Directory::removeFolder(char *folderName) {
+bool common_directory::removeFolder(char *folderName) {
     std::string strToRemove(folderName);
 
     if (this->directories.find(strToRemove) == this->directories.end())
