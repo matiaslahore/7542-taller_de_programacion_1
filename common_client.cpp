@@ -9,13 +9,15 @@ common_client::common_client() = default;
 
 void common_client::run_client() {
     bool exit = false;
-    char str[80];
+    std::string instruction;
 
     while (!exit) {
-        std::cin.getline(str, sizeof(str));
-
+        //std::cin.getline(str, sizeof(str));
+        std::getline(std::cin, instruction);
         try {
-            this->proxyServer.send_instruction(str);
+            this->proxyServer.send(instruction);
+            this->proxyServer.receive();
+
         } catch (...) {
             exit = true;
         }

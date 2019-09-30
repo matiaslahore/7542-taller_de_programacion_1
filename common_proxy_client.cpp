@@ -20,8 +20,8 @@ common_proxy_client::common_proxy_client(char *configPath) {
     this->sktA = this->skt->accept();
 }
 
-std::string common_proxy_client::recive() {
-    char instruction[20] = "";
+std::string common_proxy_client::receive() {
+    char instruction[10] = "";
     this->sktA.receive(instruction, sizeof(instruction));
 
     if (strncmp(instruction, MKD_COMMAND, 3) == 0)

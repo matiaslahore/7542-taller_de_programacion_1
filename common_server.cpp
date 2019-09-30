@@ -17,7 +17,7 @@ void common_server::run_server() {
     std::string instruction;
 
     while (!exit) {
-        std::string response = this->client->recive();
+        std::string response = this->client->receive();
         this->client->send(response);
 
         //std::getline(std::cin, instruction);

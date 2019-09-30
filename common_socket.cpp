@@ -100,7 +100,7 @@ int Socket::receive(char *buffer, size_t length) {
     bool is_the_socket_valid = true;
 
     while (received < length && is_the_socket_valid) {
-        s = recv(this->skt, &buffer[received], sizeof(char), MSG_NOSIGNAL);
+        s = ::recv(this->skt, &buffer[received], sizeof(char), MSG_NOSIGNAL);
 
         if (s == 0)
             is_the_socket_valid = false;
@@ -111,6 +111,7 @@ int Socket::receive(char *buffer, size_t length) {
 
         if (strncmp(&buffer[received - 1], "\n", 1) == 0)
             is_the_socket_valid = false;
+
     }
 
     *std::remove(buffer, buffer + strlen(buffer), '\n') = '\0';

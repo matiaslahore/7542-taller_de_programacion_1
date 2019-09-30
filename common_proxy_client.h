@@ -18,7 +18,7 @@ private:
 public:
     common_proxy_client(char *configPath);
 
-    std::string recive();
+    std::string receive();
 
     void send(std::string response);
 
