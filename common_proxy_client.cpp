@@ -13,28 +13,41 @@
 #define LOGIN_USER_COMMAND "USER"
 #define LOGIN_PSW_COMMAND "PASS"
 
-common_proxy_client::common_proxy_client() = default;
+common_proxy_client::common_proxy_client(char *configPath) {
+    this->skt = new Socket();
+    this->ftp = new common_ftp(configPath);
+    this->skt->bindAndListen(1050);
+    this->sktA = this->skt->accept();
+}
 
-std::string common_proxy_client::send_command(char *instruction) {
+std::string common_proxy_client::recive() {
+    char instruction[20] = "";
+    this->sktA.receive(instruction, sizeof(instruction));
 
-    //recive un comando y llama a ejecutar algo al server
     if (strncmp(instruction, MKD_COMMAND, 3) == 0)
-        return this->sserver.createFolder(&instruction[4]);
+        return this->ftp->createFolder(&instruction[4]);
     else if (strncmp(instruction, PWD_COMMAND, 3) == 0)
-        return this->sserver.getPwd();
+        return this->ftp->getPwd();
     else if (strncmp(instruction, LIST_COMMAND, 4) == 0)
-        return this->sserver.getList();
+        return this->ftp->getList();
     else if (strncmp(instruction, RMD_COMMAND, 3) == 0)
-        return this->sserver.removeDirectory(&instruction[4]);
+        return this->ftp->removeDirectory(&instruction[4]);
     else if (strncmp(instruction, LOGIN_USER_COMMAND, 4) == 0)
-        return this->sserver.loginUser(&instruction[5]);
+        return this->ftp->loginUser(&instruction[5]);
     else if (strncmp(instruction, LOGIN_PSW_COMMAND, 4) == 0)
-        return this->sserver.loginPsw(&instruction[5]);
+        return this->ftp->loginPsw(&instruction[5]);
     else if (strncmp(instruction, QUIT_COMMAND, 4) == 0)
-        return this->sserver.quit();
+        return this->ftp->quit();
     else
-        return this->sserver.getUnknownCommand();
+        return this->ftp->getUnknownCommand();
 
 }
 
-common_proxy_client::~common_proxy_client() = default;
+void common_proxy_client::send(std::string response) {
+    this->sktA.send(response.c_str(), strlen(response.c_str()));
+}
+
+common_proxy_client::~common_proxy_client() {
+    delete this->skt;
+    delete this->ftp;
+}

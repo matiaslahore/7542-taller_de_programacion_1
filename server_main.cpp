@@ -10,7 +10,6 @@ int main(int argc, char *argv[]) {
         return 0;
     }
 
-
     common_server server;
     server.run_server();
 

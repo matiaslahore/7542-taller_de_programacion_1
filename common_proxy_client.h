@@ -6,15 +6,21 @@
 #define CMAKE_DEMO_COMMON_PROXY_CLIENT_H
 
 
-#include "common_server.h"
+#include "common_socket.h"
+#include "common_ftp.h"
 
 class common_proxy_client {
 private:
-    common_server sserver;
-public:
-    common_proxy_client();
+    Socket *skt;
+    Socket sktA;
+    common_ftp *ftp;
 
-    std::string send_command(char *instruction);
+public:
+    common_proxy_client(char *configPath);
+
+    std::string recive();
+
+    void send(std::string response);
 
     ~common_proxy_client();
 };

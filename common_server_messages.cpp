@@ -86,22 +86,22 @@ std::string common_server_messages::getPassword() {
 std::string common_server_messages::getMkdSuccess(const std::string &foldName) {
     std::string pre = SUCCESS_CODE;
     pre += "\"" + foldName + "\" ";
-    return this->createMessage(MKD_SUCCESS_MESSAGE, pre, "");
+    return this->createMessage(MKD_SUCCESS_MESSAGE, pre, "\n");
 }
 
 std::string common_server_messages::getMkdFail() {
     std::string pre = FAIL_CODE;
-    return this->createMessage(MKD_FAIL_MESSAGE, pre, "");
+    return this->createMessage(MKD_FAIL_MESSAGE, pre, "\n");
 }
 
 std::string common_server_messages::getUnknownCommand() {
     std::string pre = UNKNOWN_COMMAND_CODE;
-    return this->createMessage(UNKNOWN_COMMAND_MESSAGE, pre, "");
+    return this->createMessage(UNKNOWN_COMMAND_MESSAGE, pre, "\n");
 }
 
 std::string common_server_messages::getPwdSuccess() {
     std::string pre = SUCCESS_CODE;
-    return this->createMessage(PWD_SUCCESS_MESSAGE, pre, "");
+    return this->createMessage(PWD_SUCCESS_MESSAGE, pre, "\n");
 }
 
 std::string common_server_messages::getListFolders(const std::string &folders) {
@@ -109,43 +109,43 @@ std::string common_server_messages::getListFolders(const std::string &folders) {
     std::string response = this->createMessage(LIST_DIR_START_MESSAGE, pre, "") + "\n";
     response += folders;
     std::string pre2 = LIST_DIR_END_CODE;
-    response += this->createMessage(LIST_DIR_END_MESSAGE, pre2, "");
+    response += this->createMessage(LIST_DIR_END_MESSAGE, pre2, "\n");
     return response;
 }
 
 std::string common_server_messages::getRemoveSuccess() {
     std::string pre = SUCCESS_RMD_CODE;
-    return this->createMessage(RMD_SUCCESS_MESSAGE, pre, "");
+    return this->createMessage(RMD_SUCCESS_MESSAGE, pre, "\n");
 }
 
 std::string common_server_messages::getRemoveFail() {
     std::string pre = FAIL_CODE;
-    return this->createMessage(RMD_FAIL_MESSAGE, pre, "");
+    return this->createMessage(RMD_FAIL_MESSAGE, pre, "\n");
 }
 
 std::string common_server_messages::getQuit() {
     std::string pre = QUIT_SUCCESS_CODE;
-    return this->createMessage(QUIT_SUCCESS_MESSAGE, pre, "");
+    return this->createMessage(QUIT_SUCCESS_MESSAGE, pre, "\n");
 }
 
 std::string common_server_messages::getPswRequired() {
     std::string pre = PSW_REQ_CODE;
-    return this->createMessage(PSW_REQ_MESSAGE, pre, "");
+    return this->createMessage(PSW_REQ_MESSAGE, pre, "\n");
 }
 
 std::string common_server_messages::getLoginSuccess() {
     std::string pre = LOGIN_SUCCESS_CODE;
-    return this->createMessage(LOGIN_SUCCESS_MESSAGE, pre, "");
+    return this->createMessage(LOGIN_SUCCESS_MESSAGE, pre, "\n");
 }
 
 std::string common_server_messages::getLoginFail() {
     std::string pre = LOGIN_FAIL_CODE;
-    return this->createMessage(LOGIN_FAIL_MESSAGE, pre, "");
+    return this->createMessage(LOGIN_FAIL_MESSAGE, pre, "\n");
 }
 
 std::string common_server_messages::getLoginRequired() {
     std::string pre = LOGIN_FAIL_CODE;
-    return this->createMessage(LOGIN_REQ_MESSAGE, pre, "");
+    return this->createMessage(LOGIN_REQ_MESSAGE, pre, "\n");
 }
 
 common_server_messages::~common_server_messages() = default;

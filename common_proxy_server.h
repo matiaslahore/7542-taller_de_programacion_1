@@ -5,11 +5,8 @@
 #ifndef CMAKE_DEMO_COMMON_PROXY_SERVER_H
 #define CMAKE_DEMO_COMMON_PROXY_SERVER_H
 
-#include "common_proxy.h"
-
 class common_proxy_server {
 private:
-    common_proxy commonProxy;
 
 public:
     common_proxy_server();

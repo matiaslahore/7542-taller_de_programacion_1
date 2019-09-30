@@ -8,33 +8,16 @@
 #include "common_ftp.h"
 #include "common_server_messages.h"
 #include "common_login.h"
+#include "common_proxy_client.h"
 
 class common_server {
 private:
-    common_ftp sftp;
-    common_server_messages *msg;
-    common_login *slogin;
+    common_proxy_client *client;
 
 public:
     common_server();
 
     void run_server();
-
-    std::string createFolder(char *folderName);
-
-    std::string getPwd();
-
-    std::string getUnknownCommand();
-
-    std::string getList();
-
-    std::string removeDirectory(char *folderName);
-
-    std::string quit();
-
-    std::string loginUser(char *userName);
-
-    std::string loginPsw(char *psw);
 
     ~common_server();
 };

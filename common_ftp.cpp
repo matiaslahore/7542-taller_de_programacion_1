@@ -6,18 +6,59 @@
 #include "common_ftp.h"
 
 
-common_ftp::common_ftp() = default;
-
-bool common_ftp::newFolder(char *folderName) {
-    return this->dir.createFolder(folderName);
+common_ftp::common_ftp( char *configPath) {
+    this->msg = new common_server_messages(configPath);
+    this->login = new common_login(this->msg->getUsername(),
+                                   this->msg->getPassword());
 }
 
-std::string common_ftp::listFolders() {
-    return this->dir.listFolders();
+common_ftp::~common_ftp() {
+    delete this->msg;
+    delete this->login;
 }
 
-bool common_ftp::removeFolder(char *folderName) {
-    return this->dir.removeFolder(folderName);
+std::string common_ftp::createFolder(char *folderName) {
+    if (!this->login->isLogged()) return this->msg->getLoginRequired();
+    if (this->dir.createFolder(folderName))
+        return this->msg->getMkdSuccess(folderName);
+
+    return this->msg->getMkdFail();
 }
 
-common_ftp::~common_ftp() = default;
+std::string common_ftp::getPwd() {
+    if (!this->login->isLogged()) return this->msg->getLoginRequired();
+    return this->msg->getPwdSuccess();
+}
+
+std::string common_ftp::getUnknownCommand() {
+    return this->msg->getUnknownCommand();
+}
+
+std::string common_ftp::getList() {
+    if (!this->login->isLogged()) return this->msg->getLoginRequired();
+    return this->msg->getListFolders(this->dir.listFolders());
+}
+
+std::string common_ftp::removeDirectory(char *folderName) {
+    if (!this->login->isLogged()) return this->msg->getLoginRequired();
+    if (this->dir.removeFolder(folderName))
+        return this->msg->getRemoveSuccess();
+
+    return this->msg->getRemoveFail();
+}
+
+std::string common_ftp::quit() {
+    return this->msg->getQuit();
+}
+
+std::string common_ftp::loginUser(char *userName) {
+    this->login->loginUser(userName);
+    return this->msg->getPswRequired();
+}
+
+std::string common_ftp::loginPsw(char *psw) {
+    if (this->login->loginPsw(psw))
+        return this->msg->getLoginSuccess();
+
+    return this->msg->getLoginFail();
+}

@@ -8,20 +8,35 @@
 
 #include <string>
 #include "common_directory.h"
+#include "common_server_messages.h"
+#include "common_login.h"
 
 class common_ftp {
 private:
     common_directory dir;
-public:
-    common_ftp();
+    common_server_messages *msg;
+    common_login *login;
 
-    bool newFolder(char *folderName);
+public:
+    common_ftp(char *configPath);
 
     ~common_ftp();
 
-    std::string listFolders();
+    std::string createFolder(char *folderName);
 
-    bool removeFolder(char *folderName);
+    std::string getPwd();
+
+    std::string getUnknownCommand();
+
+    std::string getList();
+
+    std::string removeDirectory(char *folderName);
+
+    std::string quit();
+
+    std::string loginUser(char *userName);
+
+    std::string loginPsw(char *psw);
 };
 
 
