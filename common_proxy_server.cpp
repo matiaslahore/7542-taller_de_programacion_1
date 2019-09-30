@@ -2,14 +2,13 @@
 // Created by mati on 25/9/19.
 //
 
-#include <string>
 #include <cstring>
 #include "common_proxy_server.h"
 
 #define QUIT_COMMAND "QUIT"
 
-common_proxy_server::common_proxy_server() {
-    this->skt.connect("127.0.0.1", 1050);
+common_proxy_server::common_proxy_server(char *host, int port) {
+    this->skt.connect(host, port);
 }
 
 void common_proxy_server::send(std::string instruction) {

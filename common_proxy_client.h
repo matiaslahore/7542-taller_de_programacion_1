@@ -16,7 +16,7 @@ private:
     common_ftp *ftp;
 
 public:
-    common_proxy_client(char *configPath);
+    common_proxy_client(char *configPath, int port);
 
     std::string receive();
 

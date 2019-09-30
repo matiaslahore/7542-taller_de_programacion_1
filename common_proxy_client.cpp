@@ -13,10 +13,10 @@
 #define LOGIN_USER_COMMAND "USER"
 #define LOGIN_PSW_COMMAND "PASS"
 
-common_proxy_client::common_proxy_client(char *configPath) {
+common_proxy_client::common_proxy_client(char *configPath, int port) {
     this->skt = new Socket();
     this->ftp = new common_ftp(configPath);
-    this->skt->bindAndListen(1050);
+    this->skt->bindAndListen(port);
     this->sktA = this->skt->accept();
 }
 
@@ -40,7 +40,6 @@ std::string common_proxy_client::receive() {
         return this->ftp->quit();
     else
         return this->ftp->getUnknownCommand();
-
 }
 
 void common_proxy_client::send(std::string response) {

@@ -15,7 +15,7 @@ private:
     common_proxy_client *client;
 
 public:
-    common_server();
+    common_server(char *port, char *configPath);
 
     void run_server();
 

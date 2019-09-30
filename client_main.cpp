@@ -10,7 +10,7 @@ int main(int argc, char *argv[]) {
         return 1;
     }
 
-    common_client client;
+    common_client client(argv[1], argv[2]);
     client.run_client();
 
     return 0;

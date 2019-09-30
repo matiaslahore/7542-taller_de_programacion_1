@@ -9,10 +9,10 @@
 
 class common_client {
 private:
-    common_proxy_server proxyServer;
+    common_proxy_server *proxyServer;
 
 public:
-    common_client();
+    common_client(char *host, char *port);
 
     void run_client();
 
