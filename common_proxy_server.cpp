@@ -16,9 +16,6 @@ void common_proxy_server::send(std::string instruction) {
     const char *cstr = instruction.c_str();
 
     this->skt.send(cstr, strlen(cstr));
-
-    if (strncmp(cstr, QUIT_COMMAND, 4) == 0)
-        throw std::exception();
 }
 
 void common_proxy_server::receive() {
