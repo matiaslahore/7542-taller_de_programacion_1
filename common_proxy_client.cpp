@@ -13,16 +13,23 @@
 #define LOGIN_USER_COMMAND "USER"
 #define LOGIN_PSW_COMMAND "PASS"
 
-common_proxy_client::common_proxy_client(char *configPath, int port) {
-    this->skt = new Socket();
-    this->ftp = new common_ftp(configPath);
-    this->skt->bindAndListen(port);
-    this->sktA = this->skt->accept();
+common_proxy_client::common_proxy_client(common_ftp *ftp, Socket *skt) {
+    this->ftp = ftp;
+    this->skt = skt;
+}
+
+void common_proxy_client::run() {
+    std::string response;
+
+    while (!exit) {
+        std::string response = this->receive();
+        this->send(response);
+    }
 }
 
 std::string common_proxy_client::receive() {
     char instruction[10] = "";
-    this->sktA.receive(instruction, sizeof(instruction));
+    this->skt->receive(instruction, sizeof(instruction));
 
     if (strncmp(instruction, MKD_COMMAND, 3) == 0)
         return this->ftp->createFolder(&instruction[4]);
@@ -42,11 +49,21 @@ std::string common_proxy_client::receive() {
         return this->ftp->getUnknownCommand();
 }
 
-void common_proxy_client::send(std::string response) {
-    this->sktA.send(response.c_str(), strlen(response.c_str()));
+void common_proxy_client::send(const std::string &response) {
+    this->skt->send(response.c_str(), strlen(response.c_str()));
+}
+
+bool common_proxy_client::is_dead() {
+    return this->exit;
+}
+
+void common_proxy_client::stop() {
+    this->skt->shutdown();
+    this->exit = true;
 }
 
 common_proxy_client::~common_proxy_client() {
+    if (!this->exit)
+        this->skt->shutdown();
     delete this->skt;
-    delete this->ftp;
 }

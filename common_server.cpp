@@ -9,20 +9,18 @@
 
 common_server::common_server(char *port, char *configPath) {
     int port_i = atoi(port);
-    this->client = new common_proxy_client(configPath, port_i);
+    this->skt = new Socket();
+    this->skt->bindAndListen(port_i);
+    this->ftp = new common_ftp(configPath);
 }
 
-void common_server::run_server() {
-    bool exit = false;
-    std::string instruction;
+void common_server::run() {
+    this->acceptor = new common_acceptor(this->ftp, this->skt);
+    this->acceptor->start();
+}
 
-    while (!exit) {
-        std::string response = this->client->receive();
-        this->client->send(response);
-
-        //std::getline(std::cin, instruction);
-        //if (instruction == "q") exit = true;
-    }
+void common_server::stop(){
+    this->acceptor->stop();
 }
 
 common_server::~common_server() {

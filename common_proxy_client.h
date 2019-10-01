@@ -8,21 +8,28 @@
 
 #include "common_socket.h"
 #include "common_ftp.h"
+#include "Thread.h"
 
-class common_proxy_client {
+class common_proxy_client : public Thread {
 private:
     Socket *skt;
-    Socket sktA;
     common_ftp *ftp;
+    bool exit = false;
 
 public:
-    common_proxy_client(char *configPath, int port);
+    common_proxy_client(common_ftp *ftp, Socket *skt);
+
+    virtual void run();
 
     std::string receive();
 
-    void send(std::string response);
+    void send(const std::string& response);
 
     ~common_proxy_client();
+
+    bool is_dead();
+
+    void stop();
 };
 
 
