@@ -5,6 +5,8 @@
 #ifndef CMAKE_DEMO_directory_H
 #define CMAKE_DEMO_directory_H
 
+#include <mutex>
+#include "Lock.h"
 #include <string>
 #include <unordered_set>
 
@@ -12,7 +14,9 @@
 
 class common_directory {
 private:
-    std::unordered_set<std::string> directories;
+    std::mutex mtx;
+    std::unordered_set<std::string> *directories;
+
 public:
     common_directory();
 

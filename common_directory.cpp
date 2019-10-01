@@ -5,28 +5,26 @@
 #include "common_directory.h"
 
 common_directory::common_directory() {
-
-}
-
-common_directory::~common_directory() {
-
+    this->directories = new std::unordered_set<std::string>();
 }
 
 bool common_directory::createFolder(char *folderName) {
     std::string strToInsert(folderName);
+    Lock l(this->mtx);
 
-    if (this->directories.find(strToInsert) != this->directories.end())
+    if (this->directories->find(strToInsert) != this->directories->end())
         return false;
 
-    this->directories.insert(strToInsert);
+    this->directories->insert(strToInsert);
     return true;
 }
 
 std::string common_directory::listFolders() {
     std::string response;
     std::unordered_set<std::string>::iterator itr;
+    Lock l(this->mtx);
 
-    for (const std::string &x: this->directories)
+    for (const std::string &x: *this->directories)
         response += FOLDERS_META_DATA + x + "\n";
 
     return response;
@@ -34,10 +32,13 @@ std::string common_directory::listFolders() {
 
 bool common_directory::removeFolder(char *folderName) {
     std::string strToRemove(folderName);
+    Lock l(this->mtx);
 
-    if (this->directories.find(strToRemove) == this->directories.end())
+    if (this->directories->find(strToRemove) == this->directories->end())
         return false;
 
-    this->directories.erase(strToRemove);
+    this->directories->erase(strToRemove);
     return true;
 }
+
+common_directory::~common_directory() = default;
