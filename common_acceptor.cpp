@@ -23,7 +23,6 @@ void common_acceptor::run() {
 
         for (int i = 0; i < (int) this->clients.size(); i++) {
             if (this->clients[i]->is_dead()) {
-                printf("cleanning clients\n");
                 this->clients[i]->join();
                 delete this->clients[i];
             }

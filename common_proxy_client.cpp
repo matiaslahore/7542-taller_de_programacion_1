@@ -22,7 +22,7 @@ void common_proxy_client::run() {
     std::string response;
 
     while (!exit) {
-        std::string response = this->receive();
+        response = this->receive();
         this->send(response);
     }
 }
