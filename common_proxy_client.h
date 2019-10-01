@@ -9,6 +9,7 @@
 #include "common_socket.h"
 #include "common_ftp.h"
 #include "Thread.h"
+#include <string>
 
 class common_proxy_client : public Thread {
 private:

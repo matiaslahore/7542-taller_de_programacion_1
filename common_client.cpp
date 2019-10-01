@@ -3,6 +3,7 @@
 //
 
 #include <iostream>
+#include <string>
 #include "common_client.h"
 
 common_client::common_client(char *host, char *port) {

@@ -7,10 +7,8 @@
 
 #include <string>
 
-
 class common_login {
 private:
-
     std::string validUser;
     std::string validPsw;
     std::string user;

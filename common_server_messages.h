@@ -37,6 +37,22 @@
 #define USERNAME "user"
 #define PASS "password"
 
+#define DEF_LIST_DIR_S_MESSAGE "Here comes the directory listing."
+#define DEF_LIST_DIR_END_MESSAGE "Directory send OK."
+#define DEF_MKD_SUCCESS_MESSAGE "created"
+#define DEF_MKD_FAIL_MESSAGE "Create Directory operation failed"
+#define DEF_PWD_SUCCESS_MESSAGE "\"/home/admin/ftp\" is the current directory."
+#define DEF_UNKNOWN_COMMAND_MESSAGE "Unknown command."
+#define DEF_RMD_SUCCESS_MESSAGE "Remove directory operation successful."
+#define DEF_RMD_FAIL_MESSAGE  "Remove directory operation failed."
+#define DEF_QUIT_SUCCESS_MESSAGE "Goodbye."
+#define DEF_PSW_REQ_MESSAGE "Please specify the password."
+#define DEF_LOGIN_SUCCESS_MESSAGE "Login successful."
+#define DEF_LOGIN_FAIL_MESSAGE "Login incorrect."
+#define DEF_LOGIN_REQ_MESSAGE "Please login with USER and PASS."
+#define DEF_USERNAME "u"
+#define DEF_PASS "p"
+
 
 class common_server_messages {
 private:
@@ -49,7 +65,7 @@ private:
     std::string getConfigValue(const std::string &key);
 
 public:
-    common_server_messages(char *config);
+    explicit common_server_messages(char *config);
 
     std::string getMkdSuccess(const std::string &name);
 

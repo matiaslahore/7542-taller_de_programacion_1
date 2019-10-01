@@ -2,6 +2,7 @@
 #include <cstring>
 #include <cstdio>
 #include <iostream>
+#include <string>
 #include "common_server.h"
 
 int main(int argc, char *argv[]) {

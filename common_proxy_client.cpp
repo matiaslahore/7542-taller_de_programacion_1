@@ -2,8 +2,9 @@
 // Created by mati on 25/9/19.
 //
 
-#include "common_proxy_client.h"
 #include <cstring>
+#include <string>
+#include "common_proxy_client.h"
 
 #define MKD_COMMAND "MKD"
 #define PWD_COMMAND "PWD"

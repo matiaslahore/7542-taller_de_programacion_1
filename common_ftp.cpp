@@ -5,8 +5,7 @@
 #include <string>
 #include "common_ftp.h"
 
-
-common_ftp::common_ftp( char *configPath) {
+common_ftp::common_ftp(char *configPath) {
     this->msg = new common_server_messages(configPath);
     this->login = new common_login(this->msg->getUsername(),
                                    this->msg->getPassword());

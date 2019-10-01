@@ -5,7 +5,6 @@
 #ifndef CMAKE_DEMO_COMMON_FTP_H
 #define CMAKE_DEMO_COMMON_FTP_H
 
-
 #include <string>
 #include "common_directory.h"
 #include "common_server_messages.h"
@@ -18,7 +17,7 @@ private:
     common_login *login;
 
 public:
-    common_ftp(char *configPath);
+    explicit common_ftp(char *configPath);
 
     ~common_ftp();
 

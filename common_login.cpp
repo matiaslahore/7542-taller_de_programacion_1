@@ -3,7 +3,7 @@
 //
 
 #include "common_login.h"
-
+#include <string>
 #include <utility>
 
 common_login::common_login(std::string validUser, std::string validPsw) {

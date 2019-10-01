@@ -3,6 +3,7 @@
 //
 
 #include "common_directory.h"
+#include <string>
 
 common_directory::common_directory() {
     this->directories = new std::unordered_set<std::string>();

@@ -12,7 +12,7 @@ private:
     std::mutex &m;
 
 public:
-    Lock(std::mutex &m) : m(m) {
+    explicit Lock(std::mutex &m) : m(m) {
         m.lock();
     }
 
@@ -28,5 +28,4 @@ private:
     Lock(Lock &&) = delete;
 
     Lock &operator=(Lock &&) = delete;
-
 };

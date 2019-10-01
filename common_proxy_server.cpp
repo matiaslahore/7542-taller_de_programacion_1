@@ -3,6 +3,7 @@
 //
 
 #include <cstring>
+#include <string>
 #include "common_proxy_server.h"
 
 #define QUIT_COMMAND "QUIT"
