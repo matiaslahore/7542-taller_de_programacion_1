@@ -38,7 +38,7 @@ std::string common_ftp::getList() {
     return this->msg->getListFolders(this->dir.listFolders());
 }
 
-std::string common_ftp::removeDirectory(char *folderName) {
+std::string common_ftp::removeFolder(char *folderName) {
     if (!this->login->isLogged()) return this->msg->getLoginRequired();
     if (this->dir.removeFolder(folderName))
         return this->msg->getRemoveSuccess();

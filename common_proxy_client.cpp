@@ -39,7 +39,7 @@ std::string common_proxy_client::receive() {
     else if (strncmp(instruction, LIST_COMMAND, 4) == 0)
         return this->ftp->getList();
     else if (strncmp(instruction, RMD_COMMAND, 3) == 0)
-        return this->ftp->removeDirectory(&instruction[4]);
+        return this->ftp->removeFolder(&instruction[4]);
     else if (strncmp(instruction, LOGIN_USER_COMMAND, 4) == 0)
         return this->ftp->loginUser(&instruction[5]);
     else if (strncmp(instruction, LOGIN_PSW_COMMAND, 4) == 0)

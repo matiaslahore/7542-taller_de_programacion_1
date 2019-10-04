@@ -29,7 +29,7 @@ public:
 
     std::string getList();
 
-    std::string removeDirectory(char *folderName);
+    std::string removeFolder(char *folderName);
 
     std::string quit();
 

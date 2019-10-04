@@ -18,7 +18,6 @@ int main(int argc, char *argv[]) {
         std::cin >> quit;
         if (quit == "q") break;
     }
-    printf("stoping..\n");
 
     server->stop();
     server->join();

@@ -4,7 +4,6 @@
 
 #include "common_acceptor.h"
 
-
 common_acceptor::common_acceptor(common_ftp *ftp, Socket *skt) {
     this->skt = skt;
     this->ftp = ftp;
