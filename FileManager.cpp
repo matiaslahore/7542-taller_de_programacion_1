@@ -64,7 +64,7 @@ std::vector<uint32_t> FileManager::getBlock(unsigned int thread_id) {
         this->pos_threads[thread_id] += to_read * this->seek;
     }
 
-    free(block);
+    delete [] block;
 
     return block_v;
 }
