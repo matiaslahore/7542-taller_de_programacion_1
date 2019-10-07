@@ -22,7 +22,7 @@ void QueueToFile::run() {
         for (int i = 0; (i < (int) this->queues.size()); i++) {
             buff = this->queues.at(i)->pullData();
             if (buff.length() > 0)
-                this->fileManager->saveStream(buff);
+                this->fileManager->saveStream(&buff);
             else
                 running = false;
         }

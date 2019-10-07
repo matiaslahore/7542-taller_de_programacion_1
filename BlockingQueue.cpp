@@ -35,7 +35,6 @@ std::string BlockingQueue::pullData() {
 }
 
 void BlockingQueue::freeQ() {
+    //manda un string vacio para que queuetofile termine
     this->pushData("");
 }
-
-BlockingQueue::~BlockingQueue() = default;

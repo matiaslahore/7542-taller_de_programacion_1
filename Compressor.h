@@ -35,9 +35,6 @@ public:
                unsigned int thread_id);
 
     virtual void run();
-
-    ~Compressor();
 };
-
 
 #endif //CMAKE_DEMO_COMPRESSOR_H

@@ -26,8 +26,6 @@ public:
     std::string pullData();
 
     void freeQ();
-
-    ~BlockingQueue();
 };
 
 #endif //CMAKE_DEMO_BLOCKINGQUEUE_H

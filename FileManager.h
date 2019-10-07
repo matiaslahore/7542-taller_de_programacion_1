@@ -29,7 +29,7 @@ public:
 
     std::vector<uint32_t> getBlock(unsigned int thread_id);
 
-    void saveStream(std::string s);
+    void saveStream(std::string *s);
 
     ~FileManager();
 };

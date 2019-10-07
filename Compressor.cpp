@@ -98,5 +98,3 @@ void Compressor::substract_min_to_block(std::vector<unsigned int> *block,
     for (int i = 0; i < (int) block->size(); i++)
         block->at(i) -= min;
 }
-
-Compressor::~Compressor() {}

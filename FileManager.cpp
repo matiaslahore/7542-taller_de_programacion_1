@@ -50,6 +50,7 @@ std::vector<uint32_t> FileManager::getBlock(unsigned int thread_id) {
 
     if (this->pos_threads[thread_id] < this->length) {
         unsigned int to_read = NUMBER_LENGHT * this->n;
+        //Si llega a fin de archivo leo solamente lo que resta
         if ((this->pos_threads[thread_id] + to_read) > this->length)
             to_read = this->length - this->pos_threads[thread_id];
 
@@ -69,8 +70,8 @@ std::vector<uint32_t> FileManager::getBlock(unsigned int thread_id) {
     return block_v;
 }
 
-void FileManager::saveStream(std::string s) {
-    this->buffer_s += s;
+void FileManager::saveStream(std::string *s) {
+    this->buffer_s += *s;
 
     while (this->buffer_s.length() >= MIN_BITS_TO_SAVE) {
         std::bitset<MIN_BITS_TO_SAVE> outNum(this->buffer_s);
