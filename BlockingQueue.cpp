@@ -12,34 +12,30 @@ BlockingQueue::BlockingQueue(unsigned int q) {
 int BlockingQueue::pushData(const std::string &s) {
     std::unique_lock<std::mutex> lock(this->m);
 
-    //cambiar esto por otra condition variable
-    if (this->s_queue.size() >= this->q)
-        return -1;
+    while (this->s_queue.size() >= this->q)
+        this->cond_var_push.wait(lock);
 
     this->s_queue.push(s);
-    this->cond_var.notify_all();
+    this->cond_var_pull.notify_all();
 
     return 0;
 }
 
 std::string BlockingQueue::pullData() {
-    std::string to_return = " ";
     std::unique_lock<std::mutex> lock(this->m);
 
-    while (this->s_queue.empty()) {  // loop to avoid spurious wakeups
-        this->cond_var.wait(lock);
-    }
+    while (this->s_queue.empty())
+        this->cond_var_pull.wait(lock);
 
-    if (!this->s_queue.empty()) {
-        to_return = this->s_queue.front();
-        this->s_queue.pop();
-    }
+    std::string to_return = this->s_queue.front();
+    this->s_queue.pop();
+    this->cond_var_push.notify_all();
 
     return to_return;
 }
 
 void BlockingQueue::freeQ() {
-    while (this->pushData("") == -1) {} //send end of data to queue
+    this->pushData("");
 }
 
 BlockingQueue::~BlockingQueue() = default;

@@ -17,7 +17,7 @@ Compressor::Compressor(unsigned int n, FileManager *fileManager,
 }
 
 void Compressor::run() {
-    std::vector<unsigned int> block;
+    std::vector<uint32_t> block;
     block = this->fileManager->getBlock(this->thread_id);
 
     while (block.size() > 0) {
@@ -49,9 +49,7 @@ void Compressor::run() {
             s += "0";
 
         //encola el bloque comprimido
-        int resp = -1;
-        while (resp == -1)
-            resp = this->bq->pushData(s);
+        this->bq->pushData(s);
 
         block = this->fileManager->getBlock(this->thread_id);
     }

@@ -15,7 +15,9 @@ private:
     std::queue<std::string> s_queue;
     unsigned int q;
     std::mutex m;
-    std::condition_variable cond_var;
+    std::condition_variable cond_var_pull;
+    std::condition_variable cond_var_push;
+
 public:
     explicit BlockingQueue(unsigned int q);
 

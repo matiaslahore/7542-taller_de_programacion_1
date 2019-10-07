@@ -17,7 +17,7 @@ FileManager::FileManager(unsigned int n, unsigned int quantity_threads,
                          unsigned int num_per_block, std::mutex &m) : m(m) {
     this->n = n;
     unsigned int q = 0;
-    this->seek = (NUMBER_LENGHT * num_per_block * quantity_threads);
+    this->seek = quantity_threads;
 
     for (unsigned int i = 0; i < quantity_threads; ++i) {
         this->pos_threads.push_back(q);
@@ -37,29 +37,36 @@ int FileManager::startFileManager(const char *infile, const char *outfile) {
 
     if ((!fin.is_open()) || (!fout.is_open())) return EXIT_FAILURE;
 
+    this->fin.seekg(0, this->fin.end);
+    this->length = this->fin.tellg();
+    this->fin.seekg(0, this->fin.beg);
+
     return 0;
 }
 
-std::vector<unsigned int> FileManager::getBlock(unsigned int thread_id) {
-    std::vector<unsigned int> block;
-    unsigned int i = 0;
-    uint32_t a;
+std::vector<uint32_t> FileManager::getBlock(unsigned int thread_id) {
+    uint32_t *block = new uint32_t[this->n];
+    std::vector<uint32_t> block_v;
 
-    this->m.lock();
-    this->fin.seekg(this->pos_threads[thread_id], std::ifstream::beg);
+    if (this->pos_threads[thread_id] < this->length) {
+        unsigned int to_read = NUMBER_LENGHT * this->n;
+        if ((this->pos_threads[thread_id] + to_read) > this->length)
+            to_read = this->length - this->pos_threads[thread_id];
 
-    //obtiene los numeros del archivo y los carga en block
-    for (; (i < this->n) && this->fin; i++) {
-        this->fin.read(reinterpret_cast<char *>(&a), NUMBER_LENGHT);
-        block.push_back(ntohl((a)));
+        this->m.lock();
+        this->fin.seekg(this->pos_threads[thread_id], std::ifstream::beg);
+        this->fin.read((char *) block, to_read);
+        this->m.unlock();
+
+        for (unsigned int i = 0; i < (to_read / NUMBER_LENGHT); i++)
+            block_v.push_back(ntohl((block[i])));
+
+        this->pos_threads[thread_id] += to_read * this->seek;
     }
 
-    this->pos_threads[thread_id] += this->seek;
-    this->m.unlock();
+    free(block);
 
-    if (i == 1) block.clear();
-
-    return block;
+    return block_v;
 }
 
 void FileManager::saveStream(std::string s) {
