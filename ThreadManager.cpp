@@ -31,14 +31,13 @@ int ThreadManager::run_thread_manager(unsigned int n, unsigned int q,
         threads.push_back(comp);
     }
 
-    threads.push_back(qtf);
-
-    //Run threads
-    for (unsigned int i = 0; i <= t; i++) {
+    //Run compressor threads
+    for (unsigned int i = 0; i < t; i++)
         threads[i]->start();
-    }
 
-    //join and deletes
+    qtf->start();
+
+    //join and deletes compressor threads
     for (unsigned int i = 0; i < t; i++) {
         threads[i]->join();
         delete threads[i];
