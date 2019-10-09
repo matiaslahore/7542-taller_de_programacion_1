@@ -10,6 +10,7 @@ int main(int argc, char *argv[]) {
         printf("faltan argumentos");
         return 0;
     }
+
     common_server *server = new common_server(argv[1], argv[2]);
     server->start();
 

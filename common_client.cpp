@@ -7,7 +7,7 @@
 #include "common_client.h"
 
 common_client::common_client(char *host, char *port) {
-    int port_i = atoi(port);
+    unsigned short port_i = atoi(port);
     this->proxyServer = new common_proxy_server(host, port_i);
 }
 

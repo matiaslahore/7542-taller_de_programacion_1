@@ -18,6 +18,10 @@ private:
 public:
     Socket();
 
+    Socket(const char *host_name, unsigned short port);
+
+    Socket(unsigned short port);
+
     int bindAndListen(unsigned short port);
 
     int connect(const char *host_name, unsigned short port);

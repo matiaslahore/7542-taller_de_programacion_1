@@ -9,7 +9,7 @@
 #define QUIT_COMMAND "QUIT"
 
 common_proxy_server::common_proxy_server(char *host, int port) {
-    this->skt.connect(host, port);
+    this->skt = Socket(host, port);
 }
 
 void common_proxy_server::send(std::string instruction) {
@@ -25,4 +25,5 @@ void common_proxy_server::receive() {
     printf("%s\n", response);
 }
 
-common_proxy_server::~common_proxy_server() = default;
+common_proxy_server::~common_proxy_server() {
+}

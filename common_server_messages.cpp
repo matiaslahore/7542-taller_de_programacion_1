@@ -55,7 +55,7 @@ common_server_messages::common_server_messages(char *config) {
     this->messages.insert({USERNAME,
                            !value.empty() ? value : DEF_USERNAME});
     value = this->getConfigValue(PASS);
-    this->messages.insert({DEF_PASS, !value.empty() ? value : DEF_PASS});
+    this->messages.insert({PASS, !value.empty() ? value : DEF_PASS});
 }
 
 std::string common_server_messages::getConfigValue(const std::string &key) {

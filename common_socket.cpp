@@ -20,6 +20,10 @@
 #include "common_socket.h"
 
 Socket::Socket() {
+    this->skt = -1;
+}
+
+Socket::Socket(const char *host_name, unsigned short port) {
     this->skt = socket(AF_INET, SOCK_STREAM, 0);
     if (this->skt == -1) throw -1;
 
@@ -28,6 +32,19 @@ Socket::Socket() {
     int s = setsockopt(sAux, SOL_SOCKET, SO_REUSEADDR, &value, sizeof(value));
 
     if (s == CONNECTION_FAIL) ::shutdown(this->skt, SHUT_RDWR);
+    this->connect(host_name, port);
+}
+
+Socket::Socket(unsigned short port) {
+    this->skt = socket(AF_INET, SOCK_STREAM, 0);
+    if (this->skt == -1) throw -1;
+
+    int value = 1;
+    int sAux = this->skt;
+    int s = setsockopt(sAux, SOL_SOCKET, SO_REUSEADDR, &value, sizeof(value));
+
+    if (s == CONNECTION_FAIL) ::shutdown(this->skt, SHUT_RDWR);
+    this->bindAndListen(port);
 }
 
 int Socket::bindAndListen(unsigned short port) {

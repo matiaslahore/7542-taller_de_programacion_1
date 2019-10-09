@@ -9,8 +9,8 @@
 
 common_server::common_server(char *port, char *configPath) {
     int port_i = atoi(port);
-    this->skt = new Socket();
-    this->skt->bindAndListen(port_i);
+    this->skt = new Socket(port_i);
+    //this->skt->bindAndListen(port_i);
     this->ftp = new common_ftp(configPath);
 }
 
