@@ -29,6 +29,10 @@ Socket::Socket() {
     if (s == CONNECTION_FAIL) ::shutdown(this->skt, SHUT_RDWR);
 }
 
+Socket::Socket(int sktt) {
+    this->skt = sktt;
+}
+
 int Socket::bindAndListen(unsigned short port) {
     struct sockaddr_in serv_addr;
 
@@ -63,8 +67,7 @@ int Socket::connect(const char *host_name, unsigned short port) {
 }
 
 Socket Socket::accept() {
-    Socket accepted;
-    accepted.skt = ::accept(this->skt, nullptr, nullptr);
+    Socket accepted(::accept(this->skt, nullptr, nullptr));
     if (accepted.invalid())
         throw std::exception();
 

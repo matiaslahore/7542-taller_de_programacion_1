@@ -14,6 +14,7 @@
 class Socket {
 private:
     int skt;
+    Socket(int sktt);
 
 public:
     Socket();
