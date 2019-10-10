@@ -19,6 +19,10 @@
 #include <algorithm>
 #include "common_socket.h"
 
+Socket::Socket(int skkt) {
+    this->skt = skkt;
+}
+
 Socket::Socket(const char *host_name, unsigned short port) {
     this->skt = socket(AF_INET, SOCK_STREAM, 0);
     if (this->skt == -1) throw -1;
@@ -77,7 +81,7 @@ int Socket::connect(const char *host_name, unsigned short port) {
 }
 
 Socket Socket::accept() {
-    Socket accepted = ::accept(this->skt, nullptr, nullptr);
+    Socket accepted(::accept(this->skt, nullptr, nullptr));
     if (accepted.invalid())
         throw std::exception();
 

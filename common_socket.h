@@ -15,6 +15,8 @@ class Socket {
 private:
     int skt;
 
+    Socket(int skkt);
+
 public:
     Socket(const char *host_name, unsigned short port);
 
@@ -36,9 +38,9 @@ public:
 
     ~Socket();
 
-    Socket(Socket&& other);
+    Socket(Socket &&other);
 
-    Socket& operator=(Socket&& other);
+    Socket &operator=(Socket &&other);
 };
 
 
