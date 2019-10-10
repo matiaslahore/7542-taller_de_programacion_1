@@ -10,7 +10,7 @@
 
 class common_proxy_server {
 private:
-    Socket skt;
+    Socket *skt;
 
 public:
     common_proxy_server(char *host, int port);
