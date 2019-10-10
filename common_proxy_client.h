@@ -14,11 +14,11 @@
 class common_proxy_client : public Thread {
 private:
     Socket &skt;
-    common_ftp &ftp;
+    common_ftp *ftp;
     bool exit = false;
 
 public:
-    common_proxy_client(common_ftp &ftp, Socket &skt);
+    common_proxy_client(Socket &skt, common_ftp *ftp);
 
     virtual void run();
 

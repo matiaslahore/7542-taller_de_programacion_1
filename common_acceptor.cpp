@@ -11,10 +11,10 @@ common_acceptor::common_acceptor(common_ftp *ftp, Socket *skt) {
 
 void common_acceptor::run() {
     while (!exit) {
-        Socket sktAccepted = std::move(this->skt->accept());
+        Socket sktAccepted(std::move(this->skt->accept()));
 
         common_proxy_client *client;
-        client = new common_proxy_client(*this->ftp, sktAccepted);
+        client = new common_proxy_client(sktAccepted, this->ftp);
         client->start();
 
         this->clients.push_back(client);

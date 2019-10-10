@@ -14,8 +14,8 @@
 #define LOGIN_USER_COMMAND "USER"
 #define LOGIN_PSW_COMMAND "PASS"
 
-common_proxy_client::common_proxy_client(common_ftp &ftp, Socket &skt) :
-        skt(skt), ftp(ftp){}
+common_proxy_client::common_proxy_client(Socket &skt, common_ftp *ftp) :
+        skt(skt) { this->ftp = ftp; }
 
 void common_proxy_client::run() {
     std::string response;
@@ -29,23 +29,24 @@ void common_proxy_client::run() {
 std::string common_proxy_client::receive() {
     char instruction[10] = "";
     this->skt.receive(instruction, sizeof(instruction));
+
 //ver strategy pattern
     if (strncmp(instruction, MKD_COMMAND, 3) == 0)
-        return this->ftp.createFolder(&instruction[4]);
+        return this->ftp->createFolder(&instruction[4]);
     else if (strncmp(instruction, PWD_COMMAND, 3) == 0)
-        return this->ftp.getPwd();
+        return this->ftp->getPwd();
     else if (strncmp(instruction, LIST_COMMAND, 4) == 0)
-        return this->ftp.getList();
+        return this->ftp->getList();
     else if (strncmp(instruction, RMD_COMMAND, 3) == 0)
-        return this->ftp.removeFolder(&instruction[4]);
+        return this->ftp->removeFolder(&instruction[4]);
     else if (strncmp(instruction, LOGIN_USER_COMMAND, 4) == 0)
-        return this->ftp.loginUser(&instruction[5]);
+        return this->ftp->loginUser(&instruction[5]);
     else if (strncmp(instruction, LOGIN_PSW_COMMAND, 4) == 0)
-        return this->ftp.loginPsw(&instruction[5]);
+        return this->ftp->loginPsw(&instruction[5]);
     else if (strncmp(instruction, QUIT_COMMAND, 4) == 0)
-        return this->ftp.quit();
+        return this->ftp->quit();
     else
-        return this->ftp.getUnknownCommand();
+        return this->ftp->getUnknownCommand();
 }
 
 void common_proxy_client::send(const std::string &response) {
