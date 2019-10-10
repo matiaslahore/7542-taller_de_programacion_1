@@ -9,20 +9,17 @@ int main(int argc, char *argv[]) {
         printf("faltan argumentos");
         return 0;
     }
-    common_server *server = new common_server(argv[1], argv[2]);
-    server->start();
+    common_server server(argv[1], argv[2]);
+    server.start();
 
     std::string quit;
     while (true) {
         std::cin >> quit;
         if (quit == "q") break;
     }
-    printf("stoping..\n");
 
-    server->stop();
-    server->join();
-
-    delete server;
+    server.stop();
+    server.join();
 
     return 0;
 }
