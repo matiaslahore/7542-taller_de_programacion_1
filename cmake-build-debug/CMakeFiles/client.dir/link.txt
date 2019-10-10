@@ -1,0 +1,1 @@
+/usr/bin/c++  -pthread -std=c++11 -O3 -g  -rdynamic CMakeFiles/client.dir/client_main.cpp.o CMakeFiles/client.dir/common_client.cpp.o CMakeFiles/client.dir/common_proxy_server.cpp.o CMakeFiles/client.dir/common_socket.cpp.o  -o client 

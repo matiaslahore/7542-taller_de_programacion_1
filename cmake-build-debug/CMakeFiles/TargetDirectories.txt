@@ -1,0 +1,4 @@
+/home/mati/Documents/FIUBA/taller/tp/cmake-build-debug/CMakeFiles/edit_cache.dir
+/home/mati/Documents/FIUBA/taller/tp/cmake-build-debug/CMakeFiles/client.dir
+/home/mati/Documents/FIUBA/taller/tp/cmake-build-debug/CMakeFiles/rebuild_cache.dir
+/home/mati/Documents/FIUBA/taller/tp/cmake-build-debug/CMakeFiles/server.dir

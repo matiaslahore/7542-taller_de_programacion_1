@@ -1,7 +1,4 @@
-.idea/
 *.o
-/cmake-build-debug
-CMakeLists.txt
 Makefile
 cpplint.py
 execute_valgrind_and_verify_result_code.sh
