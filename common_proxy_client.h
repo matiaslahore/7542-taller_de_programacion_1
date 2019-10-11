@@ -14,7 +14,7 @@ class common_proxy_client : public Thread {
 private:
     Socket *skt;
     common_ftp *ftp;
-    bool exit = false;
+    atomic bool exit = false;
 
 public:
     common_proxy_client(common_ftp *ftp, Socket *skt);
