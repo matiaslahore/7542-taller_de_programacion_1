@@ -15,7 +15,7 @@ private:
 public:
     common_proxy_server(char *host, int port);
 
-    void send(std::string instruction);
+    void send(std::string &instruction);
 
     void receive();
 

@@ -11,7 +11,7 @@ common_proxy_server::common_proxy_server(char *host, int port) {
     this->skt.connect(host, port);
 }
 
-void common_proxy_server::send(std::string instruction) {
+void common_proxy_server::send(std::string &instruction) {
     instruction += "\n";
     const char *cstr = instruction.c_str();
 

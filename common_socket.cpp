@@ -28,11 +28,6 @@ Socket::Socket() {
 
     if (s == CONNECTION_FAIL) ::shutdown(this->skt, SHUT_RDWR);
 }
-
-Socket::Socket(int sktt) {
-    this->skt = sktt;
-}
-
 int Socket::bindAndListen(unsigned short port) {
     struct sockaddr_in serv_addr;
 
@@ -42,8 +37,9 @@ int Socket::bindAndListen(unsigned short port) {
     bzero(&(serv_addr.sin_zero), sizeof(serv_addr.sin_zero));
 
     if (bind(this->skt, (struct sockaddr *) &serv_addr,
-             (socklen_t) sizeof(struct sockaddr)) == CONNECTION_FAIL)
-        return CONNECTION_FAIL;
+             (socklen_t)
+        sizeof(struct sockaddr)) == CONNECTION_FAIL)
+    return CONNECTION_FAIL;
 
     if (listen(this->skt, MAX_CLIENT) == -1)
         return CONNECTION_FAIL;
@@ -60,14 +56,16 @@ int Socket::connect(const char *host_name, unsigned short port) {
     bzero(address.sin_zero, sizeof(address.sin_zero));
 
     if (::connect(this->skt, (struct sockaddr *) &address,
-                  (socklen_t) sizeof(struct sockaddr)) == -1)
-        return CONNECTION_FAIL;
+                  (socklen_t)
+        sizeof(struct sockaddr)) == -1)
+    return CONNECTION_FAIL;
 
     return CONNECTION_SUCCESS;
 }
 
 Socket Socket::accept() {
-    Socket accepted(::accept(this->skt, nullptr, nullptr));
+    Socket accepted;
+    accepted.skt = ::accept(this->skt, nullptr, nullptr);
     if (accepted.invalid())
         throw std::exception();
 

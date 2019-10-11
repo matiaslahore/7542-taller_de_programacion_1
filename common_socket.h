@@ -14,7 +14,6 @@
 class Socket {
 private:
     int skt;
-    Socket(int sktt);
 
 public:
     Socket();
@@ -35,9 +34,9 @@ public:
 
     ~Socket();
 
-    Socket(Socket&& other);
+    Socket(Socket &&other);
 
-    Socket& operator=(Socket&& other);
+    Socket &operator=(Socket &&other);
 };
 
 
