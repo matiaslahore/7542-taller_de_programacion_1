@@ -6,10 +6,11 @@
 #include "common_ftp.h"
 
 
-common_ftp::common_ftp( char *configPath) {
+common_ftp::common_ftp(char *configPath) {
     this->msg = new common_server_messages(configPath);
-    this->login = new common_login(this->msg->getUsername(),
-                                   this->msg->getPassword());
+    std::string username = this->msg->getUsername();
+    std::string password = this->msg->getPassword();
+    this->login = new common_login(username, password);
 }
 
 common_ftp::~common_ftp() {
@@ -51,7 +52,7 @@ std::string common_ftp::quit() {
     return this->msg->getQuit();
 }
 
-std::string common_ftp::loginUser(char *userName) {
+std::string common_ftp::loginUser(std::string userName) {
     this->login->loginUser(userName);
     return this->msg->getPswRequired();
 }

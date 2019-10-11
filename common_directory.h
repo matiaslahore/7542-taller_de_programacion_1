@@ -8,14 +8,14 @@
 #include <mutex>
 #include "Lock.h"
 #include <string>
-#include <unordered_set>
+#include <set>
 
 #define FOLDERS_META_DATA "drwxrwxrwx 0 1000 4096 Sep 24 12:34 "
 
 class common_directory {
 private:
     std::mutex mtx;
-    std::unordered_set<std::string> *directories;
+    std::set<std::string> *directories;
 
 public:
     common_directory();

@@ -16,6 +16,7 @@
 common_proxy_client::common_proxy_client(common_ftp *ftp, Socket *skt) {
     this->ftp = ftp;
     this->skt = skt;
+    this->exit = false;
 }
 
 void common_proxy_client::run() {

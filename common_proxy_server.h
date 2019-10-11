@@ -8,6 +8,8 @@
 #include "common_socket.h"
 #include <string>
 
+#define MAX_RECV 500
+
 class common_proxy_server {
 private:
     Socket skt;

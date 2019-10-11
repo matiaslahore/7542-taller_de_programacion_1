@@ -5,7 +5,7 @@
 #include "common_directory.h"
 
 common_directory::common_directory() {
-    this->directories = new std::unordered_set<std::string>();
+    this->directories = new std::set<std::string>();
 }
 
 bool common_directory::createFolder(char *folderName) {
@@ -21,7 +21,7 @@ bool common_directory::createFolder(char *folderName) {
 
 std::string common_directory::listFolders() {
     std::string response;
-    std::unordered_set<std::string>::iterator itr;
+    std::set<std::string>::iterator itr;
     Lock l(this->mtx);
 
     for (const std::string &x: *this->directories)

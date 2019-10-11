@@ -34,7 +34,7 @@ public:
 
     std::string quit();
 
-    std::string loginUser(char *userName);
+    std::string loginUser(std::string userName);
 
     std::string loginPsw(char *psw);
 };

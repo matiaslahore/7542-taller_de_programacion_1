@@ -6,7 +6,7 @@
 
 #include <utility>
 
-common_login::common_login(std::string validUser, std::string validPsw) {
+common_login::common_login(std::string &validUser, std::string &validPsw) {
     this->validUser = std::move(validUser);
     this->validPsw = std::move(validPsw);
     this->logged = false;

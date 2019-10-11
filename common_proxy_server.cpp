@@ -3,6 +3,7 @@
 //
 
 #include <cstring>
+#include <vector>
 #include "common_proxy_server.h"
 
 #define QUIT_COMMAND "QUIT"
@@ -19,9 +20,10 @@ void common_proxy_server::send(std::string &instruction) {
 }
 
 void common_proxy_server::receive() {
-    char response[500] = "";
-    this->skt.receive(response, sizeof(response));
-    printf("%s\n", response);
+    std::vector<char> response;
+    response.resize(MAX_RECV);
+    this->skt.receive(response.data(), MAX_RECV);
+    printf("%s\n", response.data());
 }
 
 common_proxy_server::~common_proxy_server() = default;
