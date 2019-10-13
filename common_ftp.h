@@ -15,7 +15,6 @@ class common_ftp {
 private:
     common_directory dir;
     common_server_messages *msg;
-    common_login *login;
 
 public:
     common_ftp(char *configPath);
@@ -34,9 +33,17 @@ public:
 
     std::string quit();
 
-    std::string loginUser(const std::string &userName);
+    std::string getUserName();
 
-    std::string loginPsw(const std::string &psw);
+    std::string getPassword();
+
+    std::string getLoginRequired();
+
+    std::string getPswRequired();
+
+    std::string getLoginSuccess();
+
+    std::string getLoginFail();
 };
 
 

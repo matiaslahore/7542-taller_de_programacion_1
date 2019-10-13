@@ -10,16 +10,37 @@ common_ftp::common_ftp(char *configPath) {
     this->msg = new common_server_messages(configPath);
     std::string username = this->msg->getUsername();
     std::string password = this->msg->getPassword();
-    this->login = new common_login(username, password);
 }
 
 common_ftp::~common_ftp() {
     delete this->msg;
-    delete this->login;
+}
+
+std::string common_ftp::getUserName() {
+    return this->msg->getUsername();
+}
+
+std::string common_ftp::getPassword() {
+    return this->msg->getPassword();
+}
+
+std::string common_ftp::getLoginRequired() {
+    return this->msg->getLoginRequired();
+}
+
+std::string common_ftp::getPswRequired() {
+    return this->msg->getPswRequired();
+}
+
+std::string common_ftp::getLoginSuccess() {
+    return this->msg->getLoginSuccess();
+}
+
+std::string common_ftp::getLoginFail() {
+    return this->msg->getLoginFail();
 }
 
 std::string common_ftp::createFolder(const std::string &folderName) {
-    if (!this->login->isLogged()) return this->msg->getLoginRequired();
     if (this->dir.createFolder(folderName))
         return this->msg->getMkdSuccess(folderName);
 
@@ -27,7 +48,6 @@ std::string common_ftp::createFolder(const std::string &folderName) {
 }
 
 std::string common_ftp::getPwd() {
-    if (!this->login->isLogged()) return this->msg->getLoginRequired();
     return this->msg->getPwdSuccess();
 }
 
@@ -36,12 +56,10 @@ std::string common_ftp::getUnknownCommand() {
 }
 
 std::string common_ftp::getList() {
-    if (!this->login->isLogged()) return this->msg->getLoginRequired();
     return this->msg->getListFolders(this->dir.listFolders());
 }
 
 std::string common_ftp::removeDirectory(const std::string &folderName) {
-    if (!this->login->isLogged()) return this->msg->getLoginRequired();
     if (this->dir.removeFolder(folderName))
         return this->msg->getRemoveSuccess();
 
@@ -50,16 +68,4 @@ std::string common_ftp::removeDirectory(const std::string &folderName) {
 
 std::string common_ftp::quit() {
     return this->msg->getQuit();
-}
-
-std::string common_ftp::loginUser(const std::string &userName) {
-    this->login->loginUser(userName);
-    return this->msg->getPswRequired();
-}
-
-std::string common_ftp::loginPsw(const std::string &psw) {
-    if (this->login->loginPsw(psw))
-        return this->msg->getLoginSuccess();
-
-    return this->msg->getLoginFail();
 }

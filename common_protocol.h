@@ -5,10 +5,10 @@
 #ifndef CMAKE_DEMO_COMMON_PROTOCOL_H
 #define CMAKE_DEMO_COMMON_PROTOCOL_H
 
-#define MKD_COMMAND "MKD "
-#define PWD_COMMAND "PWD "
+#define MKD_COMMAND "MKD"
+#define PWD_COMMAND "PWD"
 #define LIST_COMMAND "LIST"
-#define RMD_COMMAND "RMD "
+#define RMD_COMMAND "RMD"
 #define QUIT_COMMAND "QUIT"
 #define LOGIN_USER_COMMAND "USER"
 #define LOGIN_PSW_COMMAND "PASS"
@@ -42,8 +42,10 @@ public:
 class BaseProtocol {
 protected:
     common_ftp *ftp;
+    common_login *login;
 public:
-    explicit BaseProtocol(common_ftp *ftp) : ftp(ftp) {};
+    explicit BaseProtocol(common_ftp *ftp, common_login *login) :
+            ftp(ftp), login(login) {};
 
     virtual std::string execute(std::vector<char> data) const {
         return this->ftp->getUnknownCommand();
@@ -52,38 +54,48 @@ public:
 
 class LoginUser : public BaseProtocol {
 public:
-    explicit LoginUser(common_ftp *ftp) : BaseProtocol(ftp) {}
+    explicit LoginUser(common_ftp *ftp, common_login *login) :
+            BaseProtocol(ftp, login) {}
 
     std::string execute(std::vector<char> data) const override {
-        std::string resp(data.begin() + 5, data.end());
-        return this->ftp->loginUser(resp);
+        std::string userName(data.begin() + 5, data.end());
+        this->login->loginUser(userName);
+        return this->ftp->getPswRequired();
     }
 };
 
 class LoginPass : public BaseProtocol {
 public:
-    explicit LoginPass(common_ftp *ftp) : BaseProtocol(ftp) {}
+    explicit LoginPass(common_ftp *ftp, common_login *login) :
+            BaseProtocol(ftp, login) {}
 
     std::string execute(std::vector<char> data) const override {
-        std::string resp(data.begin() + 5, data.end());
-        return this->ftp->loginPsw(resp);
+        std::string psw(data.begin() + 5, data.end());
+        if (this->login->loginPsw(psw))
+            return this->ftp->getLoginSuccess();
+
+        return this->ftp->getLoginFail();
     }
 };
 
 class Pwd : public BaseProtocol {
 public:
-    explicit Pwd(common_ftp *ftp) : BaseProtocol(ftp) {}
+    explicit Pwd(common_ftp *ftp, common_login *login) :
+            BaseProtocol(ftp, login) {}
 
     std::string execute(std::vector<char> data) const override {
+        if (!this->login->isLogged()) return this->ftp->getLoginRequired();
         return this->ftp->getPwd();
     }
 };
 
 class Mkd : public BaseProtocol {
 public:
-    explicit Mkd(common_ftp *ftp) : BaseProtocol(ftp) {}
+    explicit Mkd(common_ftp *ftp, common_login *login) :
+            BaseProtocol(ftp, login) {}
 
     std::string execute(std::vector<char> data) const override {
+        if (!this->login->isLogged()) return this->ftp->getLoginRequired();
         std::string resp(data.begin() + 4, data.end());
         return this->ftp->createFolder(resp);
     }
@@ -91,9 +103,11 @@ public:
 
 class Rmd : public BaseProtocol {
 public:
-    explicit Rmd(common_ftp *ftp) : BaseProtocol(ftp) {}
+    explicit Rmd(common_ftp *ftp, common_login *login) :
+            BaseProtocol(ftp, login) {}
 
     std::string execute(std::vector<char> data) const override {
+        if (!this->login->isLogged()) return this->ftp->getLoginRequired();
         std::string resp(data.begin() + 4, data.end());
         return this->ftp->removeDirectory(resp);
     }
@@ -101,16 +115,19 @@ public:
 
 class List : public BaseProtocol {
 public:
-    explicit List(common_ftp *ftp) : BaseProtocol(ftp) {}
+    explicit List(common_ftp *ftp, common_login *login) :
+            BaseProtocol(ftp, login) {}
 
     std::string execute(std::vector<char> data) const override {
+        if (!this->login->isLogged()) return this->ftp->getLoginRequired();
         return this->ftp->getList();
     }
 };
 
 class Quit : public BaseProtocol {
 public:
-    explicit Quit(common_ftp *ftp) : BaseProtocol(ftp) {}
+    explicit Quit(common_ftp *ftp, common_login *login) :
+            BaseProtocol(ftp, login) {}
 
     std::string execute(std::vector<char> data) const override {
         return this->ftp->quit();

@@ -13,8 +13,8 @@ common_login::common_login(std::string &validUser, std::string &validPsw) {
     this->logged = false;
 }
 
-void common_login::loginUser(const std::string &userLogin) {
-    this->user = userLogin;
+void common_login::loginUser(std::string userLogin) {
+    this->user = std::move(userLogin);
 }
 
 bool common_login::loginPsw(const std::string &psw) {

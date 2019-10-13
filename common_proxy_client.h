@@ -35,6 +35,8 @@ public:
     bool is_dead();
 
     void stop();
+
+    int get_command_len(std::vector<char> &response);
 };
 
 
