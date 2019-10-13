@@ -20,13 +20,13 @@ private:
 public:
     common_directory();
 
-    bool createFolder(char *folderName);
+    bool createFolder(const std::string &folderName);
 
     ~common_directory();
 
     std::string listFolders();
 
-    bool removeFolder(char *folderName);
+    bool removeFolder(const std::string &folderName);
 };
 
 

@@ -4,16 +4,12 @@
 
 #include "common_proxy_client.h"
 #include <cstring>
+#include <vector>
+#include <iostream>
+#include <string>
 
-#define MKD_COMMAND "MKD"
-#define PWD_COMMAND "PWD"
-#define LIST_COMMAND "LIST"
-#define RMD_COMMAND "RMD"
-#define QUIT_COMMAND "QUIT"
-#define LOGIN_USER_COMMAND "USER"
-#define LOGIN_PSW_COMMAND "PASS"
-
-common_proxy_client::common_proxy_client(common_ftp *ftp, Socket *skt) {
+common_proxy_client::common_proxy_client(common_ftp *ftp, Socket *skt)
+        : protocol(ftp) {
     this->ftp = ftp;
     this->skt = skt;
     this->exit = false;
@@ -29,25 +25,18 @@ void common_proxy_client::run() {
 }
 
 std::string common_proxy_client::receive() {
-    char instruction[10] = "";
-    this->skt->receive(instruction, sizeof(instruction));
+    std::vector<char> response(MAX_RECV);
+    this->skt->receive(response.data(), MAX_RECV);
+    for (int i = 0; i < (int) response.size(); i++) {
+        if (response[i] == '\0')
+            response.resize(i);
+    }
 
-    if (strncmp(instruction, MKD_COMMAND, 3) == 0)
-        return this->ftp->createFolder(&instruction[4]);
-    else if (strncmp(instruction, PWD_COMMAND, 3) == 0)
-        return this->ftp->getPwd();
-    else if (strncmp(instruction, LIST_COMMAND, 4) == 0)
-        return this->ftp->getList();
-    else if (strncmp(instruction, RMD_COMMAND, 3) == 0)
-        return this->ftp->removeDirectory(&instruction[4]);
-    else if (strncmp(instruction, LOGIN_USER_COMMAND, 4) == 0)
-        return this->ftp->loginUser(&instruction[5]);
-    else if (strncmp(instruction, LOGIN_PSW_COMMAND, 4) == 0)
-        return this->ftp->loginPsw(&instruction[5]);
-    else if (strncmp(instruction, QUIT_COMMAND, 4) == 0)
-        return this->ftp->quit();
-    else
-        return this->ftp->getUnknownCommand();
+    std::string command(response.begin(), response.begin() + 4);
+    std::string commandResponse;
+    commandResponse = this->protocol.executeCommand(command, response);
+
+    return commandResponse;
 }
 
 void common_proxy_client::send(const std::string &response) {

@@ -5,6 +5,7 @@
 #include "common_login.h"
 
 #include <utility>
+#include <cstring>
 
 common_login::common_login(std::string &validUser, std::string &validPsw) {
     this->validUser = std::move(validUser);
@@ -12,14 +13,12 @@ common_login::common_login(std::string &validUser, std::string &validPsw) {
     this->logged = false;
 }
 
-void common_login::loginUser(std::string user) {
-    const std::string &strUser(user);
-    this->user = strUser;
+void common_login::loginUser(const std::string &userLogin) {
+    this->user = userLogin;
 }
 
-bool common_login::loginPsw(std::string psw) {
-    const std::string &strPsw(psw);
-    if ((this->user == this->validUser) && (strPsw == this->validPsw))
+bool common_login::loginPsw(const std::string &psw) {
+    if ((this->user == this->validUser) && (psw == this->validPsw))
         this->logged = true;
 
     return this->logged;

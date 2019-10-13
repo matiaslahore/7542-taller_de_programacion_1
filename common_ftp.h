@@ -22,7 +22,7 @@ public:
 
     ~common_ftp();
 
-    std::string createFolder(char *folderName);
+    std::string createFolder(const std::string &folderName);
 
     std::string getPwd();
 
@@ -30,13 +30,13 @@ public:
 
     std::string getList();
 
-    std::string removeDirectory(char *folderName);
+    std::string removeDirectory(const std::string &folderName);
 
     std::string quit();
 
-    std::string loginUser(std::string userName);
+    std::string loginUser(const std::string &userName);
 
-    std::string loginPsw(char *psw);
+    std::string loginPsw(const std::string &psw);
 };
 
 

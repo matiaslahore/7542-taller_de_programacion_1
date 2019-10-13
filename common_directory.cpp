@@ -8,14 +8,13 @@ common_directory::common_directory() {
     this->directories = new std::set<std::string>();
 }
 
-bool common_directory::createFolder(char *folderName) {
-    std::string strToInsert(folderName);
+bool common_directory::createFolder(const std::string &folderName) {
     Lock l(this->mtx);
 
-    if (this->directories->find(strToInsert) != this->directories->end())
+    if (this->directories->find(folderName) != this->directories->end())
         return false;
 
-    this->directories->insert(strToInsert);
+    this->directories->insert(folderName);
     return true;
 }
 
@@ -30,14 +29,13 @@ std::string common_directory::listFolders() {
     return response;
 }
 
-bool common_directory::removeFolder(char *folderName) {
-    std::string strToRemove(folderName);
+bool common_directory::removeFolder(const std::string &folderName) {
     Lock l(this->mtx);
 
-    if (this->directories->find(strToRemove) == this->directories->end())
+    if (this->directories->find(folderName) == this->directories->end())
         return false;
 
-    this->directories->erase(strToRemove);
+    this->directories->erase(folderName);
     return true;
 }
 

@@ -18,7 +18,7 @@ common_ftp::~common_ftp() {
     delete this->login;
 }
 
-std::string common_ftp::createFolder(char *folderName) {
+std::string common_ftp::createFolder(const std::string &folderName) {
     if (!this->login->isLogged()) return this->msg->getLoginRequired();
     if (this->dir.createFolder(folderName))
         return this->msg->getMkdSuccess(folderName);
@@ -40,7 +40,7 @@ std::string common_ftp::getList() {
     return this->msg->getListFolders(this->dir.listFolders());
 }
 
-std::string common_ftp::removeDirectory(char *folderName) {
+std::string common_ftp::removeDirectory(const std::string &folderName) {
     if (!this->login->isLogged()) return this->msg->getLoginRequired();
     if (this->dir.removeFolder(folderName))
         return this->msg->getRemoveSuccess();
@@ -52,12 +52,12 @@ std::string common_ftp::quit() {
     return this->msg->getQuit();
 }
 
-std::string common_ftp::loginUser(std::string userName) {
+std::string common_ftp::loginUser(const std::string &userName) {
     this->login->loginUser(userName);
     return this->msg->getPswRequired();
 }
 
-std::string common_ftp::loginPsw(char *psw) {
+std::string common_ftp::loginPsw(const std::string &psw) {
     if (this->login->loginPsw(psw))
         return this->msg->getLoginSuccess();
 

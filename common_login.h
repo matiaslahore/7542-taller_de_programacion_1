@@ -10,7 +10,6 @@
 
 class common_login {
 private:
-
     std::string validUser;
     std::string validPsw;
     std::string user;
@@ -19,9 +18,9 @@ private:
 public:
     common_login(std::string &validUser, std::string &validPsw);
 
-    void loginUser(std::string user);
+    void loginUser(const std::string &userLogin);
 
-    bool loginPsw(std::string psw);
+    bool loginPsw(const std::string &psw);
 
     bool isLogged();
 
