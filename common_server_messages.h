@@ -49,7 +49,7 @@ private:
     std::string getConfigValue(const std::string &key);
 
 public:
-    common_server_messages(char *config);
+    explicit common_server_messages(char *config);
 
     std::string getMkdSuccess(const std::string &name);
 

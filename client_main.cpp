@@ -4,7 +4,6 @@
 #include "common_client.h"
 
 int main(int argc, char *argv[]) {
-
     if (argc < 3){
         printf("faltan argumente");
         return 1;

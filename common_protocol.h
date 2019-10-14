@@ -14,6 +14,8 @@
 #define LOGIN_PSW_COMMAND "PASS"
 #define UKN_COMMAND "UCMD"
 
+#include <string>
+#include <map>
 #include <iostream>
 #include <vector>
 #include <unordered_map>
@@ -34,7 +36,6 @@ public:
 
     std::string
     executeCommand(const std::string &command, const std::vector<char> &data);
-
 };
 
 ///////// INTERPRETERS /////////
@@ -45,7 +46,7 @@ protected:
     common_login *login;
 public:
     explicit BaseProtocol(common_ftp *ftp, common_login *login) :
-            ftp(ftp), login(login) {};
+            ftp(ftp), login(login) {}
 
     virtual std::string execute(std::vector<char> data) const {
         return this->ftp->getUnknownCommand();

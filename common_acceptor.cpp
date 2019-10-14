@@ -40,6 +40,4 @@ void common_acceptor::stop() {
     this->skt->shutdown();
 }
 
-common_acceptor::~common_acceptor() {
-
-}
+common_acceptor::~common_acceptor() = default;

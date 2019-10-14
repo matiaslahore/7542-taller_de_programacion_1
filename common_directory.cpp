@@ -2,6 +2,8 @@
 // Created by mati on 27/9/19.
 //
 
+#include <set>
+#include <string>
 #include "common_directory.h"
 
 common_directory::common_directory() {

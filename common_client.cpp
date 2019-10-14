@@ -2,6 +2,7 @@
 // Created by mati on 25/9/19.
 //
 
+#include <string>
 #include <iostream>
 #include "common_client.h"
 

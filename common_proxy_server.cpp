@@ -2,6 +2,7 @@
 // Created by mati on 25/9/19.
 //
 
+#include <string>
 #include <cstring>
 #include <vector>
 #include "common_proxy_server.h"

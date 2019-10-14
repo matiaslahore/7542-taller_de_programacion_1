@@ -7,6 +7,8 @@
 
 #define MAX_RECV 500
 
+#include <vector>
+#include <string>
 #include "common_socket.h"
 #include "common_ftp.h"
 #include <atomic>

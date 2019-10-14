@@ -3,6 +3,7 @@
 #include <cstdio>
 #include <iostream>
 #include "common_server.h"
+#include <string>
 
 int main(int argc, char *argv[]) {
     if (argc < 3) {

@@ -113,7 +113,6 @@ int Socket::receive(char *buffer, size_t length) {
 
         if (strncmp(&buffer[received - 1], "\n", 1) == 0)
             is_the_socket_valid = false;
-
     }
 
     buffer[received - 1] = '\0';

@@ -26,7 +26,6 @@ public:
     void stop();
 
     ~common_acceptor();
-
 };
 
 

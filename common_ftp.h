@@ -17,7 +17,7 @@ private:
     common_server_messages *msg;
 
 public:
-    common_ftp(char *configPath);
+    explicit common_ftp(char *configPath);
 
     ~common_ftp();
 

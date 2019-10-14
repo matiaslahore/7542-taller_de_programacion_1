@@ -2,6 +2,7 @@
 // Created by mati on 12/10/19.
 //
 
+#include <string>
 #include <vector>
 #include "common_protocol.h"
 

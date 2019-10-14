@@ -2,6 +2,7 @@
 // Created by mati on 28/9/19.
 //
 
+#include <string>
 #include "common_login.h"
 
 #include <utility>
