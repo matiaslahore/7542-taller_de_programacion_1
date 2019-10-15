@@ -127,8 +127,8 @@ int Socket::receive(char *buffer, size_t length) {
 }
 
 void Socket::shutdown() {
-    //close(this->skt);
     this->skt = ::shutdown(this->skt, SHUT_RDWR);
+    close(this->skt);
 }
 
 bool Socket::invalid() {

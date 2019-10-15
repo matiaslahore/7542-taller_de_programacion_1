@@ -20,13 +20,14 @@ void common_server::run() {
     this->acceptor->start();
 }
 
-void common_server::stop(){
+void common_server::stop() {
     this->acceptor->stop();
+    this->skt->shutdown();
+    this->acceptor->join();
 }
 
 common_server::~common_server() {
     delete this->ftp;
-    this->skt->shutdown();
     delete this->skt;
-    //delete this->acceptor;
+    delete this->acceptor;
 }

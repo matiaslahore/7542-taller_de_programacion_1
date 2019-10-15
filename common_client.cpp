@@ -19,6 +19,7 @@ void common_client::run_client() {
     while (!exit) {
         std::getline(std::cin, instruction);
         if (instruction == "QUIT") exit = true;
+        if (std::cin.eof()) exit = true;
         if (instruction.length() < 3) continue;
         this->proxyServer->send(instruction);
         this->proxyServer->receive();

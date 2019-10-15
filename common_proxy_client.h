@@ -18,13 +18,13 @@
 
 class common_proxy_client : public Thread {
 private:
-    Socket *skt;
+    Socket skt;
     common_ftp *ftp;
     std::atomic<bool> exit;
     common_protocol protocol;
 
 public:
-    common_proxy_client(common_ftp *ftp, Socket *skt);
+    common_proxy_client(common_ftp *ftp, Socket&& socket);
 
     virtual void run();
 

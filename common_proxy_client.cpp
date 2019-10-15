@@ -8,10 +8,10 @@
 #include <iostream>
 #include <string>
 
-common_proxy_client::common_proxy_client(common_ftp *ftp, Socket *skt)
+common_proxy_client::common_proxy_client(common_ftp *ftp, Socket&& socket)
         : protocol(ftp) {
     this->ftp = ftp;
-    this->skt = skt;
+    this->skt = std::move(socket);
     this->exit = false;
 }
 
@@ -30,7 +30,7 @@ void common_proxy_client::run() {
 
 std::string common_proxy_client::receive() {
     std::vector<char> response(MAX_RECV);
-    this->skt->receive(response.data(), 400);
+    this->skt.receive(response.data(), MAX_RECV);
 
     for (int i = 0; i < (int) response.size(); i++)
         if (response[i] == '\0') response.resize(i);
@@ -42,7 +42,7 @@ std::string common_proxy_client::receive() {
 }
 
 void common_proxy_client::send(const std::string &response) {
-    this->skt->send(response.c_str(), strlen(response.c_str()));
+    this->skt.send(response.c_str(), strlen(response.c_str()));
 }
 
 int common_proxy_client::get_command_len(std::vector<char> &response) {
@@ -59,13 +59,11 @@ bool common_proxy_client::is_dead() {
 }
 
 void common_proxy_client::stop() {
-    this->skt->shutdown();
+    this->skt.shutdown();
     this->exit = true;
 }
 
 common_proxy_client::~common_proxy_client() {
     if (!this->exit)
-        this->skt->shutdown();
-
-    delete this->skt;
+        this->skt.shutdown();
 }
