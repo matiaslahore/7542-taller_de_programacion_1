@@ -8,6 +8,10 @@
 #include <string>
 #include <map>
 
+/** Constructor
+ *  @param path to config file
+ *  map key with config file value or default
+ */
 common_server_messages::common_server_messages(char *config) {
     this->readConfig(config);
 

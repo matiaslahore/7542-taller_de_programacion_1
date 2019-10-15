@@ -5,6 +5,10 @@
 #include "common_acceptor.h"
 #include "Except.h"
 
+/** Constructor
+ *  @param ftp reference to ftp object
+ *  @param skt reference of socket server
+ */
 common_acceptor::common_acceptor(common_ftp *ftp, Socket &skt): skt(skt) {
     this->ftp = ftp;
 }

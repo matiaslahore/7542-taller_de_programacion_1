@@ -6,6 +6,9 @@
 #include <string>
 #include "common_directory.h"
 
+/**
+ * Entity that emulates the ftp directory
+ */
 common_directory::common_directory() {
     this->directories = new std::set<std::string>();
 }

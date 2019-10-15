@@ -6,6 +6,10 @@
 #include <iostream>
 #include "common_client.h"
 
+/** Constructor
+ *  @param host of server
+ *  @param port of server
+ */
 common_client::common_client(char *host, char *port) {
     int port_i = atoi(port);
     this->proxyServer = new common_proxy_server(host, port_i);

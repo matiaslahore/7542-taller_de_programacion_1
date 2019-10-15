@@ -18,6 +18,8 @@
 #include "Except.h"
 #include "common_socket.h"
 
+/** Constructor for accept Socket
+ */
 Socket::Socket() {
     this->skt = socket(AF_INET, SOCK_STREAM, 0);
     if (this->skt == -1) throw -1;
@@ -29,6 +31,9 @@ Socket::Socket() {
     if (s == CONNECTION_FAIL) ::shutdown(this->skt, SHUT_RDWR);
 }
 
+/** Constructor for server Socket
+ *  @param port to run
+ */
 Socket::Socket(unsigned short port) {
     this->skt = socket(AF_INET, SOCK_STREAM, 0);
     if (this->skt == -1) throw -1;
@@ -41,6 +46,10 @@ Socket::Socket(unsigned short port) {
     this->bindAndListen(port);
 }
 
+/** Constructor for client Socket
+ *  @param host of server
+ *  @param port of server
+ */
 Socket::Socket(const char *host_name, unsigned short port) {
     this->skt = socket(AF_INET, SOCK_STREAM, 0);
     if (this->skt == -1) throw -1;

@@ -8,6 +8,10 @@
 #include <utility>
 #include <cstring>
 
+/** Constructor
+ *  @param validUser of system reference
+ *  @param validPsw of system reference
+ */
 common_login::common_login(std::string &validUser, std::string &validPsw) {
     this->validUser = std::move(validUser);
     this->validPsw = std::move(validPsw);

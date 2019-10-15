@@ -3,6 +3,10 @@
 #include <cstdio>
 #include "common_client.h"
 
+/** Main
+ *  @param host of server
+ *  @param port of server
+ */
 int main(int argc, char *argv[]) {
     try {
         if (argc < 3) {

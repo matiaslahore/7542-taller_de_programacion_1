@@ -5,7 +5,9 @@
 #include <string>
 #include "common_ftp.h"
 
-
+/** Constructor
+ *  @param configPath of the file config messages
+ */
 common_ftp::common_ftp(char *configPath) {
     this->msg = new common_server_messages(configPath);
     std::string username = this->msg->getUsername();

@@ -9,6 +9,10 @@
 
 #define QUIT_COMMAND "QUIT"
 
+/** Constructor
+ *  @param host of server
+ *  @param port of server
+ */
 common_proxy_server::common_proxy_server(char *host, int port) {
     Socket socket(host, port);
     this->skt = std::move(socket);

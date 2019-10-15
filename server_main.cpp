@@ -5,6 +5,10 @@
 #include "common_server.h"
 #include <string>
 
+/** Main
+ *  @param port to run
+ *  @param path to config file
+ */
 int main(int argc, char *argv[]) {
     try {
         if (argc < 3) {

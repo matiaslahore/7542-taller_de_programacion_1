@@ -8,6 +8,10 @@
 #include "common_acceptor.h"
 #include "common_server_messages.h"
 
+/** Constructor
+ *  @param port of server
+ *  @param configPath of file config
+ */
 common_server::common_server(char *port, char *configPath) {
     int port_i = atoi(port);
     Socket socket(port_i);

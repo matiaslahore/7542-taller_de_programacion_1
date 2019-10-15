@@ -9,6 +9,10 @@
 #include <iostream>
 #include <string>
 
+/** Constructor
+ *  @param ftp reference to ftp object
+ *  @param socket point reference
+ */
 common_proxy_client::common_proxy_client(common_ftp *ftp, Socket &&socket)
         : protocol(ftp) {
     this->ftp = ftp;
