@@ -13,13 +13,13 @@
 
 class common_acceptor : public Thread {
 private:
-    Socket *skt;
+    Socket &skt;
     common_ftp *ftp;
     std::vector<common_proxy_client *> clients;
     bool exit = false;
 
 public:
-    common_acceptor(common_ftp *ftp, Socket *skt);
+    common_acceptor(common_ftp *ftp, Socket &skt);
 
     virtual void run();
 

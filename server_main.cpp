@@ -25,6 +25,6 @@ int main(int argc, char *argv[]) {
 
         return 0;
     } catch (std::exception &e) {
-        printf("ERROR DE EJECUCION:%s\n", e.what());
+        printf("%s\n", e.what());
     }
 }

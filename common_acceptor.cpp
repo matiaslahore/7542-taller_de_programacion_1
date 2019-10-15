@@ -3,9 +3,9 @@
 //
 
 #include "common_acceptor.h"
+#include "Except.h"
 
-common_acceptor::common_acceptor(common_ftp *ftp, Socket *skt) {
-    this->skt = skt;
+common_acceptor::common_acceptor(common_ftp *ftp, Socket &skt): skt(skt) {
     this->ftp = ftp;
 }
 
@@ -13,7 +13,7 @@ void common_acceptor::run() {
     try {
         while (!exit) {
             Socket socket;
-            socket = this->skt->accept();
+            socket = this->skt.accept();
             common_proxy_client *client;
             client = new common_proxy_client(this->ftp, std::move(socket));
             client->start();
@@ -26,7 +26,7 @@ void common_acceptor::run() {
                 }
             }
         }
-    } catch (std::exception &e) {} //skt accept exception
+    } catch (...) {} //skt accept exception
 }
 
 void common_acceptor::stop() {

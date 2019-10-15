@@ -14,7 +14,7 @@
 
 class common_server : public Thread {
 private:
-    Socket *skt;
+    Socket skt;
     common_acceptor *acceptor;
     common_ftp *ftp;
 

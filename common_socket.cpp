@@ -14,8 +14,8 @@
 #include <cstring>
 #include <syslog.h>
 #include <cerrno>
-#include <exception>
 #include <algorithm>
+#include "Except.h"
 #include "common_socket.h"
 
 Socket::Socket() {
@@ -29,6 +29,30 @@ Socket::Socket() {
     if (s == CONNECTION_FAIL) ::shutdown(this->skt, SHUT_RDWR);
 }
 
+Socket::Socket(unsigned short port) {
+    this->skt = socket(AF_INET, SOCK_STREAM, 0);
+    if (this->skt == -1) throw -1;
+
+    int value = 1;
+    int sAux = this->skt;
+    int s = setsockopt(sAux, SOL_SOCKET, SO_REUSEADDR, &value, sizeof(value));
+
+    if (s == CONNECTION_FAIL) ::shutdown(this->skt, SHUT_RDWR);
+    this->bindAndListen(port);
+}
+
+Socket::Socket(const char *host_name, unsigned short port) {
+    this->skt = socket(AF_INET, SOCK_STREAM, 0);
+    if (this->skt == -1) throw -1;
+
+    int value = 1;
+    int sAux = this->skt;
+    int s = setsockopt(sAux, SOL_SOCKET, SO_REUSEADDR, &value, sizeof(value));
+
+    if (s == CONNECTION_FAIL) ::shutdown(this->skt, SHUT_RDWR);
+    this->connect(host_name, port);
+}
+
 int Socket::bindAndListen(unsigned short port) {
     struct sockaddr_in serv_addr;
 
@@ -40,10 +64,10 @@ int Socket::bindAndListen(unsigned short port) {
     if (bind(this->skt, (struct sockaddr *) &serv_addr,
              (socklen_t)
                      sizeof(struct sockaddr)) == CONNECTION_FAIL)
-        return CONNECTION_FAIL;
+        throw (Except("CONNECTION FAIL", "common_socket.cpp", 68));
 
     if (listen(this->skt, MAX_CLIENT) == -1)
-        return CONNECTION_FAIL;
+        throw (Except("CONNECTION FAIL", "common_socket.cpp", 71));
 
     return CONNECTION_SUCCESS;
 }
@@ -59,7 +83,7 @@ int Socket::connect(const char *host_name, unsigned short port) {
     if (::connect(this->skt, (struct sockaddr *) &address,
                   (socklen_t)
                           sizeof(struct sockaddr)) == -1)
-        return CONNECTION_FAIL;
+        throw (Except("CONNECTION FAIL", "common_socket.cpp", 87));
 
     return CONNECTION_SUCCESS;
 }
@@ -68,7 +92,7 @@ Socket Socket::accept() {
     Socket accepted;
     accepted.skt = ::accept(this->skt, nullptr, nullptr);
     if (accepted.invalid())
-        throw std::exception();
+        throw (Except("ACCEPT INVALID", "common_socket.cpp", 96));
 
     return accepted;
 }

@@ -10,8 +10,8 @@
 
 common_server::common_server(char *port, char *configPath) {
     int port_i = atoi(port);
-    this->skt = new Socket();
-    this->skt->bindAndListen(port_i);
+    Socket socket(port_i);
+    this->skt = std::move(socket);
     this->ftp = new common_ftp(configPath);
 }
 
@@ -22,12 +22,11 @@ void common_server::run() {
 
 void common_server::stop() {
     this->acceptor->stop();
-    this->skt->shutdown();
+    this->skt.shutdown();
     this->acceptor->join();
 }
 
 common_server::~common_server() {
     delete this->ftp;
-    delete this->skt;
     delete this->acceptor;
 }

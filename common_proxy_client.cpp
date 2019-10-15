@@ -3,12 +3,13 @@
 //
 
 #include "common_proxy_client.h"
+#include "Except.h"
 #include <cstring>
 #include <vector>
 #include <iostream>
 #include <string>
 
-common_proxy_client::common_proxy_client(common_ftp *ftp, Socket&& socket)
+common_proxy_client::common_proxy_client(common_ftp *ftp, Socket &&socket)
         : protocol(ftp) {
     this->ftp = ftp;
     this->skt = std::move(socket);
