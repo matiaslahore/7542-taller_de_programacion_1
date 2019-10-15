@@ -10,7 +10,7 @@
 #include <string>
 #include <set>
 
-#define FOLDERS_META_DATA "drwxrwxrwx 0 1000 4096 Sep 24 12:34 "
+#define FOLDERS_META_DATA "drwxrwxrwx 0 1000 1000 4096 Sep 24 12:34 "
 
 class common_directory {
 private:

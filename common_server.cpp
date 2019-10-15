@@ -5,6 +5,7 @@
 #include <string>
 #include <iostream>
 #include "common_server.h"
+#include "common_acceptor.h"
 #include "common_server_messages.h"
 
 common_server::common_server(char *port, char *configPath) {
@@ -21,8 +22,11 @@ void common_server::run() {
 
 void common_server::stop(){
     this->acceptor->stop();
+    //delete this->acceptor;
 }
 
 common_server::~common_server() {
-    delete this->client;
+    delete this->ftp;
+    this->skt->shutdown();
+    delete this->skt;
 }

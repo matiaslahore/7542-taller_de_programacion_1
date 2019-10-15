@@ -11,14 +11,17 @@
 #include <fstream>
 
 #define LIST_DIR_START_CODE "150 "
+#define HELP_SUCCESS_CODE "214 "
+#define SYS_SUCCESS_CODE "215 "
+#define HELLO_SUCCESS_CODE "220 "
 #define QUIT_SUCCESS_CODE "221 "
 #define LIST_DIR_END_CODE "226 "
 #define LOGIN_SUCCESS_CODE "230 "
 #define SUCCESS_RMD_CODE "250 "
 #define SUCCESS_CODE "257 "
 #define PSW_REQ_CODE "331 "
-#define UNKNOWN_COMMAND_CODE "500 "
 #define LOGIN_FAIL_CODE "530 "
+#define UNKNOWN_COMMAND_CODE "530 "
 #define FAIL_CODE "550 "
 
 #define LIST_DIR_START_MESSAGE "listBegin"
@@ -29,11 +32,14 @@
 #define UNKNOWN_COMMAND_MESSAGE "unknownCommand"
 #define RMD_SUCCESS_MESSAGE "rmdSuccess"
 #define RMD_FAIL_MESSAGE "rmdFailed"
+#define HELLO_SUCCESS_MESSAGE "newClient"
 #define QUIT_SUCCESS_MESSAGE "quitSuccess"
 #define PSW_REQ_MESSAGE "passRequired"
 #define LOGIN_SUCCESS_MESSAGE "loginSuccess"
 #define LOGIN_FAIL_MESSAGE "loginFailed"
 #define LOGIN_REQ_MESSAGE "clientNotLogged"
+#define SYS_SUCCESS_MESSAGE "systemInfo"
+#define HELP_SUCCESS_MESSAGE "commands"
 #define USERNAME "user"
 #define PASS "password"
 
@@ -63,7 +69,7 @@ public:
 
     std::string getListFolders(const std::string &folders);
 
-    std::string getRemoveSuccess();
+    std::string getRemoveSuccess(const std::string &foldName);
 
     std::string getRemoveFail();
 
@@ -82,6 +88,12 @@ public:
     std::string getUsername();
 
     std::string getPassword();
+
+    std::string getHello();
+
+    std::string getSysInfo();
+
+    std::string getHelp();
 };
 
 

@@ -18,6 +18,9 @@ common_protocol::common_protocol(common_ftp *ftp) : ftp(ftp) {
     this->interpreters[RMD_COMMAND] = new Rmd(ftp, login);
     this->interpreters[LIST_COMMAND] = new List(ftp, login);
     this->interpreters[QUIT_COMMAND] = new Quit(ftp, login);
+    this->interpreters[HI_COMMAND] = new Hello(ftp, login);
+    this->interpreters[SYS_COMMAND] = new SySInfo(ftp, login);
+    this->interpreters[HELP_COMMAND] = new Help(ftp, login);
 }
 
 common_protocol::~common_protocol() = default;
@@ -25,6 +28,7 @@ common_protocol::~common_protocol() = default;
 std::string common_protocol::executeCommand(const std::string &command,
                                             const std::vector<char> &data) {
     std::string result;
+
     try {
         result = this->interpreters.at(command)->execute(data);
     } catch (...) {

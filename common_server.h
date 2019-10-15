@@ -14,10 +14,9 @@
 
 class common_server : public Thread {
 private:
-    common_proxy_client *client;
     Socket *skt;
-    common_ftp *ftp;
     common_acceptor *acceptor;
+    common_ftp *ftp;
 
 public:
     common_server(char *port, char *configPath);

@@ -13,6 +13,10 @@
 #define LOGIN_USER_COMMAND "USER"
 #define LOGIN_PSW_COMMAND "PASS"
 #define UKN_COMMAND "UCMD"
+#define HI_COMMAND "CDHI"
+#define SYS_COMMAND "SYST"
+#define HELP_COMMAND "HELP"
+
 
 #include <string>
 #include <map>
@@ -132,6 +136,38 @@ public:
 
     std::string execute(std::vector<char> data) const override {
         return this->ftp->quit();
+    }
+};
+
+class Hello : public BaseProtocol {
+public:
+    explicit Hello(common_ftp *ftp, common_login *login) :
+            BaseProtocol(ftp, login) {}
+
+    std::string execute(std::vector<char> data) const override {
+        return this->ftp->hello();
+    }
+};
+
+class SySInfo : public BaseProtocol {
+public:
+    explicit SySInfo(common_ftp *ftp, common_login *login) :
+            BaseProtocol(ftp, login) {}
+
+    std::string execute(std::vector<char> data) const override {
+        if (!this->login->isLogged()) return this->ftp->getLoginRequired();
+        return this->ftp->getSysInfo();
+    }
+};
+
+class Help : public BaseProtocol {
+public:
+    explicit Help(common_ftp *ftp, common_login *login) :
+            BaseProtocol(ftp, login) {}
+
+    std::string execute(std::vector<char> data) const override {
+        if (!this->login->isLogged()) return this->ftp->getLoginRequired();
+        return this->ftp->getHelp();
     }
 };
 

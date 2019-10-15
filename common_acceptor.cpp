@@ -4,7 +4,6 @@
 
 #include "common_acceptor.h"
 
-
 common_acceptor::common_acceptor(common_ftp *ftp, Socket *skt) {
     this->skt = skt;
     this->ftp = ftp;
@@ -37,7 +36,6 @@ void common_acceptor::stop() {
         delete this->clients[i];
     }
     this->exit = true;
-    this->skt->shutdown();
 }
 
 common_acceptor::~common_acceptor() = default;

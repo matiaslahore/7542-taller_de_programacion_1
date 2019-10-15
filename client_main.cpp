@@ -5,7 +5,7 @@
 
 int main(int argc, char *argv[]) {
     if (argc < 3){
-        printf("faltan argumente");
+        printf("faltan argumentos");
         return 1;
     }
 

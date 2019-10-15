@@ -28,6 +28,7 @@ Socket::Socket() {
 
     if (s == CONNECTION_FAIL) ::shutdown(this->skt, SHUT_RDWR);
 }
+
 int Socket::bindAndListen(unsigned short port) {
     struct sockaddr_in serv_addr;
 
@@ -38,8 +39,8 @@ int Socket::bindAndListen(unsigned short port) {
 
     if (bind(this->skt, (struct sockaddr *) &serv_addr,
              (socklen_t)
-        sizeof(struct sockaddr)) == CONNECTION_FAIL)
-    return CONNECTION_FAIL;
+                     sizeof(struct sockaddr)) == CONNECTION_FAIL)
+        return CONNECTION_FAIL;
 
     if (listen(this->skt, MAX_CLIENT) == -1)
         return CONNECTION_FAIL;
@@ -57,8 +58,8 @@ int Socket::connect(const char *host_name, unsigned short port) {
 
     if (::connect(this->skt, (struct sockaddr *) &address,
                   (socklen_t)
-        sizeof(struct sockaddr)) == -1)
-    return CONNECTION_FAIL;
+                          sizeof(struct sockaddr)) == -1)
+        return CONNECTION_FAIL;
 
     return CONNECTION_SUCCESS;
 }

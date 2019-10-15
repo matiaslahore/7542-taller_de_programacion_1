@@ -44,6 +44,12 @@ public:
     std::string getLoginSuccess();
 
     std::string getLoginFail();
+
+    std::string hello();
+
+    std::string getSysInfo();
+
+    std::string getHelp();
 };
 
 

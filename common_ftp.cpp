@@ -61,11 +61,23 @@ std::string common_ftp::getList() {
 
 std::string common_ftp::removeDirectory(const std::string &folderName) {
     if (this->dir.removeFolder(folderName))
-        return this->msg->getRemoveSuccess();
+        return this->msg->getRemoveSuccess(folderName);
 
     return this->msg->getRemoveFail();
 }
 
 std::string common_ftp::quit() {
     return this->msg->getQuit();
+}
+
+std::string common_ftp::hello() {
+    return this->msg->getHello();
+}
+
+std::string common_ftp::getSysInfo() {
+    return this->msg->getSysInfo();
+}
+
+std::string common_ftp::getHelp() {
+    return this->msg->getHelp();
 }

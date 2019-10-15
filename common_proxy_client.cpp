@@ -17,6 +17,11 @@ common_proxy_client::common_proxy_client(common_ftp *ftp, Socket *skt)
 
 void common_proxy_client::run() {
     std::string response;
+    std::vector<char> a;
+
+    //send hello message
+    response = this->protocol.executeCommand("CDHI", a);
+    this->send(response);
 
     while (!exit) {
         response = this->receive();
@@ -28,8 +33,7 @@ std::string common_proxy_client::receive() {
     std::vector<char> response(MAX_RECV);
     this->skt->receive(response.data(), MAX_RECV);
 
-    int i = 0;
-    for (; i < (int) response.size(); i++)
+    for (int i = 0; i < (int) response.size(); i++)
         if (response[i] == '\0') response.resize(i);
 
     int command_len = this->get_command_len(response);
