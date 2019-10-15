@@ -18,7 +18,7 @@ private:
 public:
     common_login(std::string &validUser, std::string &validPsw);
 
-    void loginUser(std::string userLogin);
+    void loginUser(std::string &userLogin);
 
     bool loginPsw(const std::string &psw);
 
