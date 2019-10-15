@@ -12,10 +12,10 @@ common_client::common_client(char *host, char *port) {
 }
 
 void common_client::run_client() {
+    this->proxyServer->receive();
     std::string instruction;
     bool exit = false;
 
-    this->proxyServer->receive();
     while (!exit) {
         std::getline(std::cin, instruction);
         if (instruction == "QUIT") exit = true;
@@ -25,4 +25,6 @@ void common_client::run_client() {
     }
 }
 
-common_client::~common_client() = default;
+common_client::~common_client() {
+    delete this->proxyServer;
+}

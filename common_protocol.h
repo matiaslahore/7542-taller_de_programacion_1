@@ -55,6 +55,8 @@ public:
     virtual std::string execute(std::vector<char> data) const {
         return this->ftp->getUnknownCommand();
     }
+
+    virtual ~BaseProtocol() = default;
 };
 
 class LoginUser : public BaseProtocol {
@@ -67,6 +69,8 @@ public:
         this->login->loginUser(userName);
         return this->ftp->getPswRequired();
     }
+
+    ~LoginUser() override = default;
 };
 
 class LoginPass : public BaseProtocol {
@@ -81,6 +85,8 @@ public:
 
         return this->ftp->getLoginFail();
     }
+
+    ~LoginPass() override = default;
 };
 
 class Pwd : public BaseProtocol {
@@ -92,6 +98,8 @@ public:
         if (!this->login->isLogged()) return this->ftp->getLoginRequired();
         return this->ftp->getPwd();
     }
+
+    ~Pwd() override = default;
 };
 
 class Mkd : public BaseProtocol {
@@ -104,6 +112,8 @@ public:
         std::string resp(data.begin() + 4, data.end());
         return this->ftp->createFolder(resp);
     }
+
+    ~Mkd() override = default;
 };
 
 class Rmd : public BaseProtocol {
@@ -116,6 +126,8 @@ public:
         std::string resp(data.begin() + 4, data.end());
         return this->ftp->removeDirectory(resp);
     }
+
+    ~Rmd() override = default;
 };
 
 class List : public BaseProtocol {
@@ -127,6 +139,8 @@ public:
         if (!this->login->isLogged()) return this->ftp->getLoginRequired();
         return this->ftp->getList();
     }
+
+    ~List() override = default;
 };
 
 class Quit : public BaseProtocol {
@@ -137,6 +151,8 @@ public:
     std::string execute(std::vector<char> data) const override {
         return this->ftp->quit();
     }
+
+    ~Quit() override = default;
 };
 
 class Hello : public BaseProtocol {
@@ -147,6 +163,8 @@ public:
     std::string execute(std::vector<char> data) const override {
         return this->ftp->hello();
     }
+
+    ~Hello() override = default;
 };
 
 class SySInfo : public BaseProtocol {
@@ -158,6 +176,8 @@ public:
         if (!this->login->isLogged()) return this->ftp->getLoginRequired();
         return this->ftp->getSysInfo();
     }
+
+    ~SySInfo() override = default;
 };
 
 class Help : public BaseProtocol {
@@ -168,6 +188,10 @@ public:
     std::string execute(std::vector<char> data) const override {
         if (!this->login->isLogged()) return this->ftp->getLoginRequired();
         return this->ftp->getHelp();
+    }
+
+    ~Help() override {
+        delete this->login;
     }
 };
 

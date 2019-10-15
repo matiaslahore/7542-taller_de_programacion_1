@@ -22,11 +22,11 @@ void common_server::run() {
 
 void common_server::stop(){
     this->acceptor->stop();
-    //delete this->acceptor;
 }
 
 common_server::~common_server() {
     delete this->ftp;
     this->skt->shutdown();
     delete this->skt;
+    //delete this->acceptor;
 }

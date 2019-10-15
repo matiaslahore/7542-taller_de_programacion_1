@@ -20,8 +20,7 @@ void common_proxy_client::run() {
     std::vector<char> a;
 
     //send hello message
-    response = this->protocol.executeCommand("CDHI", a);
-    this->send(response);
+    this->send(this->protocol.executeCommand("CDHI", a));
 
     while (!exit) {
         response = this->receive();
@@ -31,7 +30,7 @@ void common_proxy_client::run() {
 
 std::string common_proxy_client::receive() {
     std::vector<char> response(MAX_RECV);
-    this->skt->receive(response.data(), MAX_RECV);
+    this->skt->receive(response.data(), 400);
 
     for (int i = 0; i < (int) response.size(); i++)
         if (response[i] == '\0') response.resize(i);
@@ -67,5 +66,6 @@ void common_proxy_client::stop() {
 common_proxy_client::~common_proxy_client() {
     if (!this->exit)
         this->skt->shutdown();
+
     delete this->skt;
 }

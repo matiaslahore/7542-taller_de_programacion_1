@@ -41,4 +41,6 @@ bool common_directory::removeFolder(const std::string &folderName) {
     return true;
 }
 
-common_directory::~common_directory() = default;
+common_directory::~common_directory() {
+    delete this->directories;
+}

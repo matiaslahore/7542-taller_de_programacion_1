@@ -112,11 +112,13 @@ int Socket::receive(char *buffer, size_t length) {
         else
             received += s;
 
-        if (strncmp(&buffer[received - 1], "\n", 1) == 0)
+        if ((is_the_socket_valid) &&
+            (strncmp(&buffer[received - 1], "\n", 1) == 0))
             is_the_socket_valid = false;
     }
 
-    buffer[received - 1] = '\0';
+    if (received > 0)
+        buffer[received - 1] = '\0';
 
     if (is_the_socket_valid || received)
         return received;
@@ -125,6 +127,7 @@ int Socket::receive(char *buffer, size_t length) {
 }
 
 void Socket::shutdown() {
+    //close(this->skt);
     this->skt = ::shutdown(this->skt, SHUT_RDWR);
 }
 
